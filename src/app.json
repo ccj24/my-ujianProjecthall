@@ -1,0 +1,35 @@
+{
+  "pages": [
+  ],
+  "permission": {
+    "scope.userLocation": {
+      "desc": "你的位置信息将用于展示附近店铺或项目"
+    }
+  },
+  "window": {
+    "backgroundColor":"#eee"
+  },
+  "tabBar": {
+    "color":"#000",
+    "selectedColor":"#c77b2d",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+       
+        "text": "主页"
+      },
+      {
+        "pagePath": "pages/Thelog/index",
+        "text": "日志"
+      },
+      {
+        "pagePath": "pages/meeting/index",
+        "text": "会议"
+      },
+      {
+        "pagePath": "pages/data/index",
+        "text": "资料"
+      }
+    ]
+  }
+}
