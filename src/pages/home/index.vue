@@ -58,7 +58,7 @@
           <!-- 项目有打赏的时候 -->
           <div class="crewlist" v-if="RedPacket.length>0">
             <div :class="{'redenvelopes':isredenvelopes,'redenvelopes1':isredenvelopes1}">
-              <ul style=" margin-bottom: 0.43rem;" v-for="(item,index) in RedPacket" :key="index" v-if="item.State==2">
+              <ul @click="go({path:'/pages/home/details',query:{UserId:item.UserId}})" style=" margin-bottom: 0.43rem;" v-for="(item,index) in RedPacket" :key="index" v-if="item.State==2">
                 <li class="serial" :class="{'serial1':index==0,'serial2':index==1,'serial3':index==2,'serial4':index>2,}">{{index+1}}</li>
                 <li style="float:left">{{item.UserName}}</li>
                 <li style="color: #8c8c8c;">（{{item.eName}}）</li>
@@ -90,6 +90,7 @@
             </ul>
           </div>
         </div>
+
       </div>
     </div>
   </div>

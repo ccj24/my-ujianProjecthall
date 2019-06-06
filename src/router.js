@@ -1,5 +1,59 @@
 var routes = [
   {
+    path: 'pages/Login/Projecthall',
+    name: 'Login',
+    config: {
+      navigationBarTitleText: '项目大厅',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/Addproject',
+    name: 'Login-Addproject',
+    config: {
+      navigationBarTitleText: '加入项目',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/Projectmessage',
+    name: 'Login-Projectmessage',
+    config: {
+      navigationBarTitleText: '项目消息',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/Hebuiltproject',
+    name: 'Login-Hebuiltproject',
+    config: {
+      navigationBarTitleText: '已加入项目',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/selfbuilt-project',
+    name: 'Login-selfbuilt-project',
+    config: {
+      navigationBarTitleText: '自建项目',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/newproject',
+    name: 'Login-newproject',
+    config: {
+      navigationBarTitleText: '新建项目',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
     path: 'pages/home/index',
     name: 'home',
     config: {
@@ -8,7 +62,7 @@ var routes = [
       onReachBottomDistance: 50
     },
   },
- 
+
   {
     path: 'pages/home/Projectpicture',
     name: 'home-picture',
@@ -32,6 +86,15 @@ var routes = [
     name: 'home-ProjectVR',
     config: {
       navigationBarTitleText: '全景预览',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/home/firmmanage',
+    name: 'home-firmmanage',
+    config: {
+      navigationBarTitleText: '企业管理',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
@@ -112,7 +175,7 @@ var routes = [
     name: 'Thelog',
     config: {
       navigationBarTitleText: '日志',
-      enablePullDownRefresh: true, 
+      enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
   },

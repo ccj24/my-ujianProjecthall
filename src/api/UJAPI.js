@@ -57,4 +57,21 @@ export default {
     Project_Enterprise:param =>{
         return http.get(BaseHost + "api/Enterprise/Get",param)
     },
+
+    // 设置联系人备注
+    UpdateComment: param => {
+        return http.post(BaseHost + "api/Contact/UpdateComment", param)
+    },
+    // 申请添加联系人
+    Add_Contact: param => {
+        return http.post(BaseHost + "api/Contact/Add?contactid=" + param.contactid)
+    },
+    // 获取项目列表
+    Project_ProjectGetList:param =>{
+        return http.get(BaseHost + "api/Project/GetList",param)
+    },
+    // 获取与用户有关的申请记录。包括他人申请加入你管理的项目，你申请加入别人的项目
+    Project_MemberApply:param =>{
+        return http.get(BaseHost + "api/ProjectMemberApply/GetApplyHistory",param)
+    },
 }

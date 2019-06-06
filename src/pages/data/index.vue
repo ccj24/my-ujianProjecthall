@@ -1,7 +1,6 @@
 <template>
-<div class="data">
-这里是会议资料  
-</div></template>
+  <div class="data">这里是会议资料</div>
+</template>
 
 <script>
 export default {

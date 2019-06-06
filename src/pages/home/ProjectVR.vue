@@ -5,7 +5,6 @@
         <li>
           <video controls>
             <source :src="item.Videos" type="video/mp4">
-            <!-- <source src="movie.ogg" type="video/ogg"> -->
           </video>
         </li>
         <li class="linkman">{{item.Title}}</li>

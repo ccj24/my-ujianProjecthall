@@ -13,7 +13,7 @@
         <p style="float:left;color: #a1a1a1;padding-right: 1rem;">公司</p>
         <div :class="{'listbox':isredenvelopes,'listbox1':isredenvelopes1}" style="color: #353535;float:left;overflow: hidden;">
           <div style="padding-bottom:0.63rem;" v-for="(item,index) in EnterpriseViewModel" :key="index">
-            <p style="overflow: hidden;">{{item.eName}}</p>
+            <p @click="go({path:'/pages/home/firmmanage'})" style="overflow: hidden;">{{item.eName}}</p>
           </div>
         </div>
         <img v-if="wallet==1" @click="unfold" style="float: right;" src="/static/images/wallet-more.png">
@@ -25,11 +25,9 @@
       <div class="company">
         <p style="float:left;color: #a1a1a1;padding-right: 1rem;">备注</p>
         <div class="comment" style="color: #353535;float:left">
-          <p style="padding-bottom:0.3rem;">
-           {{UserInfoViewModel.Comment}}
-          </p>
+          <p style="padding-bottom:0.3rem;">{{UserInfoViewModel.Comment}}</p>
         </div>
-        <img @click="go({path:'/pages/home/Remark'})" style="float: right;" src="/static/images/theMore.png" alt>
+        <img @click="go({path:'/pages/home/Remark',query:{Comment:UserInfoViewModel.Comment,UserId:UserInfoViewModel.UserId}})" style="float: right;" src="/static/images/theMore.png" alt>
       </div>
     </div>
     <!-- 同处项目 -->
@@ -40,6 +38,11 @@
       <ul>
         <li v-for="(item,index)  in UserInfoViewModel.ProjectsInfo" :key="index">{{item.ProjectName}}</li>
       </ul>
+    </div>
+    <!-- 底部按钮 -->
+    <div class>
+      <button v-if="UserInfoViewModel.IsFriend==true" class="btn">发送信息</button>
+      <button @click="AddContact" v-else class="btn">加为好友</button>
     </div>
   </div>
 </template>
@@ -67,6 +70,16 @@ export default {
       this.isredenvelopes = true;
       this.isredenvelopes1 = false;
       this.wallet = 1;
+    },
+
+    async AddContact() {
+      // console.log(this.UserInfoViewModel.UserId)
+      var rep = await this.$UJAPI.Add_Contact({
+        contactid:this.UserInfoViewModel.UserId
+      });
+     if(rep.ret==0){
+       this.UserInfoViewModel.IsFriend=false;
+     }
     }
   },
 
@@ -88,7 +101,7 @@ export default {
     if (rep.ret == 0) {
       this.EnterpriseViewModel = rep.data;
     }
-    console.log(this.EnterpriseViewModel);
+    // console.log(this.EnterpriseViewModel);
   }
 };
 </script>
@@ -156,8 +169,15 @@ export default {
   max-height: 6rem;
   max-width: 8.48rem;
 }
+.btn {
+  background-color: #12b7f5 !important;
+  color: #ffffff;
+  width: 10.4rem;
+  margin-left: 0.2rem;
+  border-radius: 0.14rem;
+  margin-top: 0.68rem;
+}
 </style>
-
 
 <style>
 page {
