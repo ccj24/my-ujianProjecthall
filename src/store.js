@@ -8,16 +8,19 @@ Vue.use(Vuex);
 export default new Vuex.Store({//store对象
   modules: {
     User: {
+      // 存储对象或属性定义
       state: {
         UserInfo: {},
-        SingleTicket: "E5BA3562E36EB943C0F2862F17035C9A79F6EDB6B3A481A9274879F38C4D9911A5E11B5420130E4F7D72CF2261379B554FB162D5C084999A67F1BA4AE73623F99ADD95B00D8B1A54E27B0A37C725001F62E54B2981F597C391D9E62508C4BCBF249715E34C6ED0F8549E63F3013DAF9667523AF2A207629325AA46F8629A65490B113582C2500D4DE16D26AD1D2921C95EC70683",
+        SingleTicket: "",
         CurrentLocation:{}
       },
+      // 获取属性的状态
       getters:{
         Logined: state =>{
           return state.SingleTicket&&state.SingleTicket.length>0;
         }
       },
+      // 设置属性状态
       mutations: {
         Login(state, payload) {
           // 变更状态

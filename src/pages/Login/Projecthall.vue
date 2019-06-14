@@ -57,6 +57,7 @@ export default {
   },
 
   async mounted() {
+    console.log("项目主页mounted")
     //自建项目请求
     var rep = await this.$UJAPI.Project_ProjectGetList({
       IsCreate: true,

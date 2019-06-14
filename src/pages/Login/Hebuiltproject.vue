@@ -49,6 +49,7 @@ export default {
       }
     },
   },
+  
   async mounted() {
     // 加入他建项目
     var res = await this.$UJAPI.Project_ProjectGetList({

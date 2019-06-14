@@ -1,4 +1,5 @@
 var routes = [
+
   {
     path: 'pages/Login/Projecthall',
     name: 'Login',
@@ -6,6 +7,14 @@ var routes = [
       navigationBarTitleText: '项目大厅',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/index/index',
+    name: 'index',
+    config: {
+      navigationBarTitleText: '授权登录',
+      enablePullDownRefresh: false
     },
   },
   {
@@ -53,6 +62,34 @@ var routes = [
       onReachBottomDistance: 50
     },
   },
+  {
+    path: 'pages/Login/Choiceprofessional',
+    name: 'Login-Choiceprofessional',
+    config: {
+      navigationBarTitleText: '选择职业',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/choicebranch',
+    name: 'Login-choicebranch',
+    config: {
+      navigationBarTitleText: '选择部门',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/Selectposition',
+    name: 'Login-Selectposition',
+    config: {
+      navigationBarTitleText: '选择职位',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+
   {
     path: 'pages/home/index',
     name: 'home',
