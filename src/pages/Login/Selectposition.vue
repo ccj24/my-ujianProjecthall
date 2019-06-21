@@ -70,9 +70,12 @@ export default {
     };
   },
   methods: {
-     choose(){
-      this.checked=!this.checked;
+    choose() {
+      this.checked = !this.checked;
     }
+  },
+  async mounted(){
+    
   }
 };
 </script>

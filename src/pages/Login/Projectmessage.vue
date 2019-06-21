@@ -25,8 +25,8 @@ export default {
   async mounted() {
     // 获取与用户有关的申请记录。包括他人申请加入你管理的项目，你申请加入别人的项目
     var rep = await this.$UJAPI.Project_MemberApply({
-      PageIndex:2,
-      PageSize:7
+      PageIndex: 2,
+      PageSize: 7
     });
     if (rep.ret == 0) {
       this.MemberApplyLog = rep.data;
