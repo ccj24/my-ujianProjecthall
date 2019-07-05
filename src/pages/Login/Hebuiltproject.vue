@@ -2,13 +2,13 @@
   <div class="Hebuiltproject">
     <!-- 搜索功能 -->
     <div class="search">
-      <input type="text" placeholder="请输入项目名称" v-model="ProjectName">
-      <img @click="search" class="searchico" src="/static/images/Search.png">
+      <input type="text" placeholder="请输入项目名称" v-model="ProjectName" @input="search">
+      <img class="searchico" src="/static/images/Search.png">
     </div>
     <!-- 列表 -->
     <div class="Self-built">
       <ul v-for="(item,index) in filtrate" :key="index">
-        <li style="overflow: hidden;">
+        <li style="overflow: hidden;" @click="go({path:'/pages/home/index',isTab: true})">
           <p style="float:left">{{item.ProjectName}}</p>
           <img style="float:right;" src="/static/images/details.png">
         </li>
@@ -27,7 +27,7 @@ export default {
     };
   },
   methods:{
-   //搜索商品
+   //搜索项目
     async search() {
       var that = this;
       var temp = that.filtrate;
@@ -88,6 +88,7 @@ export default {
 }
 
 .Self-built {
+  color: #12b7f5;
   background-color: #ffffff;
   margin-top: 0.2rem;
   padding-left: 0.2rem;

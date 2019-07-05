@@ -2,45 +2,72 @@
   <div>
     <!-- 头部按钮 -->
     <div class="halltop">
-      <button @click="go({path:'/pages/Login/newproject'})" class="btn" style="background-color: #ffc539;float:left;margin-right:2rem;">新建项目</button>
-      <button @click="go({path:'/pages/Login/Addproject'})" style="background-color: #12b7f5;" class="btn">加入项目</button>
+      <button
+        @click="go({path:'/pages/Login/newproject'})"
+        class="btn"
+        style="background-color: #ffc539;float:left;margin-right:2rem;"
+      >新建项目</button>
+      <button
+        @click="go({path:'/pages/Login/Addproject'})"
+        style="background-color: #12b7f5;"
+        class="btn"
+      >加入项目</button>
     </div>
     <!-- 自建项目 -->
     <div class="Self-built">
       <div class="projectsort" style="overflow: hidden;">
-        <img src="/static/images/oneself.png" alt>
+        <img src="/static/images/oneself.png" alt />
         <p style="float:left;">自建项目</p>
-        <p @click="go({path:'/pages/Login/selfbuilt-project'})" style="float:right;padding-right: 0.46rem">查看全部</p>
+        <p
+          @click="go({path:'/pages/Login/selfbuilt-project'})"
+          style="float:right;padding-right: 0.46rem"
+        >查看全部</p>
       </div>
-      <ul v-for="(item,index) in ProjectList" :key="index">
-        <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
-          <p style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
-          <img  style="float:right;" src="/static/images/details.png">
-        </li>
-      </ul>
+      <div v-if="ProjectList.length>0">
+        <ul v-for="(item,index) in ProjectList" :key="index" v-if="index<5">
+          <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
+            <p style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
+            <img style="float:right;" src="/static/images/details.png" />
+          </li>
+        </ul>
+      </div>
+      <div v-else class="hint">您暂时没有自建项目</div>
     </div>
 
     <!-- 已加项目 -->
     <div class="Self-built">
       <div class="projectsort" style="overflow: hidden;">
-        <img src="/static/images/heBuilt.png" alt>
+        <img src="/static/images/heBuilt.png" alt />
         <p style="float:left;">已加项目</p>
-        <p @click="go({path:'/pages/Login/Hebuiltproject'})" style="float:right;padding-right: 0.46rem">查看全部</p>
+        <p
+          @click="go({path:'/pages/Login/Hebuiltproject'})"
+          style="float:right;padding-right: 0.46rem"
+        >查看全部</p>
       </div>
-      <ul v-for="(item,index) in othersProjectList" :key="index">
-        <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
-          <p style="float:left">{{item.ProjectName}}</p>
-          <img style="float:right;" src="/static/images/details.png">
-        </li>
-      </ul>
+      <div v-if="othersProjectList.length>0">
+        <ul v-for="(item,index) in othersProjectList" :key="index" v-if="index<5">
+          <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
+            <p style="float:left">{{item.ProjectName}}</p>
+            <img style="float:right;" src="/static/images/details.png" />
+          </li>
+        </ul>
+      </div>
+      <div v-else class="hint">您暂无加入的项目！</div>
     </div>
 
     <!-- 项目信息 -->
     <div class="Self-built" @click="go({path:'/pages/Login/Projectmessage'})">
       <div class="projectsort" style="overflow: hidden;">
-        <img src="/static/images/bubble.png" alt>
+        <img src="/static/images/bubble.png" alt />
         <p style="float:left;">项目信息</p>
-        <img class="added" style="float:right;" src="/static/images/details.png">
+        <div style="float:right;">
+          <!-- 用户项目申请数NewProjectRemind 大于0时候显示 -->
+          <div
+            class="messagequantity"
+            v-if="UserRemind.NewProjectRemind>0"
+          >{{UserRemind.NewProjectRemind}}</div>
+          <img class="added" src="/static/images/details.png" />
+        </div>
       </div>
     </div>
   </div>
@@ -51,13 +78,22 @@
 export default {
   data() {
     return {
+      UserRemind: "",
       ProjectList: [],
-      othersProjectList: []//加入他建项目
+      othersProjectList: [] //加入他建项目
     };
   },
 
+  // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {
+    // 获取用户消息提醒总数
+    var res = await this.$UJAPI.User_GetUserRemind({});
+    if (res.ret == 0) {
+      this.UserRemind = res.data;
+    }
+  },
+
   async mounted() {
-    console.log("项目主页mounted")
     //自建项目请求
     var rep = await this.$UJAPI.Project_ProjectGetList({
       IsCreate: true,
@@ -66,9 +102,12 @@ export default {
     if (rep.ret == 0) {
       this.ProjectList = rep.data;
     }
+    // console.log(this.ProjectList);
+
     // 加入他建项目
     var res = await this.$UJAPI.Project_ProjectGetList({
       IsCreate: false,
+      PageIndex: 1,
       PageSize: 4
     });
     if (res.ret == 0) {
@@ -93,9 +132,10 @@ export default {
   font-size: 0.48rem;
 }
 .Self-built {
+  color: #12b7f5;
   background-color: #ffffff;
   margin-top: 0.2rem;
-  padding-top: 0.29rem;
+  padding-top: 0.62rem;
   padding-bottom: 0.29rem;
   padding-left: 0.2rem;
   font-size: 0.46rem;
@@ -123,8 +163,28 @@ export default {
   width: 0.4rem;
 }
 .added {
+  margin-top: 0.2rem;
   width: 0.4rem !important;
   height: 0.4rem !important;
+  margin-right: 0.41rem;
+}
+.messagequantity {
+  float: left;
+  font-size: 0.4rem;
+  width: 0.6rem;
+  height: 0.6rem;
+  background-color: #ff0000;
+  color: #e9e8e8;
+  border-radius: 50%;
+  text-align: center;
+  padding-top: 0.1rem;
+  margin-right: 0.2rem;
+}
+.hint {
+  padding-top: 1.2rem;
+  height: 2.5rem;
+  text-align: center;
+  color: #c7c7cd;
 }
 </style>
 

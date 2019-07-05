@@ -44,6 +44,7 @@ var routes = [
       onReachBottomDistance: 50
     },
   },
+
   {
     path: 'pages/Login/selfbuilt-project',
     name: 'Login-selfbuilt-project',
@@ -53,11 +54,21 @@ var routes = [
       onReachBottomDistance: 50
     },
   },
+
   {
     path: 'pages/Login/newproject',
     name: 'Login-newproject',
     config: {
       navigationBarTitleText: '新建项目',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
+    path: 'pages/Login/Projectsituation',
+    name: 'Login-Projectsituation',
+    config: {
+      navigationBarTitleText: '项目概况',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },

@@ -76,4 +76,12 @@ export default {
     Project_MemberApply:param =>{
         return http.get(BaseHost + "api/ProjectMemberApply/GetApplyHistory",param)
     },
+    // 获取用户消息提醒总数
+    User_GetUserRemind:param =>{
+        return http.get(BaseHost + "api/User/GetUserRemind",param)
+    },
+    // 处理申请状态
+    ProjectMemberApply_SetState: param => {
+        return http.post(BaseHost + "api/ProjectMemberApply/SetState", param)
+    },
 }

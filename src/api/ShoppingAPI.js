@@ -42,4 +42,8 @@ export default {
      Account_wxLogin: (code) => {
         return http.post(BaseHost + `api/Account/wxLogin?code=${code}&appid=${"wx6b4ba109a5fb795b"}`)
     },
+    // 用户申请加入项目
+    ProjectMemberApply_Apply: param => {
+        return http.post(BaseHost + "api/ProjectMemberApply/Apply", param)
+    },
 }

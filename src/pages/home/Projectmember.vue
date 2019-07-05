@@ -83,6 +83,7 @@ export default {
   float: left;
   height: 1rem;
   margin-top: 0.2rem;
+  font-size: 0.4rem;
 }
 .post {
   margin-left: 20%;
