@@ -59,7 +59,7 @@ export default {
 
           this.$router.push({
             path: "/pages/Login/Projectsituation",
-            query: { ProjectId: this.ProjectListView[0].ProjectId }
+            query: { ProjectId: this.ProjectListView[0].ProjectId,Role: this.ProjectListView[0].Role }
           });
         }
         //数组中没有想要的项目 弹窗提示

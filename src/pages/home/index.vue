@@ -6,7 +6,7 @@
         <div class="information">
           <div class="sinister">
             <p style="float:left;color: #434343;">项目编号：</p>
-            <p style="float:left;color:#858383;">{{ProjectDetailed.ProjectNo}}</p>
+            <p style="float:left;color:#858383;">{{ProjectDetailed.ProjectNo==null?'':ProjectDetailed.ProjectNo}}</p>
             <button v-if="ProjectDetailed.IsQcProject" class="approve">质监站认证</button>
           </div>
           <img class="headportrait" src="/static/images/ChatHead.png">
@@ -125,7 +125,7 @@ export default {
   async mounted() {
     var that = this;
     this.Projectid =
-      this.$route.query.Projectid || "70057154-a003-4815-b247-0fe887ab4469";
+      this.$route.query.ProjectId || "70057154-a003-4815-b247-0fe887ab4469";
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(this.Projectid);
     if (rep.ret == 0) {
@@ -135,7 +135,7 @@ export default {
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469"
+      Projectid: this.Projectid
     });
     if (res.ret == 0) {
       this.RedPacket = res.data;

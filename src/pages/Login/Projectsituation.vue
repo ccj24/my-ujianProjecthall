@@ -3,6 +3,7 @@
     <div class="userinfo">
       <div class="Projectcircle">
         <img src="/static/images/bg.png" />
+
         <div class="information">
           <div class="sinister">
             <p style="float:left;color: #434343;">项目编号：</p>
@@ -13,6 +14,12 @@
             <div class="address">{{ProjectDetailed.ProjectName}}</div>
           </div>
           <div class="projectphase">项目阶段：{{ProjectDetailed.StageDisplay}}</div>
+          <div class="projectmember">项目成员:{{ProjectDetailed.NumberOfPeople}}</div>
+        </div>
+        <!-- 按钮 -->
+        <div class="existprojectcenter">
+             <button v-if="this.$route.query.Role==0" class="Addproject">进入项目</button>
+             <button v-if="this.$route.query.Role==-1" class="Addproject">加入项目</button>
         </div>
 
         <!-- 红包榜 -->
@@ -91,13 +98,18 @@ export default {
   },
 
   async mounted() {
+    // this.$route.query.ProjectId
+    console.log(this.$route.query.Role)
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
-    var rep = await this.$UJAPI.Project_GetDetailed(this.$route.query.ProjectId);
+    var rep = await this.$UJAPI.Project_GetDetailed(
+      this.$route.query.ProjectId
+    );
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
     }
-   
+    console.log(this.ProjectDetailed)
+
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
       Projectid: this.$route.query.ProjectId
@@ -231,6 +243,28 @@ export default {
 .expansion img {
   width: 0.72rem;
   height: 0.43rem;
+}
+.projectmember {
+  font-size: 0.36rem;
+  position: absolute;
+  top: 3.5rem;
+  right: 1.5rem;
+}
+.existprojectcenter {
+  height: 2rem;
+  background-color: #ffffff;
+  overflow: hidden;
+ 
+}
+.Addproject {
+  height: 1.4rem;
+  width: 5rem;
+  background-color:#12b7f5;
+  text-align: center;
+  border-radius: 0.09rem;
+  color: #ffffff;
+  margin-top: 0.3rem;
+  font-size: 0.52rem;
 }
 </style>
 <style>

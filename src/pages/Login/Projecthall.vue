@@ -19,13 +19,13 @@
         <img src="/static/images/oneself.png" alt />
         <p style="float:left;">自建项目</p>
         <p
-          @click="go({path:'/pages/Login/selfbuilt-project'})"
+          @click="go({path:'/pages/Login/selfbuilt-project',query:{ProjectId:item.ProjectId}})"
           style="float:right;padding-right: 0.46rem"
         >查看全部</p>
       </div>
       <div v-if="ProjectList.length>0">
         <ul v-for="(item,index) in ProjectList" :key="index" v-if="index<5">
-          <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
+          <li @click="go({path:'/pages/home/index',isTab: true,query:{ProjectId:item.ProjectId}})" style="overflow: hidden;">
             <p style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
             <img style="float:right;" src="/static/images/details.png" />
           </li>
@@ -113,6 +113,7 @@ export default {
     if (res.ret == 0) {
       this.othersProjectList = res.data;
     }
+   
   }
 };
 </script>
