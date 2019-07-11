@@ -121,11 +121,15 @@ export default {
       this.wallet=1;
     }
   },
-
+onShow(name){
+  console.log(name)
+},
   async mounted() {
+    debugger
+    console.log(this.$route.query.ProjectId)
     var that = this;
     this.Projectid =
-      this.$route.query.ProjectId || "70057154-a003-4815-b247-0fe887ab4469";
+      this.$route.query.ProjectId;
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(this.Projectid);
     if (rep.ret == 0) {
@@ -145,14 +149,14 @@ export default {
 
     //获取项目图片
     var res=await this.$UJAPI.Project_GetList({
-       Projectid: "70057154-a003-4815-b247-0fe887ab4469",
+       Projectid: this.Projectid,
        QueryType:4
     })
     if(res.ret==0)
     {
       this.Projectpicture=res.data;
     }
-    // console.log(this.Projectpicture)
+   
   }
 };
 </script>

@@ -23,9 +23,10 @@
           style="float:right;padding-right: 0.46rem"
         >查看全部</p>
       </div>
+      
       <div v-if="ProjectList.length>0">
         <ul v-for="(item,index) in ProjectList" :key="index" v-if="index<5">
-          <li @click="go({path:'/pages/home/index',isTab: true,query:{ProjectId:item.ProjectId}})" style="overflow: hidden;">
+          <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
             <p style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
             <img style="float:right;" src="/static/images/details.png" />
           </li>
@@ -46,7 +47,7 @@
       </div>
       <div v-if="othersProjectList.length>0">
         <ul v-for="(item,index) in othersProjectList" :key="index" v-if="index<5">
-          <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
+          <li @click="show(item)" style="overflow: hidden;">
             <p style="float:left">{{item.ProjectName}}</p>
             <img style="float:right;" src="/static/images/details.png" />
           </li>
@@ -82,6 +83,12 @@ export default {
       ProjectList: [],
       othersProjectList: [] //加入他建项目
     };
+  },
+  methods:{
+    show(item){
+
+      this.$router.push({path:'/pages/home/index',isTab: true});
+    }
   },
 
   // 把请求放在onShow 事件 这样让回退也会触发改变值

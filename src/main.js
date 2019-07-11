@@ -14,7 +14,7 @@ Vue.mixin({
         $route: function () {
             return this.$router.currentRoute
         },
-        isMP(){
+        isMP() {
             return true;
         }
     },
@@ -25,29 +25,29 @@ Vue.mixin({
         replace: function (path) {
             this.$router.replace(path);
         },
-        toast(title){
+        toast(title) {
             wx.showToast({
                 title: title,
                 icon: "none"
-              });
+            });
         },
-        modal(title,content,confirm,cancel){
+        modal(title, content, confirm, cancel) {
             wx.showModal({
                 title: title,
                 content: content,
-                success (res) {
-                  if (res.confirm) {
-                    if(confirm)
-                        confirm();
-                  } else if (res.cancel) {
-                    if(cancel)
-                        cancel();
-                  }
+                success(res) {
+                    if (res.confirm) {
+                        if (confirm)
+                            confirm();
+                    } else if (res.cancel) {
+                        if (cancel)
+                            cancel();
+                    }
                 }
-              })
+            })
         }
     },
-    onLoad () {
+    onLoad() {
         // debugger;
         // if (this.$initData$) {
         //   Object.assign(this, JSON.parse(this.$initData$))
@@ -55,9 +55,9 @@ Vue.mixin({
         //   this.$initData$ = JSON.stringify(this.$data)
         // }
     },
-    onUnload(){
-        if( this.$options.data)
-         Object.assign(this, this.$options.data())
+    onUnload() {
+        if (this.$options.data)
+            Object.assign(this, this.$options.data())
     }
     // created: function () {
     //     if (this.$route)
