@@ -26,7 +26,7 @@
       
       <div v-if="ProjectList.length>0">
         <ul v-for="(item,index) in ProjectList" :key="index" v-if="index<5">
-          <li @click="go({path:'/pages/home/index',isTab: true})" style="overflow: hidden;">
+          <li @click="goProject(item.ProjectId)" style="overflow: hidden;">
             <p style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
             <img style="float:right;" src="/static/images/details.png" />
           </li>
@@ -47,7 +47,7 @@
       </div>
       <div v-if="othersProjectList.length>0">
         <ul v-for="(item,index) in othersProjectList" :key="index" v-if="index<5">
-          <li @click="show(item)" style="overflow: hidden;">
+          <li @click="goProject(item.ProjectId)" style="overflow: hidden;">
             <p style="float:left">{{item.ProjectName}}</p>
             <img style="float:right;" src="/static/images/details.png" />
           </li>

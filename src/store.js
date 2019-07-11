@@ -36,7 +36,7 @@ export default new Vuex.Store({//store对象
     },
     Project:{
       state:{
-        ProjectId:"",
+        ProjectId:null,
         chooseItem:null
       },
       // 更改vuex中的store中的状态的唯一方法是提交
@@ -44,6 +44,10 @@ export default new Vuex.Store({//store对象
         setChooseItem(state, _chooseItem) {
           // 变更状态
           state.chooseItem = _chooseItem;
+        },
+        setProjectId(state, ProjectId) {
+          // 变更状态
+          state.ProjectId = ProjectId;
         },
       }
     }

@@ -22,6 +22,11 @@ Vue.mixin({
         go: function (path) {
             this.$router.push(path);
         },
+        goProject(ProjectId){
+            // debugger;
+            this.$store.commit("setProjectId",ProjectId) 
+            this.go({path:'/pages/home/index',isTab: true})
+        },
         replace: function (path) {
             this.$router.replace(path);
         },

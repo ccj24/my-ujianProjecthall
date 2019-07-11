@@ -97,13 +97,13 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data() {
     return {
       wallet:1,
       isredenvelopes:true,
       isredenvelopes1:false,
-      Projectid: null,
       ProjectDetailed: {},
       RedPacket: [],
       Projectpicture:[]
@@ -121,17 +121,18 @@ export default {
       this.wallet=1;
     }
   },
-onShow(name){
-  console.log(name)
-},
+  
+    computed: {
+    ProjectId(){
+      var pid = this.$store.state.Project.ProjectId;
+      return pid
+    }
+  },
   async mounted() {
-   
-   
     var that = this;
-    this.Projectid =
-      this.$route.query.ProjectId;
+    console.log(this.ProjectId)
     //获取项目详情。用于展示项目详细信息界面。
-    var rep = await this.$UJAPI.Project_GetDetailed(this.Projectid);
+    var rep = await this.$UJAPI.Project_GetDetailed(this.ProjectId);
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
     }
@@ -139,7 +140,7 @@ onShow(name){
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
-      Projectid: this.Projectid
+      Projectid: this.ProjectId
     });
     if (res.ret == 0) {
       this.RedPacket = res.data;
@@ -149,7 +150,7 @@ onShow(name){
 
     //获取项目图片
     var res=await this.$UJAPI.Project_GetList({
-       Projectid: this.Projectid,
+       Projectid: this.ProjectId,
        QueryType:4
     })
     if(res.ret==0)
