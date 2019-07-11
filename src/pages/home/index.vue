@@ -125,8 +125,8 @@ onShow(name){
   console.log(name)
 },
   async mounted() {
-    debugger
-    console.log(this.$route.query.ProjectId)
+   
+   
     var that = this;
     this.Projectid =
       this.$route.query.ProjectId;

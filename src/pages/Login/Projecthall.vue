@@ -19,7 +19,7 @@
         <img src="/static/images/oneself.png" alt />
         <p style="float:left;">自建项目</p>
         <p
-          @click="go({path:'/pages/Login/selfbuilt-project',query:{ProjectId:item.ProjectId}})"
+          @click="go({path:'/pages/Login/selfbuilt-project'})"
           style="float:right;padding-right: 0.46rem"
         >查看全部</p>
       </div>
@@ -86,7 +86,6 @@ export default {
   },
   methods:{
     show(item){
-
       this.$router.push({path:'/pages/home/index',isTab: true});
     }
   },

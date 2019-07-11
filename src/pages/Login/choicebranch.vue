@@ -3,9 +3,9 @@
     <!--没有子集的单位部门-->
     <div class="branchlist">
       <ul v-for="(item,index) in mode" :key="index">
-        <li @click="choose">
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
+        <li @click="choose(item)">
+          <img v-if="chooseItem&&chooseItem.KeywordId==item.KeywordId" style="float:left" src="/static/images/dan.png">
+          <img  v-else style="float:left" src="/static/images/noxuan.png">
           <p>{{item.KeywordName}}</p>
         </li>
       </ul>
@@ -33,7 +33,6 @@
 export default {
   data() {
     return {
-      checked: true,
       ModelResponse: [] //获取各部门
     };
   },
@@ -48,11 +47,14 @@ export default {
         }
       }
       return _ModelResponse;
+    },
+    chooseItem(){
+      return this.$store.state.Project.chooseItem;//返回值给store中的chooseItem
     }
   },
   methods: {
-    choose() {
-      this.checked = !this.checked;
+    choose(item) {
+      this.$store.commit("setChooseItem", item);
     }
   },
   async mounted() {
@@ -62,6 +64,7 @@ export default {
     if (rep.ret == 0) {
       this.ModelResponse = rep.data;
     }
+    
   }
 };
 </script>

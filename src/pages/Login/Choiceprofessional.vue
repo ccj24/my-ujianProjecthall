@@ -4,8 +4,8 @@
     <div class="selectbranch" @click="go({path:'/pages/Login/choicebranch'})">
       <p style="float:left;">选择部门</p>
       <div style="float: right;">
-        <p style="float:left;">勘测单位</p>
-        <img src="/static/images/details.png" alt>
+        <p style="float:left;">{{chooseItem!=null?chooseItem.KeywordName:""}}</p>
+        <img src="/static/images/details.png" alt />
       </div>
     </div>
     <!-- 选择职位 -->
@@ -13,27 +13,47 @@
       <p style="float:left;padding-right:0.2rem;">选择职位:</p>
       <p style="float:left;color:#8c8c8c">工程部经理</p>
       <div style="float: right;">
-        <img src="/static/images/details.png" alt>
+        <img src="/static/images/details.png" alt />
       </div>
     </div>
     <!--选择人员 -->
     <div class="selectstaff">
       <p style="float:left;padding-right:0.2rem;">选择人员:</p>
-      <p>小明</p>
+      <p>{{UserInfo.UserName}}</p>
     </div>
     <!-- 提交申请 -->
-    <button class="submitapplications">提交申请</button>
+    <button class="submitapplications">提交</button>
   </div>
 </template>
 
 <script>
 export default {
   data() {
-    return {};
+    return {
+      ModelResponse: [] ,//获取各部门
+      UserInfo: ""
+    };
   },
-  mounted(){
-    var that=this;
-    
+  computed: {
+     chooseItem(){
+     debugger;
+      return this.$store.state.Project.chooseItem;//返回值给store中的chooseItem
+    }
+  },
+  async mounted() {
+    var that = this;
+    // 获取当前用户的登录信息
+    var rep = await this.$UJAPI.User_Get({});
+    if (rep.ret == 0) {
+      this.UserInfo = rep.data;
+    }
+
+    // 获取部门
+    var rep = await this.$UJAPI.Project_GetDepKeyword();
+    if (rep.ret == 0) {
+      this.ModelResponse = rep.data;
+    }
+
   }
 };
 </script>

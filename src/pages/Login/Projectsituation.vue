@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!-- 项目概括 -->
     <div class="userinfo">
       <div class="Projectcircle">
         <img src="/static/images/bg.png" />
@@ -17,9 +18,10 @@
           <div class="projectmember">项目成员:{{ProjectDetailed.NumberOfPeople}}</div>
         </div>
         <!-- 按钮 -->
+
         <div class="existprojectcenter">
-             <button v-if="this.$route.query.Role==0" class="Addproject">进入项目</button>
-             <button v-if="this.$route.query.Role==-1" class="Addproject">加入项目</button>
+             <button v-if="Role==0"  @click="go({path:'/pages/home/index',isTab: true})" class="Addproject">进入项目</button>
+             <button v-if="Role==-1" @click="go({path:'/pages/Login/Choiceprofessional'})" class="Addproject">加入项目</button>
         </div>
 
         <!-- 红包榜 -->
@@ -81,6 +83,7 @@ export default {
       isredenvelopes1: false,
       Projectid: null,
       ProjectDetailed: {},
+      Role:'',
       RedPacket: []
     };
   },
@@ -98,8 +101,8 @@ export default {
   },
 
   async mounted() {
-    // this.$route.query.ProjectId
-    console.log(this.$route.query.Role)
+    // 页面之间的跳转this.$route.query不能在return里面赋值
+    this.Role=this.$route.query.Role;
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(
@@ -108,7 +111,7 @@ export default {
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
     }
-    console.log(this.ProjectDetailed)
+    // console.log(this.ProjectDetailed)
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({

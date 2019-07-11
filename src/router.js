@@ -77,7 +77,7 @@ var routes = [
     path: 'pages/Login/Choiceprofessional',
     name: 'Login-Choiceprofessional',
     config: {
-      navigationBarTitleText: '选择职业',
+      navigationBarTitleText: '选择职位',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
