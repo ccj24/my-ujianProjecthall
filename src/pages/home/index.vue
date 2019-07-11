@@ -130,7 +130,6 @@ export default {
   },
   async mounted() {
     var that = this;
-    console.log(this.ProjectId)
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(this.ProjectId);
     if (rep.ret == 0) {
