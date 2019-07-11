@@ -216,6 +216,11 @@ export default new Vuex.Store({//store对象
             context.commit('GetUserAddressList',rep.data);
         }
       }
+    },
+    Project:{
+      state:{
+        ProjectId:""
+      }
     }
   }, plugins: [//vuex持久化
     mpvue_Mode === 'WX' ? createPersistedState({
