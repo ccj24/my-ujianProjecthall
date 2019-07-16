@@ -10,8 +10,6 @@
     <button v-if="btnOK" class="btn">搜索项目</button>
     <!-- 输入框输入数字的状态 蓝色-->
     <button v-if="isOK" class="alterbtn" @click="searchproject">搜索项目</button>
-    <!-- 提示 -->
-    <div class="hint" v-if="hintshow" style=" color: #ffffff;">u建：找不到项目编号对应的项目信息。</div>
   </div>
 </template>
 
@@ -23,7 +21,6 @@ export default {
       isOK: false,
       btnOK: true,
       ProjectListView: [],
-      hintshow: false,
       ProjectId: ""
     };
   },
@@ -52,11 +49,6 @@ export default {
         // 判断数组里面是否有 输进项目编号的这个项目  有的话就跳转到项目概况页面  没有就提示
         if (this.ProjectListView.length > 0) {
           // 实现页面跳转
-          // this.go({
-          //   path: "/pages/Login/Projectsituation",
-          //   query: { ProjectListView: this.ProjectListView }
-          // });
-
           this.$router.push({
             path: "/pages/Login/Projectsituation",
             query: { ProjectId: this.ProjectListView[0].ProjectId,Role: this.ProjectListView[0].Role }
@@ -64,7 +56,8 @@ export default {
         }
         //数组中没有想要的项目 弹窗提示
         else {
-          this.hintshow = true;
+          this.toast("找不到项目编号对应的项目信息。")
+
         }
       }
     }
@@ -112,16 +105,7 @@ export default {
   height: 0.6rem;
   width: 0.6rem;
 }
-.hint {
-  margin-top: 2.5rem;
-  margin-left: 0.9rem;
-  width: 9rem;
-  font-size: 0.52rem;
-  border-radius: 0.2rem;
-  text-align: center;
-  line-height: 1rem;
-  background-color: black;
-}
+
 </style>
 
 

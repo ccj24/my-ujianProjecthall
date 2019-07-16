@@ -3,14 +3,26 @@ import Router from 'vue-router'
 import home from './pages/home/index'
 import Thelog from './pages/Thelog/index'
 import meeting from './pages/meeting/index'
-
+import Projecthall from './pages/Login/Projecthall'
+import data from './pages/data/index'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
 var routes = [
     {
         path:'/',
-        redirect:'pages/home/index'
+        redirect:'pages/data/index'
+    },
+    {
+        path: 'pages/Login/Projecthall',
+        name: 'Projecthall',
+        config: {
+          navigationBarTitleText: '项目大厅',
+          enablePullDownRefresh: true,
+          onReachBottomDistance: 50
+        },
+        alias: '/pages/Login/Projecthall',
+        component: Projecthall
     },
     {
         path: 'pages/data/index',
@@ -18,7 +30,6 @@ var routes = [
         config: {
              enablePullDownRefresh: true
         },
-        meta: { noAuth: true },
         alias: '/pages/data/index',
         component: data
     },
@@ -69,7 +80,7 @@ router.beforeEach((to, from, next) => {
         //这里判断用户是否登录，验证store中的token是否已登录
         if (!store.getters.Logined) { // 判断当前的token是否存在
             next({
-                path: '/pages/data/index',
+                path: '/pages/Login/Projecthall',
                 query: { redirect: to.fullPath }
             })
         } else {

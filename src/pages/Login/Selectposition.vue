@@ -1,61 +1,16 @@
 <template>
   <div class="choicebranch">
-    <!--某个单位对应的职位-->
+    <!--某个部门对应的职位-->
     <div class="branchlist">
       <ul>
-        <li @click="choose">
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>建设单位总工程</p>
-        </li>
-      </ul>
-      <ul @click="choose">
-        <li>
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>工程部经理</p>
-        </li>
-      </ul>
-      <ul @click="choose">
-        <li>
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>总监理工程师</p>
-        </li>
-      </ul>
-      <ul @click="choose">
-        <li>
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>工程副总</p>
-        </li>
-      </ul>
-      <ul @click="choose">
-        <li>
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>工程总监</p>
-        </li>
-      </ul>
-      <ul @click="choose">
-        <li>
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>土建工程师</p>
-        </li>
-      </ul>
-      <ul @click="choose">
-        <li>
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>水电工程师</p>
-        </li>
-      </ul>
-      <ul @click="choose">
-        <li>
-          <img v-if="checked==true" style="float:left" src="/static/images/noxuan.png">
-          <img v-else style="float:left" src="/static/images/dan.png">
-          <p>装饰工程师</p>
+        <li @click="choose(item)" v-for="(item,index) in PostKeyword" :key="index">
+          <img
+            v-if="choosePostItem&&choosePostItem.KeywordId==item.KeywordId"
+            style="float:left"
+            src="/static/images/dan.png"
+          />
+          <img v-else style="float:left" src="/static/images/noxuan.png" />
+          <p>{{item.KeywordName}}</p>
         </li>
       </ul>
     </div>
@@ -66,16 +21,33 @@
 export default {
   data() {
     return {
-      checked: true
+      checked: true,
+      PostKeyword: []
     };
   },
-  methods: {
-    choose() {
-      this.checked = !this.checked;
+
+  computed: {
+    choosePostItem() {
+      return this.$store.state.Project.choosePostItem; //返回值给store中的choosePostItem
     }
   },
-  async mounted(){
+
+  methods: {
+    choose(item) {
+      //store用Mutation定义修改 ,然后用store.commit('xx') 触发
+      this.$store.commit("setChoosePostItem", item);
+    }
+  },
+  async mounted() {
     
+    var that = this;
+    var rep = await this.$UJAPI.User_GetPostKeyword({
+      ParentId: this.$store.state.Project.chooseItem.KeywordId
+    });
+    if (rep.ret == 0) {
+      this.PostKeyword = rep.data;
+    }
+    console.log(this.PostKeyword);
   }
 };
 </script>

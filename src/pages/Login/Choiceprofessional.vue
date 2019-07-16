@@ -11,7 +11,7 @@
     <!-- 选择职位 -->
     <div class="selectbranch" @click="go({path:'/pages/Login/Selectposition'})">
       <p style="float:left;padding-right:0.2rem;">选择职位:</p>
-      <p style="float:left;color:#8c8c8c">工程部经理</p>
+      <p style="float:left;color:#8c8c8c">{{choosePostItem!=null?choosePostItem.KeywordName:""}}</p>
       <div style="float: right;">
         <img src="/static/images/details.png" alt />
       </div>
@@ -22,7 +22,7 @@
       <p>{{UserInfo.UserName}}</p>
     </div>
     <!-- 提交申请 -->
-    <button class="submitapplications">提交</button>
+    <button class="submitapplications" @click="putin">提交</button>
   </div>
 </template>
 
@@ -30,14 +30,37 @@
 export default {
   data() {
     return {
-      ModelResponse: [] ,//获取各部门
+      ModelResponse: [], //获取各部门
       UserInfo: ""
     };
   },
   computed: {
-     chooseItem(){
-     debugger;
-      return this.$store.state.Project.chooseItem;//返回值给store中的chooseItem
+    // 保存在state中的部门信息
+    chooseItem() {
+      return this.$store.state.Project.chooseItem; //返回值给store中的chooseItem
+    },
+    // 保存在state中的职位信息
+    choosePostItem() {
+      return this.$store.state.Project.choosePostItem; //返回值给store中的choosePostItem
+    }
+  },
+  methods: {
+    // 用户申请加入项目use_Apply
+    async putin() {
+      var that = this;
+      var rep = await this.$UJAPI.use_Apply({
+        //所属项目唯一标识
+        ProjectId: this.$route.query.ProjectId,
+        //参与用户在部门中的职位,数据来至tKeyword表KeywordId
+        PostId: this.$store.state.Project.choosePostItem.KeywordId,
+        //参与用户在项目中的哪个部门单位，数据来至tKeyword表KeywordId
+        DepartmentId: this.$store.state.Project.chooseItem.KeywordId
+      });
+      if (rep.ret == 0) {
+        this.toast("您的申请已经提交");
+        // 相对于当前页面向前或向后跳转多少个页面,n可为正数可为负数。正数返回上一个页面
+        this.$router.go(2);
+      }
     }
   },
   async mounted() {
@@ -53,7 +76,6 @@ export default {
     if (rep.ret == 0) {
       this.ModelResponse = rep.data;
     }
-
   }
 };
 </script>

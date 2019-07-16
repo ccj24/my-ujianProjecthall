@@ -37,9 +37,11 @@ export default new Vuex.Store({//store对象
     Project:{
       state:{
         ProjectId:null,
-        chooseItem:null
+        chooseItem:null,      //选择父类的每一项
+        choosePostItem:null  //选择子类的每一项
       },
-      // 更改vuex中的store中的状态的唯一方法是提交
+      // 更改vuex中的store中的状态的唯一方法是提交mutations，vuex中的mutations非常类似事件，
+      // 每个mutation都有一个类似字符串的的事件和一个回调函数，这个回调函数就是我们需要更改的地方
       mutations:{  //定义一个方法，state是Project下面的state，_chooseItem是外面传进来的参数
         setChooseItem(state, _chooseItem) {
           // 变更状态
@@ -48,6 +50,10 @@ export default new Vuex.Store({//store对象
         setProjectId(state, ProjectId) {
           // 变更状态
           state.ProjectId = ProjectId;
+        },
+        setChoosePostItem(state, _choosePostItem) {
+          // 变更状态
+          state.choosePostItem = _choosePostItem;
         },
       }
     }

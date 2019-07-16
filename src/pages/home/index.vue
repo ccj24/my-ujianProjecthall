@@ -129,6 +129,7 @@ export default {
     }
   },
   async mounted() {
+    console.log(this.$store.state.Project.ProjectId)
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(this.ProjectId);
@@ -156,6 +157,7 @@ export default {
     {
       this.Projectpicture=res.data;
     }
+    console.log(this.Projectpicture)
    
   }
 };

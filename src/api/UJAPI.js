@@ -2,7 +2,7 @@ import http_axios from '../utils/http/axios'
 import http_wx from '../utils/http/wxhttp'
 const http = mpvue_Mode === 'WX' ? http_wx : http_axios;
 
-let BaseHost = process.env.NODE_ENV == 'development'?"http://192.168.0.119:801/":"https://app.ujianchina.net/";
+let BaseHost = process.env.NODE_ENV == 'development'?"http://192.168.0.169:801/":"https://app.ujianchina.net/";
 
 // let BaseHost = "http://192.168.0.86:801/";
 // let BaseHost = "https://app.ujianchina.net/";
@@ -14,6 +14,7 @@ export default {
     Account_Login: param => {
         return http.post(BaseHost + "api/Account/Login", param)
     },
+    // 获取当前登录用户信息
     User_Get: param => {
         return http.get(BaseHost + "api/User/Get", param)
     },
@@ -83,5 +84,25 @@ export default {
     // 处理申请状态
     ProjectMemberApply_SetState: param => {
         return http.post(BaseHost + "api/ProjectMemberApply/SetState", param)
+    },
+    // 获取职位关键字集合。 职位ParentId为部门标识, 级联关系
+    User_GetPostKeyword:param =>{
+        return http.get(BaseHost + "api/CommonInfo/GetPostKeyword",param)
+    },
+    // 用户申请加入项目
+    use_Apply: param => {
+        return http.post(BaseHost + "api/ProjectMemberApply/Apply", param)
+    },
+    // 获取项目首页店铺(广告)
+    Advert_ShopList:param =>{
+        return http.get(BaseHost + "api/Advert/GetProjectHomeShopList",param)
+    },
+    // 获取项目首页需求推荐(广告)
+    Advert_DemandValList:param =>{
+        return http.get(BaseHost + "api/Advert/GetProjectDemandValList",param)
+    },
+    // 获取项目打赏排行
+    ProjectRedPacketRank:param =>{
+        return http.get(BaseHost + "api/RedPacket/ProjectRedPacketRank",param)
     },
 }

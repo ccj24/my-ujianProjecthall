@@ -5,6 +5,8 @@ import store from './store'
 import UJAPI from "./api/UJAPI"
 import ShoppingAPI from "./api/ShoppingAPI"
 import { debug } from 'util';
+import './assets/style.css'; /*引入公共样式*/
+
 // 如果你需要让一个工具函数在每个组件可用，可以把方法挂载到 Vue.prototype上
 Vue.prototype.$UJAPI = UJAPI; //在实例中用$UJAPI调用UJAPI封装好的RestAPI
 Vue.prototype.$ShoppingAPI = ShoppingAPI; //在实例中用$ShoppingAPI调用ShoppingAPI.js封装好的RestAPI

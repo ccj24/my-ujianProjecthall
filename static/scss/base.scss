@@ -1,0 +1,58 @@
+@function size($px){
+    @return ($px/100)*1rem;
+}
+@function fontSize($px){
+    @return (($px+5)/100)*1rem;
+}
+/*总样式*/
+body, div, p, img, a, ul, li, h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+a{
+	text-decoration: none;/*去掉下划线*/
+}
+ul,li{
+    list-style-type: none;/*去掉列表类型样式（ul，li自带的小圆点）*/
+
+}
+.f-l{
+	float: left;/*左浮动*/
+}
+.f-r{
+	float: right;/*右浮动*/
+}
+body{
+   /*去掉系统自带点击事件阴影*/
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    word-break: break-all;//拆分单词换行，keep-all不拆分单词换行
+    word-wrap: break-word;//长文本换行
+}
+input,label,textarea{
+ 	-webkit-tap-highlight-color: rgba(0, 0, 0, 0); /*去掉系统自带点击事件阴影*/
+    -webkit-touch-callout: none;//ios 触摸并按住触摸目标时候，禁止或显示系统默认菜单:
+    -webkit-appearance:none; /*消除输入框和按钮的原生外观*/
+    background-color: transparent;/*去掉原生背景色*/
+}
+.loadingDiv{
+	position: fixed; 
+	left: 0;
+	right: 0;
+	bottom: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.5);
+	z-index: 1000;
+	display: flex;
+    justify-content: center;
+	align-items: center;
+	.loading{
+		width: size(200);
+		height: size(200);
+		display: flex;
+	}
+}
+@font-face {
+	font-family: 'MyFont';   /*字体名称*/
+	src: url('../Eras\ Demi\ ITC.TTF');       /*字体源文件*/
+  }

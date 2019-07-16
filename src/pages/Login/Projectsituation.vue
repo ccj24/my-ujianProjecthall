@@ -18,10 +18,17 @@
           <div class="projectmember">项目成员:{{ProjectDetailed.NumberOfPeople}}</div>
         </div>
         <!-- 按钮 -->
-
         <div class="existprojectcenter">
-             <button v-if="Role==0"  @click="go({path:'/pages/home/index',isTab: true})" class="Addproject">进入项目</button>
-             <button v-if="Role==-1" @click="go({path:'/pages/Login/Choiceprofessional'})" class="Addproject">加入项目</button>
+          <button
+            v-if="Role==0"
+            @click="goProject(ProjectDetailed.ProjectId)"
+            class="Addproject"
+          >进入项目</button>
+          <button
+            v-if="Role==-1"
+            @click="go({path:'/pages/Login/Choiceprofessional',query:{ProjectId:ProjectDetailed.ProjectId}})"
+            class="Addproject"
+          >加入项目</button>
         </div>
 
         <!-- 红包榜 -->
@@ -31,8 +38,7 @@
             <p
               @click="go({path:'/pages/home/Welfarelist'})"
               style="padding-right: 0.34rem;color: #8c8c8c;"
-            >详情</p>
-            <img src="/static/images/details.png" />
+            >我要打赏</p>
           </div>
           <!-- 项目有打赏的时候 -->
           <div class="crewlist" v-if="RedPacket.length>0">
@@ -71,6 +77,10 @@
         </div>
       </div>
     </div>
+    <div class="fixed">
+      <p style="color:#8c8c8c;padding-top:0.5rem;padding-left: 0.2rem;float: left">您尚未对项目进行打赏</p>
+      <!-- <button class="fixedbut">全部排名</button> -->
+    </div>
   </div>
 </template>
 
@@ -83,7 +93,7 @@ export default {
       isredenvelopes1: false,
       Projectid: null,
       ProjectDetailed: {},
-      Role:'',
+      Role: "",
       RedPacket: []
     };
   },
@@ -102,7 +112,7 @@ export default {
 
   async mounted() {
     // 页面之间的跳转this.$route.query不能在return里面赋值
-    this.Role=this.$route.query.Role;
+    this.Role = this.$route.query.Role;
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(
@@ -111,7 +121,6 @@ export default {
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
     }
-    // console.log(this.ProjectDetailed)
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
@@ -138,6 +147,7 @@ export default {
   margin: 0.26rem 0.2rem 0 0.24rem;
   position: absolute;
   top: 0.1rem;
+  
 }
 .sinister {
   position: relative;
@@ -192,7 +202,7 @@ export default {
 .redpacketOne {
   float: left;
   color: #8c8c8c;
-  padding-right: 7.06rem;
+  padding-right: 6.56rem;
   padding-left: 1.08rem;
 }
 .redpacket img {
@@ -257,17 +267,31 @@ export default {
   height: 2rem;
   background-color: #ffffff;
   overflow: hidden;
- 
 }
 .Addproject {
   height: 1.4rem;
   width: 5rem;
-  background-color:#12b7f5;
+  background-color: #12b7f5;
   text-align: center;
   border-radius: 0.09rem;
   color: #ffffff;
   margin-top: 0.3rem;
   font-size: 0.52rem;
+}
+.fixed {
+  position: fixed;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 50px;
+  background-color: #d7d7d7;
+  z-index: 9999;
+}
+.fixedbut {
+  height: 40px;
+  width: 150px;
+  margin-top: 5px;
+  border:none
 }
 </style>
 <style>

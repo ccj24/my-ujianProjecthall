@@ -2,13 +2,13 @@
     <div id="app">
       <div>
         <router-view></router-view>
-        <mynav v-if="Enable"></mynav>
+        <!-- <mynav v-if="Enable"></mynav> -->
       </div>
     </div>
 </template>
 
 <script>
-import mynav from '@/components/mynav.vue'
+// import mynav from '@/components/mynav.vue'
 
 export default {
   computed:{
@@ -20,15 +20,15 @@ export default {
       return nowRouteConfig&&nowRouteConfig.config&&nowRouteConfig.config.EnableNav;
     }
   },
-  components: {
-    mynav,
-  },
+  // components: {
+  //   mynav,
+  // },
 };
 </script>
 <style>
 @import url('./assets/global.css');
 @import url('./assets/iconfont.less');
-@import url('./components/Toast/toast.css');
+/* @import url('./components/Toast/toast.css'); */
 #app{
   margin-bottom: 45px;
 }

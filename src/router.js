@@ -236,7 +236,38 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
-
+  {
+    path: 'pages/newproject/projecthome',
+    name: 'projecthome',
+    config: {
+      navigationBarTitleText: '新版主页',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/newproject/homepage',
+    name: 'homepage',
+    config: {
+      navigationBarTitleText: '主页',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/newproject/Environmental',
+    name: 'Environmental',
+    config: {
+      navigationBarTitleText: '环保',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/newproject/projectpersonnel',
+    name: 'projectpersonnel',
+    config: {
+      navigationBarTitleText: '人员',
+      enablePullDownRefresh: false
+    },
+  },
 
 ]
 module.exports = routes
