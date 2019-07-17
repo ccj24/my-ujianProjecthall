@@ -108,25 +108,29 @@ export default {
     }
   },
   mounted() {
-
-    // 检查是否授权
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting["scope.userInfo"]) {
-        } else {
-          wx.getUserInfo({
-            success(res) {
-              this.userInfo.nickName = res.userInfo.nickName;
-              this.userInfo.avatarUrl = res.userInfo.avatarUrl;
-            }
-          });
+    if(this.isMp)
+    {
+      // 检查是否授权
+      wx.getSetting({
+        success: res => {
+          if (res.authSetting["scope.userInfo"]) {
+          } else {
+            wx.getUserInfo({
+              success(res) {
+                this.userInfo.nickName = res.userInfo.nickName;
+                this.userInfo.avatarUrl = res.userInfo.avatarUrl;
+              }
+            });
+          }
         }
-      }
-    });
+      });
+    }
+
   },
   created() {
 
     //1. 调用wx.login
+    if(this.isMp)
      this.wx_login();
 
   }
