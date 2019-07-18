@@ -123,13 +123,10 @@ export default {
   },
   
     computed: {
-    ProjectId(){
-      var pid = this.$store.state.Project.ProjectId;
-      return pid
-    }
+
   },
   async mounted() {
-    console.log(this.$store.state.Project.ProjectId)
+    // console.log(this.$store.state.Project.ProjectId)
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(this.ProjectId);

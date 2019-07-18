@@ -18,6 +18,10 @@ Vue.mixin({
         },
         isMP() {
             return true;
+        },
+        ProjectId(){
+            var pid = this.$store.state.Project.ProjectId||"70057154-a003-4815-b247-0fe887ab4469";
+            return pid
         }
     },
     methods: {

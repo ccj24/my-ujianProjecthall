@@ -346,7 +346,7 @@ export default {
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
     var rep = await this.$UJAPI.Project_GetDetailed(
-      "70057154-a003-4815-b247-0fe887ab4469"
+      this.ProjectId
     );
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
