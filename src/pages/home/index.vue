@@ -90,7 +90,9 @@
             </ul>
           </div>
         </div>
-
+        <div class="backHome" @click="go({path:'/pages/Login/Projecthall', reLaunch: true})">
+          回到大厅
+        </div>
       </div>
     </div>
   </div>
@@ -375,9 +377,27 @@ background-color: #ff6c6c;
   background-color: #ffffff;
   overflow: hidden;
 }
+.backHome{
+  position:fixed;
+  
+  right: -1rem;
+  bottom: 0;
+  background-color: #12b7f5;
+  color: #fff;
+  font-size: 0.4rem;
+  width: 2rem;
+  height: 2rem;
+  text-align:center;
+  line-height: 2rem;
+  border-radius: 50%;
+}
+.backHome:hover{
+  right:0;
+}
 </style>
 <style>
 page {
   background-color: #ecf0f1;
 }
+
 </style>
