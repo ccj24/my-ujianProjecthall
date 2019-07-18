@@ -90,7 +90,7 @@
             </ul>
           </div>
         </div>
-        <div class="backHome" @click="go({path:'/pages/Login/Projecthall', reLaunch: true})">
+        <div class="backHome" :class="{action:show}" @click="click_backHome">
           回到大厅
         </div>
       </div>
@@ -108,7 +108,8 @@ export default {
       isredenvelopes1:false,
       ProjectDetailed: {},
       RedPacket: [],
-      Projectpicture:[]
+      Projectpicture:[],
+      show:false
     };
   },
   methods: {
@@ -121,6 +122,10 @@ export default {
       this.isredenvelopes=true;
       this. isredenvelopes1=false;
       this.wallet=1;
+    },
+    click_backHome(){
+      this.show=!this.show;
+      // this.go({path:'/pages/Login/Projecthall', reLaunch: true})
     }
   },
   
@@ -390,9 +395,27 @@ background-color: #ff6c6c;
   text-align:center;
   line-height: 2rem;
   border-radius: 50%;
+  animation: hide 1s;
+-moz-animation: hide 1s;	/* Firefox */
+-webkit-animation: hide 1s;	/* Safari 和 Chrome */
+-o-animation: hide 1s;	
 }
-.backHome:hover{
-  right:0;
+@keyframes show
+{
+  from {right: -1rem;}
+  to {right: 0;}
+}
+@keyframes hide
+{
+  from {right: 0;}
+  to {right: -1rem;}
+}
+.backHome.action{
+animation: show 1s;
+-moz-animation: show 1s;	/* Firefox */
+-webkit-animation: show 1s;	/* Safari 和 Chrome */
+-o-animation: show 1s;	
+right: 0;
 }
 </style>
 <style>
