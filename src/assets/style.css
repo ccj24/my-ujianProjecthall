@@ -74,6 +74,7 @@ input, label, textarea {
 
 body {
   background-color: #eeeeee;
+  font-family: allFont;
 }
 
 .index .top {
@@ -561,7 +562,7 @@ body {
   overflow: hidden;
 }
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg1 img{
-  width: 5.41rem;
+  width: 2.09rem;
   height: 2.77rem;
   position: absolute;
   z-index: 0;
@@ -623,8 +624,6 @@ body {
   color: #ffc4e5;
   text-align: center;
   margin-top: 1.2rem;
-  z-index: 1;
-  position: absolute;
 }
 
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg2 {
@@ -724,7 +723,7 @@ body {
   overflow: hidden;
 }
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg3 img{
-  width: 5.41rem;
+  width: 2.09rem;
   height: 2.77rem;
   position: absolute;
   z-index: 0;
@@ -936,28 +935,29 @@ body {
 }
 
 .index .content .homePage .hpImgs .hpReal .hpRealDemo {
-  padding: 0.4rem 0rem;
+  /* padding: 0.4rem 0rem; */
   border-bottom: 1px solid #eeeeee;
   overflow: hidden;
 }
 
-.index .content .homePage .hpImgs .hpReal .hpRealDemo .hpRealLeft:last-child {
+.index .content .homePage .hpImgs .hpReal .hpRealDemo .hpRealLeft:nth-of-type(2n) .hpRealNR{
   border-right: 0;
 }
 
 .index .content .homePage .hpImgs .hpReal .hpRealDemo .hpRealLeft {
   padding: 0.4rem 0rem;
-  border-bottom: 1px solid #eeeeee;
   overflow: hidden;
   width: 5.38rem;
   float: left;
-  border-right: 1px solid #eeeeee;
+  border-bottom: 1px solid #eeeeee;
+  padding: 0.4rem 0;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-pack: distribute;
       justify-content: space-around;
   overflow: hidden;
+  height: 1.67rem;
 }
 
 .index .content .homePage .hpImgs .hpReal .hpRealDemo .hpRealLeft .hpRealIconDiv {
@@ -986,13 +986,18 @@ body {
   width: 2.83rem;
   float: left;
   padding-right: 0.2rem;
+  border-right: 1px solid #eeeeee;
 }
 
 .index .content .homePage .hpImgs .hpReal .hpRealDemo .hpRealLeft .hpRealNR .hpRealCount {
   color: #666666;
   font-size: 0.31rem;
   margin-bottom: 0.12rem;
-  display: inline-block
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .index .content .homePage .hpImgs .hpReal .hpRealDemo .hpRealLeft .hpRealNR .hpRealImg {
@@ -1664,4 +1669,166 @@ body {
 .iframeContent .rzText .text {
   overflow: hidden;
 }
+
+
+/* 人员 */
+.index .content .renYuan {
+  padding: 0rem 0.44rem;
+}
+
+.index .content .renYuan .souSuo {
+  width: 9.91rem;
+  background-color: #e2e5f0;
+  border-radius: 0.1rem;
+  margin-top: 0.33rem;
+  font-size: 0.39rem;
+  text-align: center;
+  line-height: 0.95rem;
+  padding: 0;
+  outline: 0;
+  border: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.index .content .renYuan .souSuoDiv {
+  margin-top: 0.33rem;
+  width: 9.91rem;
+  height: 1.05rem;
+  background-image: url(/static/img/searchBg.png);
+  background-repeat: no-repeat;
+  background-size: 9.91rem auto;
+}
+
+.index .content .renYuan .ryJoin {
+  background-color: #fff;
+  padding: 0.4rem 0.63rem;
+  margin-top: 0.4rem;
+  border-radius: 0.1rem;
+}
+
+.index .content .renYuan .ryJoin .ryJoinDiv {
+  overflow: hidden;
+  color: #333333;
+  font-size: 0.41rem;
+  line-height: 1.1rem;
+}
+
+.index .content .renYuan .ryJoin .ryJoinDiv .ryJoinText {
+  float: left;
+}
+
+.index .content .renYuan .ryJoin .ryJoinDiv .ryJoinRightT {
+  float: right;
+}
+
+.index .content .renYuan .ryJoin .ryJoinDiv .ryJoinRightT b {
+  font-weight: normal;
+  color: #5e69fd;
+  font-size: 0.67rem;
+  display: inline-block
+}
+
+.index .content .renYuan .ryJoin .ryJoinDiv .ryJoinRightT i {
+  font-style: normal;
+  color: #f15464;
+  font-size: 0.67rem;
+  display: inline-block
+}
+
+.index .content .renYuan .ryInfo {
+  margin-top: 0.5rem;
+  padding: 0.52rem 0.3rem;
+  overflow: hidden;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv {
+  overflow: hidden;
+  margin-bottom: 0.8rem;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryInfoLe {
+  float: left;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryInfoLe .ryHeadImg {
+  width: 1.1rem;
+  height: 1.1rem;
+  float: left;
+  margin-right: 0.54rem;
+  border-radius: 0.05rem;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryInfoLe .ryInfoleTextDiv {
+  height: 1.1rem;
+  float: left;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryInfoLe .ryInfoleTextDiv .ryinfoP {
+  color: #333333;
+  font-size: 0.37rem;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryInfoLe .ryInfoleTextDiv .ryinfoTime {
+  color: #aeb1be;
+  font-size: 0.33rem;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryState, .index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryState2 {
+  float: right;
+  color: #00b7ee;
+  font-size: 0.45rem;
+}
+
+.index .content .renYuan .ryInfo .ryInfoLeftDiv .ryInfoDiv .ryState2 {
+  color: #20c49c;
+}
+
+.index .content .renYuan .ryInfo .ryJdt {
+  float: right;
+  width: 0.16rem;
+  height: 5rem;
+  position: relative;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.index .content .renYuan .ryInfo .ryJdt .ryjdtLineBg {
+  width: 0.02rem;
+  background-color: #f1f1f1;
+  position: absolute;
+  left: 0.08rem;
+  right: 0.08rem;
+  top: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.index .content .renYuan .ryInfo .ryJdt .jdtBlue {
+  background-color: #00b7ee;
+  width: 0.06rem;
+  height: 1.2rem;
+  border-radius: 0.03rem;
+  -webkit-box-shadow: 0 0 0.2rem 0.02rem 0b7ee;
+          box-shadow: 0 0 0.2rem 0.02rem 0b7ee;
+}
+/* end 人员 */
 /*# sourceMappingURL=style.css.map */

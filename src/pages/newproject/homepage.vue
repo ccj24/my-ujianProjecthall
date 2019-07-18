@@ -129,7 +129,7 @@
                     <img class="rpDot3" src="/static/img/homePage_redPacketDot3.png" alt />
                   </div>
                 </div>
-              </div> -->
+              </div>-->
             </div>
 
             <!-- 当没有红包领取的时候显示 红包排行 -->
@@ -149,7 +149,7 @@
 
               <div class="redlistBg2">
                 <img src="/static/img/NO.1.png" />
-                <div v-if="Exceptionalranking.length>0" class="resortNr" >
+                <div v-if="Exceptionalranking.length>0" class="resortNr">
                   <div class="no1Info">
                     <p class="redsortName">{{Exceptionalranking[0].UserName}}</p>
                     <div class="resortPrice">
@@ -229,117 +229,27 @@
           </div>
           <div class="hpReal">
             <div class="hpRealDemo">
-              <!-- 人员 -->
               <div v-for="(item,index) in ProjectDetailed.liveData" :key="index" class="hpRealLeft">
                 <div class="hpRealIconDiv">
                   <img
-                    @click="go({path:'/pages/newproject/projectpersonnel'})"
+                    @click="liveDataLinkUrl(item)"
                     class="hpRealICON"
                     :src="item.liveDataTypeIcon"
                     alt
                   />
                   <p class="hpRealIconP">{{item.liveDataTypeName}}</p>
                 </div>
-                <div class="hpRealNR" v-for="(item1,index1) in item.listInfo" :key="index1">
-                  <p class="hpRealCount">{{item1.txtTitle+item1.txtNum+item1.txtUnit}}</p>
-                  <!-- <p class="hpRealCount">场内人数 9999人</p>
-                  <p class="hpRealCount">总进场 9999人</p>-->
+                <div class="hpRealNR">
+                  <div v-for="(item1,index1) in item.listInfo" :key="index1">
+                    <p
+                      class="hpRealCount"
+                      v-if="item.liveListType==1"
+                    >{{item1.txtTitle+item1.txtNum+item1.txtUnit}}</p>
+                    <img class="hpRealImg" v-else-if="item.liveListType==2" :src="item1.imgUrl" alt />
+                  </div>
                 </div>
               </div>
-              <!-- 环保 -->
-              <!-- <div class="hpRealLeft">
-                                <div class="hpRealIconDiv">
-                                    <img @click="go({path:'/pages/newproject/Environmental'})" class="hpRealICON" src="/static/img/homePage_realIcon2.png" alt="">
-                                    <p class="hpRealIconP">环保</p>
-                                </div>
-                                <div class="hpRealNR">
-                                    <p class="hpRealCount">湿度 98%</p>
-                                    <p class="hpRealCount">噪音 78.8db</p>
-                                    <p class="hpRealCount">温度 32℃</p>
-                                </div>
-              </div>-->
             </div>
-            <!-- <div class="hpRealDemo">
-                           
-                            <div class="hpRealLeft">
-                                <div class="hpRealIconDiv">
-                                    <img class="hpRealICON" src="/static/img/homePage_realIcon3.png" alt="">
-                                    <p class="hpRealIconP">基坑</p>
-                                </div>
-                                <div class="hpRealNR">
-
-                                    <p class="hpRealCount">数据1 9999</p>
-                                    <p class="hpRealCount">数据2 9999</p>
-                                    <p class="hpRealCount">数据3 9999</p>
-                                </div>
-                            </div>
-                           
-                            <div class="hpRealLeft">
-                                <div class="hpRealIconDiv">
-                                    <img class="hpRealICON" src="/static/img/homePage_realIcon4.png" alt="">
-                                    <p class="hpRealIconP">北斗云</p>
-                                </div>
-                                <div class="hpRealNR">
-                                    <p class="hpRealCount">今日进场 9999人</p>
-                                    <p class="hpRealCount">场内人数 9999人</p>
-                                    <p class="hpRealCount">总进场 9999人</p>
-                                </div>
-                            </div>
-            </div>-->
-            <!-- <div class="hpRealDemo">
-                           
-                            <div class="hpRealLeft">
-                                <div class="hpRealIconDiv">
-                                    <img class="hpRealICON" src="/static/img/homePage_realIcon5.png" alt="">
-                                    <p class="hpRealIconP">监控</p>
-                                </div>
-                                <div class="hpRealNR">
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                </div>
-                            </div>
-                            
-                            <div class="hpRealLeft">
-                                <div class="hpRealIconDiv">
-                                    <img class="hpRealICON" src="/static/img/homePage_realIcon6.png" alt="">
-                                    <p class="hpRealIconP">BIM</p>
-                                </div>
-                                <div class="hpRealNR">
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                </div>
-                            </div>
-            </div>-->
-            <!-- <div class="hpRealDemo">                         
-                            <div class="hpRealLeft">
-                                <div class="hpRealIconDiv">
-                                    <img class="hpRealICON" src="/static/img/homePage_realIcon7.png" alt="">
-                                    <p class="hpRealIconP">VR</p>
-                                </div>
-                                <div class="hpRealNR">
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                </div>
-                            </div>
-                            <div class="hpRealLeft">
-                                <div class="hpRealIconDiv">
-                                    <img class="hpRealICON" src="/static/img/homePage_realIcon8.png" alt="">
-                                    <p class="hpRealIconP">航拍</p>
-                                </div>
-                                <div class="hpRealNR">
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                    <img class="hpRealImg" src="/static/img/homePage_realImg.png" alt="" />
-                                </div>
-                            </div>
-            </div>-->
           </div>
         </div>
         <!-- 获取项目首页店铺(广告) -->
@@ -412,6 +322,26 @@ export default {
       Exceptionalranking: [] //获取项目打赏排行
     };
   },
+  methods: {
+    liveDataLinkUrl(item) {
+      //  人员页面跳转liveDataType==1
+      if (item.liveDataType==3) {
+         this.$router.push({
+          path: "/pages/newproject/projectpersonnel"
+          //  query: { ProjectDetailed: item }
+        });
+      }
+      //  环保页面跳转liveDataType==2
+      if (item.liveDataType == 2) {
+        this.$router.push({
+          path: "/pages/newproject/Environmental"
+          // query: { ProjectDetailed:item }
+        });
+      //store用Mutation定义修改 ,然后用store.commit('xx') 触发
+      this.$store.commit("setProjectDetailedView", item);
+      }
+    }
+  },
   async mounted() {
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
@@ -421,7 +351,8 @@ export default {
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
     }
-    // console.log(this.ProjectDetailed)
+
+    // console.log(this.ProjectDetailed);
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
@@ -431,7 +362,6 @@ export default {
     if (res.ret == 0) {
       this.RedPacket = res.data;
     }
-    // console.log(this.RedPacket);
 
     // 获取项目打赏排名
     var rep = await this.$UJAPI.ProjectRedPacketRank({
@@ -440,7 +370,6 @@ export default {
     if (rep.ret == 0) {
       this.Exceptionalranking = rep.data;
     }
-     console.log(this.Exceptionalranking)
 
     //获取项目图片
     var res = await this.$UJAPI.Project_GetList({

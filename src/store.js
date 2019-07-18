@@ -12,12 +12,12 @@ export default new Vuex.Store({//store对象
       state: {
         UserInfo: {},
         SingleTicket: "",
-        CurrentLocation:{}
+        CurrentLocation: {}
       },
       // 获取属性的状态
-      getters:{
-        Logined: state =>{
-          return state.SingleTicket&&state.SingleTicket.length>0;
+      getters: {
+        Logined: state => {
+          return state.SingleTicket && state.SingleTicket.length > 0;
         }
       },
       // 设置属性状态
@@ -29,20 +29,21 @@ export default new Vuex.Store({//store对象
         GetUserInfo(state, UserInfo) {
           state.UserInfo = UserInfo;
         },
-        UpdateLocation(state,payload){
+        UpdateLocation(state, payload) {
           state.CurrentLocation = payload;
         }
       }
     },
-    Project:{
-      state:{
-        ProjectId:null,
-        chooseItem:null,      //选择父类的每一项
-        choosePostItem:null  //选择子类的每一项
+    Project: {
+      state: {
+        ProjectDetailedView: null,//定义项目详情
+        ProjectId: null,
+        chooseItem: null,      //选择父类的每一项
+        choosePostItem: null  //选择子类的每一项
       },
       // 更改vuex中的store中的状态的唯一方法是提交mutations，vuex中的mutations非常类似事件，
       // 每个mutation都有一个类似字符串的的事件和一个回调函数，这个回调函数就是我们需要更改的地方
-      mutations:{  //定义一个方法，state是Project下面的state，_chooseItem是外面传进来的参数
+      mutations: {  //定义一个方法，state是Project下面的state，_chooseItem是外面传进来的参数
         setChooseItem(state, _chooseItem) {
           // 变更状态
           state.chooseItem = _chooseItem;
@@ -55,6 +56,11 @@ export default new Vuex.Store({//store对象
           // 变更状态
           state.choosePostItem = _choosePostItem;
         },
+        // 定义项目详情一个回调函数
+        setProjectDetailedView(state, _ProjectDetailedView) {
+          // 更变状态  改变原来的值
+          state.ProjectDetailedView = _ProjectDetailedView;
+        }
       }
     }
   }, plugins: [//vuex持久化
