@@ -27,8 +27,8 @@
       <div v-if="ProjectList.length>0">
         <ul v-for="(item,index) in ProjectList" :key="index" v-if="index<5">
           <li @click="goProject(item.ProjectId)" style="overflow: hidden;">
-            <p style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
-            <img style="float:right;" src="/static/images/details.png" />
+            <p class="projectname" style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
+            <img class="skipico" style="float:right;" src="/static/images/details.png" />
           </li>
         </ul>
       </div>
@@ -48,8 +48,8 @@
       <div v-if="othersProjectList.length>0">
         <ul v-for="(item,index) in othersProjectList" :key="index" v-if="index<5">
           <li @click="goProject(item.ProjectId)" style="overflow: hidden;">
-            <p style="float:left">{{item.ProjectName}}</p>
-            <img style="float:right;" src="/static/images/details.png" />
+            <p class="projectname" style="float:left">{{item.ProjectName}}</p>
+            <img class="skipico" style="float:right;" src="/static/images/details.png" />
           </li>
         </ul>
       </div>
@@ -171,8 +171,8 @@ export default {
 }
 .added {
   margin-top: 0.2rem;
-  width: 0.4rem !important;
-  height: 0.4rem !important;
+  width: 0.3rem !important;
+  height: 0.3rem !important;
   margin-right: 0.41rem;
 }
 .messagequantity {
@@ -192,6 +192,16 @@ export default {
   height: 2.5rem;
   text-align: center;
   color: #c7c7cd;
+}
+.skipico {
+  height: 0.3rem  !important;
+  width: 0.3rem  !important;
+}
+.projectname {
+  width: 9rem;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 </style>
 
