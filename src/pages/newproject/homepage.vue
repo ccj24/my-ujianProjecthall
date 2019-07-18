@@ -19,9 +19,6 @@
                   <!-- 已认证 -->
                   <div v-if="ProjectDetailed.AuditInfo!=null && ProjectDetailed.Audit">
                     <img class="hpAttestationIcon" src="/static/img/homePage_attestation.png" alt />
-                    <!-- <img class="hpAttestationBoxImg" src="/static/img/cpmBg.png" alt="">
-                                      <img class="hpAttestationBoxImg" src="/static/img/cpmBg.png" alt="">
-                    <img class="hpAttestationBoxImg" src="/static/img/cpmBg.png" alt="">-->
                     <div class="hpAttestationBox">监管</div>
                     <div class="hpAttestationBox2">保险</div>
                   </div>
@@ -352,11 +349,10 @@ export default {
       this.ProjectDetailed = rep.data;
     }
 
-    // console.log(this.ProjectDetailed);
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469",
+      Projectid: this.ProjectId,
       searchCat: 1
     });
     if (res.ret == 0) {
@@ -365,7 +361,7 @@ export default {
 
     // 获取项目打赏排名
     var rep = await this.$UJAPI.ProjectRedPacketRank({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469"
+      Projectid: this.ProjectId
     });
     if (rep.ret == 0) {
       this.Exceptionalranking = rep.data;
@@ -373,7 +369,7 @@ export default {
 
     //获取项目图片
     var res = await this.$UJAPI.Project_GetList({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469",
+      Projectid: this.ProjectId,
       QueryType: 4
     });
     if (res.ret == 0) {
@@ -387,7 +383,7 @@ export default {
 
     // 获取项目成员列表
     var rep = await this.$UJAPI.Project_ProjectMember({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469",
+      Projectid: this.ProjectId,
       UserId: "a327307c-b133-4663-96f4-7462292b872c"
     });
     if (rep.ret == 0) {
