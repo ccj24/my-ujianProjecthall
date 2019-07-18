@@ -105,4 +105,9 @@ export default {
     ProjectRedPacketRank:param =>{
         return http.get(BaseHost + "api/RedPacket/ProjectRedPacketRank",param)
     },
+    // 获取项目人员进出记录
+    GetDoorPeopleList:param =>{
+        return http.get(BaseHost + "api/Project/GetDoorPeopleList",param)
+    },
+
 }

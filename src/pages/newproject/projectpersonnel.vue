@@ -77,10 +77,27 @@
 
 <script>
 import "../../assets/style.css";
+export default {
+  data() {
+    return {
+      ProjectDoor:{},//获取项目人员进出记录
+    };
+  },
+  async mounted() {
 
-export default {};
+    console.log(this.$route.query.ProjectId); //这样接收
+    var that=this;
+    // 获取项目人员进出记录
+    var rep=await this.$UJAPI.GetDoorPeopleList({
+      ProjectId:this.$route.query.ProjectId
+    })
+    if (rep.ret==0) {
+      this.ProjectDoor=rep.data;
+    }
+    console.log( this.ProjectDoor)
+  }
+};
 </script>
 
 <style scoped>
-
 </style>

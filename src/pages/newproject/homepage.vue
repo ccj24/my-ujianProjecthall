@@ -324,11 +324,11 @@ export default {
   },
   methods: {
     liveDataLinkUrl(item) {
-      //  人员页面跳转liveDataType==1
-      if (item.liveDataType==3) {
-         this.$router.push({
-          path: "/pages/newproject/projectpersonnel"
-          //  query: { ProjectDetailed: item }
+      //  人员页面跳转
+      if (item.liveDataType==1) {
+        this.$router.push({
+          path: "/pages/newproject/projectpersonnel",
+           query: { ProjectId: this.ProjectDetailed.ProjectId }
         });
       }
       //  环保页面跳转liveDataType==2
@@ -337,8 +337,8 @@ export default {
           path: "/pages/newproject/Environmental"
           // query: { ProjectDetailed:item }
         });
-      //store用Mutation定义修改 ,然后用store.commit('xx') 触发
-      this.$store.commit("setProjectDetailedView", item);
+        //store用Mutation定义修改 ,然后用store.commit('xx') 触发
+        this.$store.commit("setProjectDetailedView", item);
       }
     }
   },
