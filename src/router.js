@@ -261,8 +261,24 @@ var routes = [
     },
   },
   {
+    path: 'pages/Environmentalprotection/Environmental',
+    name: 'Environmental',
+    config: {
+      navigationBarTitleText: '环保',
+      enablePullDownRefresh: false
+    },
+  },
+  {
     path: 'pages/newproject/projectpersonnel',
     name: 'projectpersonnel',
+    config: {
+      navigationBarTitleText: '人员',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/Environmentalprotection/personnel',
+    name: 'personnel',
     config: {
       navigationBarTitleText: '人员',
       enablePullDownRefresh: false
