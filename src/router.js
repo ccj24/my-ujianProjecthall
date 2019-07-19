@@ -284,6 +284,13 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
-
+  {
+    path: 'pages/task/taskindex',
+    name: 'taskindex',
+    config: {
+      navigationBarTitleText: '任务',
+      enablePullDownRefresh: false
+    },
+  },
 ]
 module.exports = routes

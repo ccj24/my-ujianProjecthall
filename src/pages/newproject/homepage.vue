@@ -133,7 +133,7 @@
             <div class="redlistSort" v-if="Exceptionalranking.length>0">
               <div class="redlistBg1">
                 <img src="/static/img/NO.2.png" />
-                <div class="resortNr" v-if="Exceptionalranking.length>1">
+                <div style="" class="resortNr" v-if="Exceptionalranking.length>1">
                   <p class="redsortName">{{Exceptionalranking[1].UserName}}</p>
                   <div class="resortPrice">
                     ￥
@@ -176,7 +176,7 @@
         </div>
         <!-- 任务  会议 日志 资料 -->
         <div class="hpIcons">
-          <div class="hpIconDiv">
+          <div class="hpIconDiv" @click="go({path:'/pages/task/taskindex'})">
             <img class="hpIcon" src="/static/img/homePage_Icon1.png" alt />
             <p class="hpIconP">任务</p>
             <div class="redDot"></div>
@@ -367,6 +367,7 @@ export default {
       this.Exceptionalranking = rep.data;
     }
 
+
     //获取项目图片
     var res = await this.$UJAPI.Project_GetList({
       Projectid: this.ProjectId,
@@ -406,5 +407,6 @@ export default {
 </script>
 
 <style scoped>
+
 </style>
 

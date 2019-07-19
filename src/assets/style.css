@@ -569,7 +569,8 @@ body {
 }
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg1 .resortNr {
   z-index: 1;
-  position: absolute;
+  /* position: absolute; */
+  position: relative;
   height: 1.8rem;
   margin-top: 0.88rem;
   padding-bottom: 0.12rem;
@@ -624,6 +625,8 @@ body {
   color: #ffc4e5;
   text-align: center;
   margin-top: 1.2rem;
+  position: relative
+
 }
 
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg2 {
@@ -646,7 +649,8 @@ body {
 
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg2 .resortNr {
   z-index: 1;
-  position: absolute;
+  /* position: absolute; */
+  position: relative;
   margin-top: 0.88rem;
   padding-bottom: 0.12rem;
   padding: 0rem 0.35rem;
@@ -710,6 +714,8 @@ body {
   color: #fff2b8;
   text-align: center;
   margin-top: 1.2rem;
+  z-index: 2;
+  position: relative
 }
 
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg3 {
@@ -731,7 +737,8 @@ body {
 
 .index .content .homePage .redPacket .rpContent .redlistSort .redlistBg3 .resortNr {
   z-index: 1;
-  position: absolute;
+  /* position: absolute; */
+  position: relative;
   height: 1.8rem;
   margin-top: 0.88rem;
   padding-bottom: 0.12rem;
@@ -786,6 +793,8 @@ body {
   color: #accef9;
   text-align: center;
   margin-top: 1.2rem;
+  z-index: 2;
+  position: relative
 }
 
 .index .content .homePage .hpIcons {

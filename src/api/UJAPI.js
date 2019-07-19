@@ -109,5 +109,8 @@ export default {
     GetDoorPeopleList:param =>{
         return http.get(BaseHost + "api/Project/GetDoorPeopleList",param)
     },
-
+    // 获取用户发起的任务 UserId、UserName、Portrait为"任务接收人"的用户信息
+    Task_List:param =>{
+        return http.get(BaseHost + "api/Task/GetAddTaskList",param)
+    },
 }

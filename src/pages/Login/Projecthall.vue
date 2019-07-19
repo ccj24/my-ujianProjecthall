@@ -27,7 +27,7 @@
       <div v-if="ProjectList.length>0">
         <ul v-for="(item,index) in ProjectList" :key="index" v-if="index<5">
           <li @click="goProject(item.ProjectId)" style="overflow: hidden;">
-            <p class="projectname" style="float:left;padding-right:1.2rem;">{{item.ProjectName}}</p>
+            <p class="projectname" style="float:left;">{{item.ProjectName}}</p>
             <img class="skipico" style="float:right;" src="/static/images/details.png" />
           </li>
         </ul>
@@ -199,6 +199,7 @@ export default {
 }
 .projectname {
   width: 9rem;
+  /* 文字超出一行，省略超出部分，显示'...' */
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
