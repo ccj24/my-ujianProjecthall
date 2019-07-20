@@ -8,6 +8,8 @@ import data from './pages/data/index'
 import login from './pages/index/index'
 import Environmental from './pages/Environmentalprotection/Environmental.vue'
 import personnel from './pages/Environmentalprotection/personnel.vue'
+import mission from './pages/Environmentalprotection/mission.vue'
+import crew from './pages/Environmentalprotection/crew'
 
 
 
@@ -111,6 +113,28 @@ var routes = [
         meta: { noAuth: true },
         alias: '/pages/Environmentalprotection/personnel',
         component: personnel
+      },
+      {
+        path: 'pages/Environmentalprotection/mission',
+        name: 'mission',
+        config: {
+          navigationBarTitleText: '任务',
+          enablePullDownRefresh: false
+        },
+        meta: { noAuth: true },
+        alias: '/pages/Environmentalprotection/mission',
+        component: mission
+      },
+      {
+        path: 'pages/Environmentalprotection/crew',
+        name: 'crew',
+        config: {
+          navigationBarTitleText: '新人员',
+          enablePullDownRefresh: false
+        },
+        meta: { noAuth: true },
+        alias: '/pages/Environmentalprotection/crew',
+        component: crew
       },
 ]
 

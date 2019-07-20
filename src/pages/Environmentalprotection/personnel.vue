@@ -1,7 +1,9 @@
 <template>
   <div class="da">
     <div class="hezi1">
-      <p class="title left">实时在场人数</p>
+      <p class="title left">
+        <b>实时在场人数</b>
+      </p>
       <div class="title_value right">
         <span>26</span>
         <span class="ren">人</span>
@@ -21,28 +23,116 @@
         <p class="two2">今日进场</p>
       </div>
     </div>
-    <!-- <div class="three">
+    <div class="three">
       <div class="attendee">
         <div class="attendee-top">
-          <p class="attendee-top1">实时在场</p>
+          <p class="attendee-top1">
+            <b>实时在场</b>
+          </p>
           <p class="attendee-top2">
             30/360
             <span class="attendee-top3">人</span>
           </p>
         </div>
         <div class="attendee-bottom">
-          <div class="attendee-bottom-a">
-            <p class="attendee-bottom-a1">水电工班组</p>
-            <p class="attendee-bottom-a2">20/140</p>
-          </div>
-          <div class="attendee-bottom-a">
-            <p class="attendee-bottom-c1">水电工班组</p>
-            <p class="attendee-bottom-a2">20/140</p>
+          <div class="neirong">
+            <div class="attendee-bottom-a">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">10110</p>
+            </div>
           </div>
         </div>
-        
       </div>
-    </div> -->
+      <div class="attendee">
+        <div class="attendee-top">
+          <p class="attendee-top1">
+            <b>今日出场</b>
+          </p>
+          <p class="attendee-top2">
+            30/360
+            <span class="attendee-top3">人</span>
+          </p>
+        </div>
+        <div class="attendee-bottom">
+          <div class="neirong">
+            <div class="attendee-bottom-a">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">钢筋工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">水泥工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="attendee">
+        <div class="attendee-top">
+          <p class="attendee-top1">
+            <b>今日进场</b>
+          </p>
+          <p class="attendee-top2">
+            30/360
+            <span class="attendee-top3">人</span>
+          </p>
+        </div>
+        <div class="attendee-bottom">
+          <div class="neirong">
+            <div class="attendee-bottom-a">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="attendee">
+        <div class="attendee-top">
+          <p class="attendee-top1">
+            <b>劳工总数</b>
+          </p>
+          <p class="attendee-top2">
+            30/360
+            <span class="attendee-top3">人</span>
+          </p>
+        </div>
+        <div class="attendee-bottom" style>
+          <div class="neirong">
+            <div class="attendee-bottom-a">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+            <div class="attendee-bottom-b">
+              <p class="attendee-bottom-a1">水电工班组</p>
+              <p class="attendee-bottom-a2">20/140</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style scoped>
@@ -51,28 +141,28 @@
   padding: 0;
 }
 .hezi1 {
-    width: 100%;
-    height: 1.56rem;
-    background-color: #ffffff;
-    border-bottom: 0.02rem solid #eeeeee;
-    line-height: 1.56rem;
+  width: 100%;
+  height: 1.56rem;
+  background-color: #ffffff;
+  border-bottom: 0.02rem solid #eeeeee;
+  line-height: 1.56rem;
 }
 .hezi1 .title {
   /* 左内边距 */
-    padding-left: 0.42rem;
-    font-size: 0.44rem;
-    line-height: 0.44rem;
-    color: #333333;
-    line-height: 1.56rem;
+  padding-left: 0.42rem;
+  font-size: 0.44rem;
+  line-height: 0.44rem;
+  color: #333333;
+  line-height: 1.56rem;
 }
 .hezi1 .title_value {
-font-family: PingFang-SC-Bold;
-    font-size: 0.8rem;
-    margin-right: 0.56rem;
-    /* height: 0.6rem; */
-    color: #6bb15d;
-    /* margin-top: 0.61rem; */
-    line-height: 1.56rem;
+  font-family: PingFang-SC-Bold;
+  font-size: 0.8rem;
+  margin-right: 0.56rem;
+  /* height: 0.6rem; */
+  color: #6bb15d;
+  /* margin-top: 0.61rem; */
+  line-height: 1.56rem;
 }
 .hezi1 .title_value .ren {
   /* <!--设计块元素，让其26和人在同一行显示 --> */
@@ -125,13 +215,13 @@ font-family: PingFang-SC-Bold;
   clear: both;
 }
 .attendee {
-  width: 10.77rem;
+  width: 100%;
   height: 4.3rem;
 }
 .attendee-top {
   /* 使得div之间内外边距默认为0 */
-  margin:0rem;
-  padding:0rem;
+  margin: 0rem;
+  padding: 0rem;
   width: 10.77rem;
   height: 0.38rem;
   /* 在同一行排列 */
@@ -158,35 +248,33 @@ font-family: PingFang-SC-Bold;
   color: black;
 }
 .attendee-bottom {
-  margin:0rem;
-  padding:0rem;
-  width: 10.01rem;
+  /* 设计宽度占总宽度的大概93%左右 */
+  width: 93%;
   height: 2.9rem;
-  background-color: #00a1e9;
+  background-color: rgba(0, 0, 0, 0.05);
+  /* opacity: 0.05; */
   margin-left: 0.36rem;
+  padding-top: 0.38rem;
+}
+.neirong {
+  font-family: PingFang-SC-Medium;
+  font-size: 0.36rem;
+  /* 行高 */
+  line-height: 0.7rem;
+  color: #333333;
+  /* 到上，右，下，左边的外边距 */
+  margin: -0.2rem 0.53rem 0.52rem 0.44rem;
 }
 .attendee-bottom-a1 {
-  font-family: PingFang-SC-Medium;
-	font-size: 0.36rem;
-  color: #333333;
-  padding-left: 0.44rem;
-  padding-top: 0.58rem;
-  display: inline-block;
+  float: left;
+  overflow: hidden;
 }
 .attendee-bottom-a2 {
-  font-family: PingFang-SC-Medium;
-	font-size: 0.36rem;
-  color: #333333;
   display: inline-block;
   padding-left: 5.96rem;
 }
-.attendee-bottom-c1 {
-  font-family: PingFang-SC-Medium;
-	font-size: 0.36rem;
-  color: #333333;
-  padding-left: 0.44rem;
-  padding-top: 0.36rem;
-  display: inline-block;
+/* 设计第二第三行到上一行的距离 */
+.attendee-bottom-b {
+  margin-top: 0.36rem;
 }
-
 </style>
