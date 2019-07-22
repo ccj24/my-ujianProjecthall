@@ -133,7 +133,7 @@
             <div class="redlistSort" v-if="Exceptionalranking.length>0">
               <div class="redlistBg1">
                 <img src="/static/img/NO.2.png" />
-                <div style="" class="resortNr" v-if="Exceptionalranking.length>1">
+                <div style class="resortNr" v-if="Exceptionalranking.length>1">
                   <p class="redsortName">{{Exceptionalranking[1].UserName}}</p>
                   <div class="resortPrice">
                     ￥
@@ -201,7 +201,7 @@
               <div class="hpDemoTopSquare"></div>
               <p class="hpDemoTopTitle">项目图片</p>
             </div>
-            <div class="hpDemoTopRight">
+            <div class="hpDemoTopRight" @click="go({path:'/pages/home/Projectpicture',query:{ProjectId:ProjectDetailed.ProjectId}})">
               <p class="hpDemoTopRightP">查看全部</p>
               <img class="hpDemoTopNextRight" src="/static/img/homePage_nextRight.png" alt />
             </div>
@@ -322,10 +322,10 @@ export default {
   methods: {
     liveDataLinkUrl(item) {
       //  人员页面跳转
-      if (item.liveDataType==1) {
+      if (item.liveDataType == 1) {
         this.$router.push({
           path: "/pages/newproject/projectpersonnel",
-           query: { ProjectId: this.ProjectDetailed.ProjectId }
+          query: { ProjectId: this.ProjectDetailed.ProjectId }
         });
       }
       //  环保页面跳转liveDataType==2
@@ -337,18 +337,23 @@ export default {
         //store用Mutation定义修改 ,然后用store.commit('xx') 触发
         this.$store.commit("setProjectDetailedView", item);
       }
+      //  监控页面跳转liveDataType==5
+      if (item.liveDataType == 5) {
+        this.$router.push({
+          path: "/pages/home/Projectmonitoring"
+        });
+        //store用Mutation定义修改 ,然后用store.commit('xx') 触发
+        this.$store.commit("setProjectDetailedView", item);
+      }
     }
   },
   async mounted() {
     var that = this;
     //获取项目详情。用于展示项目详细信息界面。
-    var rep = await this.$UJAPI.Project_GetDetailed(
-      this.ProjectId
-    );
+    var rep = await this.$UJAPI.Project_GetDetailed(this.ProjectId);
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
     }
-
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
@@ -366,7 +371,6 @@ export default {
     if (rep.ret == 0) {
       this.Exceptionalranking = rep.data;
     }
-
 
     //获取项目图片
     var res = await this.$UJAPI.Project_GetList({
@@ -407,6 +411,5 @@ export default {
 </script>
 
 <style scoped>
-
 </style>
 

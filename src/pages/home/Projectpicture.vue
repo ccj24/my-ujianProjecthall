@@ -2,9 +2,14 @@
   <!-- 项目图片 -->
   <div class="projectprint">
     <div class="showprint">
-      <ul @click="go({path:'/pages/home/Logdetails',query:{LogId:item.LogId}})" class="article" v-for="(item,index) in Projectpicture" :key="index">
+      <ul
+        @click="go({path:'/pages/home/Logdetails',query:{LogId:item.LogId}})"
+        class="article"
+        v-for="(item,index) in Projectpicture"
+        :key="index"
+      >
         <li v-if="item.Images.length>0">
-          <img :src="item.Images[0]">
+          <img :src="item.Images[0]" />
         </li>
         <li class="realtime">{{item.CreateTimeFormat}}</li>
         <li class="linkman">{{item.CreatorName}}</li>
@@ -23,10 +28,11 @@ export default {
   },
 
   async mounted() {
-    var that = this;
     //获取项目图片
+    var that = this;
+    // this.$route.query.ProjectId接收项目id传过来的参数
     var res = await this.$UJAPI.Project_GetList({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469",
+      Projectid: this.$route.query.ProjectId,
       QueryType: 4
     });
     if (res.ret == 0) {

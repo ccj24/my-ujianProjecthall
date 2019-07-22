@@ -1,13 +1,22 @@
 <template>
   <div class="index">
-    <div class="content">
+    <!-- 顶部收到任务发出任务 -->
+    <div class="top">
+      <p class="top_rttext">发起任务</p>
+      <div class="top_title2">
+        <div :class="{top_title2_fqrw:receive,top_title2_fqrw2:giveout}" @click="SetReceive">收到任务</div>
+        <div :class="{top_title2_fqrw2:receive,top_title2_fqrw:giveout}" @click="SetGet">发出任务</div>
+      </div>
+    </div>
+    <div class="content" style="margin-top: 2.3rem;">
+      <!-- 内容 -->
       <div class="renwu">
         <div class="renwu_title">
           <p :class="{renwu_bt:setnotchecked,renwu_bt2:setchecked}" @click="notchecked">未完成</p>
           <p :class="{renwu_bt2:setnotchecked,renwu_bt:setchecked}" @click="checked">已结束</p>
         </div>
-        <!-- 任务未完成的时候 -->
-        <div class="renwu_content" v-if="setnotchecked==true && setchecked==false">
+        <!-- 发出任务 未完成的时候 -->
+        <div class="renwu_content" v-if="setnotchecked==true && setchecked==false && giveout==true">
           <div class="renwu_nr" v-for="(item,index) in UnfinishedTaskInfo" :key="index">
             <div class="renwu_nr_header">
               <img class="renwu_img" :src="item.Portrait" alt />
@@ -21,9 +30,39 @@
             <div class="rewu_nr_qita">{{item.TaskContent}}</div>
           </div>
         </div>
-        <!-- 任务完成了的时候 -->
-        <div class="renwu_content" v-if="setnotchecked==false && setchecked==true">
+        <!-- 收到任务 未完成的时候 -->
+        <div class="renwu_content" v-if="setnotchecked==true && setchecked==false && receive==true">
+          <div class="renwu_nr" v-for="(item,index) in UnfinishedTaskInfoView" :key="index">
+            <div class="renwu_nr_header">
+              <img class="renwu_img" :src="item.Portrait" alt />
+              <div class="renwu_nr_info">
+                <p>{{item.UserName}}</p>
+                <p>{{item.CreateTime}}</p>
+              </div>
+              <p class="renwu_hint" v-if="item.State==1">已过期</p>
+              <p class="renwu_hint" v-else-if="item.State==0">待答复</p>
+            </div>
+            <div class="rewu_nr_qita">{{item.TaskContent}}</div>
+          </div>
+        </div>
+        <!-- 发出任务 完成了的时候 -->
+        <div class="renwu_content" v-if="setnotchecked==false && setchecked==true && giveout==true">
           <div class="renwu_nr" v-for="(item,index) in FulfillTaskInfo" :key="index">
+            <div class="renwu_nr_header">
+              <img class="renwu_img" :src="item.Portrait" alt />
+              <div class="renwu_nr_info">
+                <p>{{item.UserName}}</p>
+                <p>{{item.CreateTime}}</p>
+              </div>
+              <p class="renwu_hint" v-if="item.State==1">已过期</p>
+              <p class="renwu_hint" v-else-if="item.State==0">待答复</p>
+            </div>
+            <div class="rewu_nr_qita">{{item.TaskContent}}</div>
+          </div>
+        </div>
+        <!-- 收到任务 完成了的时候 -->
+        <div class="renwu_content" v-if="setnotchecked==false && setchecked==true && receive==true">
+          <div class="renwu_nr" v-for="(item,index) in FulfillTaskInfoView" :key="index">
             <div class="renwu_nr_header">
               <img class="renwu_img" :src="item.Portrait" alt />
               <div class="renwu_nr_info">
@@ -46,10 +85,14 @@
 export default {
   data() {
     return {
+      receive: true,
+      giveout: false,
       setnotchecked: true,
       setchecked: false,
       UnfinishedTaskInfo: [], //未完成的
-      FulfillTaskInfo: [] //已经完成的
+      FulfillTaskInfo: [], //已经完成的
+      UnfinishedTaskInfoView: [], //获取用户收到 未完成的
+      FulfillTaskInfoView: [] //获取用户收到的  已经完成的
     };
   },
   methods: {
@@ -60,6 +103,14 @@ export default {
     checked() {
       this.setnotchecked = !this.setnotchecked;
       this.setchecked = !this.setchecked;
+    },
+    SetReceive() {
+      this.receive = !this.receive;
+      this.giveout = !this.giveout;
+    },
+    SetGet() {
+      this.receive = !this.receive;
+      this.giveout = !this.giveout;
     }
   },
   async mounted() {
@@ -78,12 +129,75 @@ export default {
     if (rep.ret == 0) {
       this.FulfillTaskInfo = rep.data;
     }
+    // 获取用户收到需要答复的任务
+    // 1、0-未完成(包涵未过期和不限答复时间)
+    var rep = await this.$UJAPI.Task_GetReplyTaskList({
+      state: 0
+    });
+    if (rep.ret == 0) {
+      this.UnfinishedTaskInfoView = rep.data;
+    }
+    console.log(this.UnfinishedTaskInfoView);
+    // 2、1已结束(包括已答复和已过期)
+    var rep = await this.$UJAPI.Task_GetReplyTaskList({
+      state: 1
+    });
+    if (rep.ret == 0) {
+      this.FulfillTaskInfoView = rep.data;
+    }
   }
 };
 </script>
 
 
 <style scoped>
+.index .top .top_rttext {
+  float: right;
+  font-size: 0.45rem;
+  color: #ffffff;
+  line-height: 1.33rem;
+  padding-right: 0.4rem;
+}
+.index .top .top_title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 0.51rem;
+  text-align: center;
+  line-height: 1.33rem;
+  color: #ffffff;
+  z-index: -1;
+}
+
+.index .top .top_title2 {
+  border: solid 0.02rem #ffffff;
+  border-radius: 0.1rem;
+  line-height: 0.87rem;
+  font-size: 0.41rem;
+  overflow: hidden;
+  position: absolute;
+  top: 0.23rem;
+  left: 2.75rem;
+  z-index: -1;
+}
+.index .top .top_title2 .top_title2_fqrw,
+.index .top .top_title2 .top_title2_fqrw2 {
+  color: #12b7f5;
+  background-color: #ffffff;
+  border-radius: 0.1rem 0 0 0.1rem;
+  float: left;
+  padding-left: 0.51rem;
+  padding-right: 0.23rem;
+}
+
+.index .top .top_title2 .top_title2_fqrw2 {
+  color: #ffffff;
+  background-color: #12b7f5;
+  padding-left: 0.23rem;
+  padding-right: 0.51rem;
+}
 .index .content .renwu .renwu_title,
 .index .content2 .renwu .renwu_title,
 .index .content3 .renwu .renwu_title {
