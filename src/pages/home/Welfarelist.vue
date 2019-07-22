@@ -1,18 +1,26 @@
 <template>
   <div class="Welfarelist">
-    <div @click="go({path:'/pages/home/details',query:{UserId:item.UserId}})" class="crewlist" v-for="(item,index) in RedPacket" :key="index">
+    <div
+      @click="go({path:'/pages/home/details',query:{UserId:item.UserId}})"
+      class="crewlist"
+      v-for="(item,index) in RedPacket"
+      :key="index"
+    >
       <ul style=" margin-bottom: 0.43rem;">
-        <li class="serial" :class="{'serial1':index==0,'serial2':index==1,'serial3':index==2,'serial4':index>2,}">{{index+1}}</li>
+        <li
+          class="serial"
+          :class="{'serial1':index==0,'serial2':index==1,'serial3':index==2,'serial4':index>2,}"
+        >{{index+1}}</li>
         <li :class="{eName:item.eName}">{{item.UserName}}</li>
-        <li style="color: #8c8c8c;" v-if="item.eName">({{item.eName}})</li>
+        <li style="color:  #12b7f5;" v-if="item.eName">({{item.eName}})</li>
       </ul>
       <div class="time">
         <div class="left" style="float:left;overflow: hidden;width:60%;">
-          <img src="/static/images/Clock.png">
+          <img src="/static/images/Clock.png" />
           <p style="color:#c7c7cd;">有效期：{{item.ExpireTime}}</p>
         </div>
         <div class="left" style="float: right;overflow: hidden;width:40%;">
-          <img src="/static/images/money.png">
+          <img src="/static/images/money.png" />
           <p style="color:#88dbfa;">金额：{{item.TotalMoney}}</p>
         </div>
       </div>
@@ -24,15 +32,15 @@
 export default {
   data() {
     return {
-      RedPacket: [],
+      RedPacket: []
     };
   },
   async mounted() {
     var that = this;
-    
+
     //获取项目红包
     var res = await this.$UJAPI.Project_ProjectRedPacket({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469"
+      Projectid: this.$route.query.ProjectId
     });
     if (res.ret == 0) {
       this.RedPacket = res.data;
@@ -80,7 +88,7 @@ export default {
   font-size: 0.4rem;
 }
 .crewlist .serial1 {
-background-color: #ff6c6c;
+  background-color: #ff6c6c;
 }
 .crewlist .serial2 {
   background-color: #ffc539;
@@ -92,7 +100,8 @@ background-color: #ff6c6c;
   background-color: #8eb9f5;
 }
 .eName {
-  float:left; overflow: hidden;
+  float: left;
+  overflow: hidden;
 }
 </style>
 

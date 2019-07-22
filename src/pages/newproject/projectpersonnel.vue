@@ -64,7 +64,7 @@ export default {
     if (rep.ret == 0) {
       this.ProjectDoor = rep.data;
     }
-    console.log(this.ProjectDoor);
+  
   }
 };
 </script>

@@ -38,7 +38,7 @@ export default {
     if (res.ret == 0) {
       this.Projectpicture = res.data;
     }
-    // console.log(this.Projectpicture)
+   
   }
 };
 </script>

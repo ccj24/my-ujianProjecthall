@@ -1,15 +1,16 @@
 <template>
   <div class="Projectmember">
     <div class="chooseway">
-      <button class="btn post" @click="Cutpostsort">岗位排序</button>
-      <button class="btn spell" @click="Cutspellsort">拼音排序</button>
+      <button class="btn post" :class="{post1:postsort,spell:spellsort}" @click="Cutpostsort">岗位排序</button>
+      <button class="btn" :class="{post1:spellsort,spell:postsort}" @click="Cutspellsort">拼音排序</button>
     </div>
-
-    <div v-if="postsort" class="crewlist" v-for="(item,index) in mode" :key="index">
-      <!-- <div @click="go({path:'/pages/home/details',query:{UserId:item1.UserId}})" v-for="(item1,index1) in ProjectMemberList" :key="index1"> -->
-      <div class="nape">{{item.KeywordName}}</div>
-      <Child :ProjectMemberList="ProjectMemberList" :ModelResponse="item"></Child>
-      <!-- </div> -->
+    <div v-if="postsort">
+      <div class="crewlist" v-for="(item,index) in mode" :key="index">
+        <!-- <div @click="go({path:'/pages/home/details',query:{UserId:item1.UserId}})" v-for="(item1,index1) in ProjectMemberList" :key="index1"> -->
+        <div class="nape">{{item.KeywordName}}</div>
+        <Child :ProjectMemberList="ProjectMemberList" :ModelResponse="item"></Child>
+        <!-- </div> -->
+      </div>
     </div>
 
     <div v-if="spellsort">这里是拼音排序</div>
@@ -54,8 +55,9 @@ export default {
   async mounted() {
     var that = this;
     // 获取项目成员列表
+    // this.$route.query.ProjectId
     var res = await this.$UJAPI.Project_ProjectMember({
-      Projectid: "70057154-a003-4815-b247-0fe887ab4469"
+      Projectid: this.$route.query.ProjectId
     });
     if (res.ret == 0) {
       this.ProjectMemberList = res.data;
@@ -87,6 +89,8 @@ export default {
 }
 .post {
   margin-left: 20%;
+}
+.post1 {
   background-color: #f4f3f2;
 }
 .spell {

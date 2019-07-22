@@ -54,7 +54,10 @@
               </div>
               <div class="hpPersonTitle">{{ProjectDetailed.ProjectName}}</div>
               <div class="hpPersonBtns">
-                <div class="hpPersonBtn1">
+                <div
+                  class="hpPersonBtn1"
+                  @click="go({path:'/pages/home/Projectmember',query:{ProjectId:ProjectDetailed.ProjectId}})"
+                >
                   项目成员
                   <b>{{ProjectDetailed.NumberOfPeople}}人</b>
                 </div>
@@ -88,7 +91,12 @@
               <div class="rpTopsquare"></div>
               <p class="rpTopTitle">项目红包</p>
             </div>
-            <img class="rpTopnextRight" src="/static/img/homePage_nextRight.png" alt />
+            <img
+              @click="go({path:'/pages/home/Welfarelist',query:{ProjectId:ProjectDetailed.ProjectId}})"
+              class="rpTopnextRight"
+              src="/static/img/homePage_nextRight.png"
+              alt
+            />
           </div>
           <div class="rpContent">
             <div class="rpBg">
@@ -201,7 +209,10 @@
               <div class="hpDemoTopSquare"></div>
               <p class="hpDemoTopTitle">项目图片</p>
             </div>
-            <div class="hpDemoTopRight" @click="go({path:'/pages/home/Projectpicture',query:{ProjectId:ProjectDetailed.ProjectId}})">
+            <div
+              class="hpDemoTopRight"
+              @click="go({path:'/pages/home/Projectpicture',query:{ProjectId:ProjectDetailed.ProjectId}})"
+            >
               <p class="hpDemoTopRightP">查看全部</p>
               <img class="hpDemoTopNextRight" src="/static/img/homePage_nextRight.png" alt />
             </div>
@@ -329,7 +340,7 @@ export default {
         });
       }
       //  环保页面跳转liveDataType==2
-      if (item.liveDataType == 2) {
+      else if (item.liveDataType == 2) {
         this.$router.push({
           path: "/pages/newproject/Environmental"
           // query: { ProjectDetailed:item }
@@ -338,12 +349,25 @@ export default {
         this.$store.commit("setProjectDetailedView", item);
       }
       //  监控页面跳转liveDataType==5
-      if (item.liveDataType == 5) {
+      else if (item.liveDataType == 5) {
         this.$router.push({
-          path: "/pages/home/Projectmonitoring"
+          path: "/pages/newproject/monitoring",
+          query: { ProjectId: this.ProjectDetailed.ProjectId }
         });
-        //store用Mutation定义修改 ,然后用store.commit('xx') 触发
-        this.$store.commit("setProjectDetailedView", item);
+      }
+      //  BIM页面跳转liveDataType==6
+      else if (item.liveDataType == 6) {
+        this.$router.push({
+          path: "/pages/newproject/ProjectBIM",
+          query: { ProjectId: this.ProjectDetailed.ProjectId }
+        });
+      }
+      //  航拍页面跳转liveDataType==8
+      else if (item.liveDataType == 8) {
+        this.$router.push({
+          path: "/pages/newproject/Aerialphoto",
+          query: { ProjectId: this.ProjectDetailed.ProjectId }
+        });
       }
     }
   },
@@ -410,6 +434,4 @@ export default {
 };
 </script>
 
-<style scoped>
-</style>
 

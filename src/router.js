@@ -292,5 +292,29 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+  {
+    path: 'pages/newproject/monitoring',
+    name: 'monitoring',
+    config: {
+      navigationBarTitleText: '监控',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/newproject/Aerialphoto',
+    name: 'Aerialphoto',
+    config: {
+      navigationBarTitleText: '航拍',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/newproject/ProjectBIM',
+    name: 'ProjectBIM',
+    config: {
+      navigationBarTitleText: 'BIM',
+      enablePullDownRefresh: false
+    },
+  },
 ]
 module.exports = routes

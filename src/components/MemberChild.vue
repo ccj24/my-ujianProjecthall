@@ -7,7 +7,7 @@
         <li style="color: #8c8c8c;">岗位：{{item.PostName}}</li>
       </ul>
       <div class="coefficient">
-        <p :class="{'serial1':50<item.Ratio<60,'serial2':60<item.Ratio<80,'serial3':80<item.Ratio<100,}">个人系数{{item.Ratio}}</p>
+        <p :class="{'serial1':50<item.Ratio<60,'serial2':60<item.Ratio<80,'serial3':80<item.Ratio<100,}">个人系数{{item.Ratio*100+"%"}}</p>
       </div>
     </div>
   </div>
@@ -28,9 +28,9 @@ export default {
       for (let index = 0; index < this.ProjectMemberList.length; index++) {
         const element = this.ProjectMemberList[index];
         if (element.DepartmentId == this.ModelResponse.KeywordId) {
-          var str = Number(element.Ratio * 100).toFixed(0);
-          str += "%";
-          element.Ratio=str;
+          // var str = Number(element.Ratio * 100).toFixed(0);
+          // str += "%";
+          // element.Ratio=str;
           _memberlist.push(element);
         }
       }

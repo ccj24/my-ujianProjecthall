@@ -137,7 +137,6 @@ export default {
     if (rep.ret == 0) {
       this.UnfinishedTaskInfoView = rep.data;
     }
-    console.log(this.UnfinishedTaskInfoView);
     // 2、1已结束(包括已答复和已过期)
     var rep = await this.$UJAPI.Task_GetReplyTaskList({
       state: 1
