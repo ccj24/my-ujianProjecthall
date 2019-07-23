@@ -1,28 +1,45 @@
 <template>
-  <div class="Welfarelist">
-    <div
-      @click="go({path:'/pages/home/details',query:{UserId:item.UserId}})"
-      class="crewlist"
-      v-for="(item,index) in RedPacket"
-      :key="index"
-    >
-      <ul style=" margin-bottom: 0.43rem;">
-        <li
-          class="serial"
-          :class="{'serial1':index==0,'serial2':index==1,'serial3':index==2,'serial4':index>2,}"
-        >{{index+1}}</li>
-        <li :class="{eName:item.eName}">{{item.UserName}}</li>
-        <li style="color:  #12b7f5;" v-if="item.eName">({{item.eName}})</li>
-      </ul>
-      <div class="time">
-        <div class="left" style="float:left;overflow: hidden;width:60%;">
-          <img src="/static/images/Clock.png" />
-          <p style="color:#c7c7cd;">有效期：{{item.ExpireTime}}</p>
+  <div class="index">
+    <!-- 顶部收到任务发出任务 -->
+    <div class="top">
+      <p class="top_rttext">打赏</p>
+      <div class="top_title2">
+        <div :class="{top_title2_fqrw:receive,top_title2_fqrw2:giveout}" @click="SetReceive">打赏排行</div>
+        <div :class="{top_title2_fqrw2:receive,top_title2_fqrw:giveout}" @click="SetGet">红包列表</div>
+      </div>
+    </div>
+    <div v-if="givereward" class="Welfarelist" style="margin-top: 2.4rem;">
+      <div
+        @click="go({path:'/pages/home/details',query:{UserId:item.UserId}})"
+        class="crewlist"
+        v-for="(item,index) in RedPacket"
+        :key="index"
+      >
+        <ul style=" margin-bottom: 0.43rem;">
+          <li
+            class="serial"
+            :class="{'serial1':index==0,'serial2':index==1,'serial3':index==2,'serial4':index>2,}"
+          >{{index+1}}</li>
+          <li :class="{eName:item.eName}">{{item.UserName}}</li>
+          <li style="color:  #12b7f5;" v-if="item.eName">({{item.eName}})</li>
+        </ul>
+        <div class="time">
+          <div class="left" style="float:left;overflow: hidden;width:60%;">
+            <img src="/static/images/Clock.png" />
+            <p style="color:#c7c7cd;">有效期：{{item.ExpireTime}}</p>
+          </div>
+          <div class="left" style="float: right;overflow: hidden;width:40%;">
+            <img src="/static/images/money.png" />
+            <p style="color:#88dbfa;">金额：{{item.TotalMoney}}</p>
+          </div>
         </div>
-        <div class="left" style="float: right;overflow: hidden;width:40%;">
-          <img src="/static/images/money.png" />
-          <p style="color:#88dbfa;">金额：{{item.TotalMoney}}</p>
-        </div>
+      </div>
+    </div>
+    <div style="margin-top: 2.4rem;" v-if="packetlist">
+      <div style="text-align: center">
+        <p style="color:#cecece">2016年4月28日 20:07</p>
+        <p style="float:left">朱芳芳</p>
+        <p style="color:#cecece;display: inline-block">（广西十分科技股份有限公司）</p>
       </div>
     </div>
   </div>
@@ -32,8 +49,26 @@
 export default {
   data() {
     return {
+      packetlist: false,
+      givereward: true,
+      receive: true,
+      giveout: false,
       RedPacket: []
     };
+  },
+  methods: {
+    SetReceive() {
+      this.receive = !this.receive;
+      this.giveout = !this.giveout;
+      this.packetlist = false;
+      this.givereward = true;
+    },
+    SetGet() {
+      this.receive = !this.receive;
+      this.giveout = !this.giveout;
+      this.packetlist = true;
+      this.givereward = false;
+    }
   },
   async mounted() {
     var that = this;
@@ -102,6 +137,164 @@ export default {
 .eName {
   float: left;
   overflow: hidden;
+}
+.index .top .top_rttext {
+  float: right;
+  font-size: 0.45rem;
+  color: #ffffff;
+  line-height: 1.33rem;
+  padding-right: 0.4rem;
+}
+.index .top .top_title {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 0.51rem;
+  text-align: center;
+  line-height: 1.33rem;
+  color: #ffffff;
+  z-index: -1;
+}
+
+.index .top .top_title2 {
+  border: solid 0.02rem #ffffff;
+  border-radius: 0.1rem;
+  line-height: 0.87rem;
+  font-size: 0.41rem;
+  overflow: hidden;
+  position: absolute;
+  top: 0.23rem;
+  left: 2.75rem;
+  z-index: -1;
+}
+.index .top .top_title2 .top_title2_fqrw,
+.index .top .top_title2 .top_title2_fqrw2 {
+  color: #12b7f5;
+  background-color: #ffffff;
+  border-radius: 0.1rem 0 0 0.1rem;
+  float: left;
+  padding-left: 0.51rem;
+  padding-right: 0.23rem;
+}
+
+.index .top .top_title2 .top_title2_fqrw2 {
+  color: #ffffff;
+  background-color: #12b7f5;
+  padding-left: 0.23rem;
+  padding-right: 0.51rem;
+}
+.index .content .renwu .renwu_title,
+.index .content2 .renwu .renwu_title,
+.index .content3 .renwu .renwu_title {
+  background-color: #ffffff;
+  overflow: hidden;
+  position: fixed;
+  left: 0;
+  right: 0;
+}
+
+.index .content .renwu .renwu_title .renwu_bt,
+.index .content .renwu .renwu_title .renwu_bt2,
+.index .content2 .renwu .renwu_title .renwu_bt,
+.index .content2 .renwu .renwu_title .renwu_bt2,
+.index .content3 .renwu .renwu_title .renwu_bt,
+.index .content3 .renwu .renwu_title .renwu_bt2 {
+  color: #12b7f5;
+  font-size: 0.48rem;
+  width: 50%;
+  text-align: center;
+  line-height: 1.38rem;
+  border-bottom: 0.03rem solid #12b7f5;
+  float: left;
+}
+
+.index .content .renwu .renwu_title .renwu_bt2,
+.index .content2 .renwu .renwu_title .renwu_bt2,
+.index .content3 .renwu .renwu_title .renwu_bt2 {
+  color: #363636;
+  border: 0;
+}
+
+.index .content .renwu .renwu_content,
+.index .content2 .renwu .renwu_content,
+.index .content3 .renwu .renwu_content {
+  margin-bottom: 0.4rem;
+  overflow: auto;
+  padding-top: 1.33rem;
+}
+
+.index .content .renwu .renwu_content .renwu_nr,
+.index .content2 .renwu .renwu_content .renwu_nr,
+.index .content3 .renwu .renwu_content .renwu_nr {
+  background-color: #ffffff;
+  margin-top: 0.4rem;
+  padding: 0 0.48rem;
+  padding-bottom: 0.3rem;
+}
+
+.index .content .renwu .renwu_content .renwu_nr .renwu_nr_header,
+.index .content2 .renwu .renwu_content .renwu_nr .renwu_nr_header,
+.index .content3 .renwu .renwu_content .renwu_nr .renwu_nr_header {
+  overflow: hidden;
+  padding: 0.58rem 0;
+}
+
+.index .content .renwu .renwu_content .renwu_nr .renwu_nr_header .renwu_img,
+.index .content2 .renwu .renwu_content .renwu_nr .renwu_nr_header .renwu_img,
+.index .content3 .renwu .renwu_content .renwu_nr .renwu_nr_header .renwu_img {
+  width: 1.58rem;
+  height: 1.58rem;
+  float: left;
+  margin-right: 0.57rem;
+  border-radius: 0.1rem;
+}
+
+.index .content .renwu .renwu_content .renwu_nr .renwu_nr_header .renwu_nr_info,
+.index
+  .content2
+  .renwu
+  .renwu_content
+  .renwu_nr
+  .renwu_nr_header
+  .renwu_nr_info,
+.index
+  .content3
+  .renwu
+  .renwu_content
+  .renwu_nr
+  .renwu_nr_header
+  .renwu_nr_info {
+  float: left;
+  color: #363636;
+  font-size: 0.45rem;
+  height: 1.58rem;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: column;
+  flex-direction: column;
+}
+
+.index .content .renwu .renwu_content .renwu_nr .renwu_nr_header .renwu_hint,
+.index .content2 .renwu .renwu_content .renwu_nr .renwu_nr_header .renwu_hint,
+.index .content3 .renwu .renwu_content .renwu_nr .renwu_nr_header .renwu_hint {
+  float: right;
+  color: #12b7f5;
+  font-size: 0.42rem;
+}
+
+.index .content .renwu .renwu_content .renwu_nr .rewu_nr_qita,
+.index .content2 .renwu .renwu_content .renwu_nr .rewu_nr_qita,
+.index .content3 .renwu .renwu_content .renwu_nr .rewu_nr_qita {
+  color: #363636;
+  font-size: 0.42rem;
 }
 </style>
 

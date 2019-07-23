@@ -4,16 +4,20 @@
       <button class="btn post" :class="{post1:postsort,spell:spellsort}" @click="Cutpostsort">岗位排序</button>
       <button class="btn" :class="{post1:spellsort,spell:postsort}" @click="Cutspellsort">拼音排序</button>
     </div>
+    <!-- 岗位排序 -->
     <div v-if="postsort">
       <div class="crewlist" v-for="(item,index) in mode" :key="index">
-        <!-- <div @click="go({path:'/pages/home/details',query:{UserId:item1.UserId}})" v-for="(item1,index1) in ProjectMemberList" :key="index1"> -->
         <div class="nape">{{item.KeywordName}}</div>
         <Child :ProjectMemberList="ProjectMemberList" :ModelResponse="item"></Child>
-        <!-- </div> -->
       </div>
     </div>
-
-    <div v-if="spellsort">这里是拼音排序</div>
+    <!-- 拼音排序 -->
+    <div v-if="spellsort">
+      <div class="crewlist" v-for="(item,index) in mode" :key="index">
+        
+        <Child :ProjectMemberList="ProjectMemberList" :ModelResponse="item"></Child>
+      </div>
+    </div>
   </div>
 </template>
 
