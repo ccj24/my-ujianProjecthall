@@ -316,5 +316,29 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+  {
+    path: 'pages/Environmentalprotection/mission',
+    name: 'mission',
+    config: {
+      navigationBarTitleText: '任务',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/Environmentalprotection/crew',
+    name: 'crew',
+    config: {
+      navigationBarTitleText: '人员',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/Environmentalprotection/Project',
+    name: 'Project',
+    config: {
+      navigationBarTitleText: '项目主页',
+      enablePullDownRefresh: false
+    },
+  },
 ]
 module.exports = routes

@@ -10,8 +10,7 @@ import Environmental from './pages/Environmentalprotection/Environmental.vue'
 import personnel from './pages/Environmentalprotection/personnel.vue'
 import mission from './pages/Environmentalprotection/mission.vue'
 import crew from './pages/Environmentalprotection/crew'
-
-
+import Project from './pages/Environmentalprotection/Project'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -136,7 +135,19 @@ var routes = [
         alias: '/pages/Environmentalprotection/crew',
         component: crew
       },
+      {
+        path: 'pages/Environmentalprotection/Project',
+        name: 'Project',
+        config: {
+          navigationBarTitleText: '项目主页',
+          enablePullDownRefresh: false
+        },
+        meta: { noAuth: true },
+        alias: '/pages/Environmentalprotection/Project',
+        component: Project
+      },
 ]
+
 
 let router =new Router({routes:routes})
 router.beforeEach((to, from, next) => {
