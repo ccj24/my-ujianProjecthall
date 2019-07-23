@@ -90,17 +90,19 @@
             </ul>
           </div>
         </div>
-        <div class="backHome" :class="{action:show}" @click="click_backHome">
-          回到大厅
-        </div>
       </div>
+      <backHome></backHome>
     </div>
   </div>
 </template>
 
 <script>
 import {mapState} from 'vuex'
+import backHome from '@/components/backHome'
 export default {
+  components:{
+    backHome
+  },
   data() {
     return {
       wallet:1,
@@ -109,7 +111,6 @@ export default {
       ProjectDetailed: {},
       RedPacket: [],
       Projectpicture:[],
-      show:false
     };
   },
   methods: {
@@ -123,10 +124,6 @@ export default {
       this. isredenvelopes1=false;
       this.wallet=1;
     },
-    click_backHome(){
-      this.show=!this.show;
-      // this.go({path:'/pages/Login/Projecthall', reLaunch: true})
-    }
   },
   
     computed: {
@@ -161,7 +158,7 @@ export default {
     {
       this.Projectpicture=res.data;
     }
-    console.log(this.Projectpicture)
+    // console.log(this.Projectpicture)
    
   }
 };
@@ -382,41 +379,7 @@ background-color: #ff6c6c;
   background-color: #ffffff;
   overflow: hidden;
 }
-.backHome{
-  position:fixed;
-  
-  right: -1rem;
-  bottom: 0;
-  background-color: #12b7f5;
-  color: #fff;
-  font-size: 0.4rem;
-  width: 2rem;
-  height: 2rem;
-  text-align:center;
-  line-height: 2rem;
-  border-radius: 50%;
-  animation: hide 1s;
--moz-animation: hide 1s;	/* Firefox */
--webkit-animation: hide 1s;	/* Safari 和 Chrome */
--o-animation: hide 1s;	
-}
-@keyframes show
-{
-  from {right: -1rem;}
-  to {right: 0;}
-}
-@keyframes hide
-{
-  from {right: 0;}
-  to {right: -1rem;}
-}
-.backHome.action{
-animation: show 1s;
--moz-animation: show 1s;	/* Firefox */
--webkit-animation: show 1s;	/* Safari 和 Chrome */
--o-animation: show 1s;	
-right: 0;
-}
+
 </style>
 <style>
 page {
