@@ -333,8 +333,8 @@ var routes = [
     },
   },
   {
-    path: 'pages/Environmentalprotection/Project',
-    name: 'Project',
+    path: 'pages/Environmentalprotection/newProject',
+    name: 'newProject',
     config: {
       navigationBarTitleText: '项目主页',
       enablePullDownRefresh: false

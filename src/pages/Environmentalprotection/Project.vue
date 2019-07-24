@@ -5,10 +5,11 @@
       <div class="message">
         <div class="one">
           <p class="one-1">编号:10088</p>
-          <p>
+          <div class="statediv">
             <img class="one-2" src="/static/images/Podium.png" />
-          </p>
-          <p class="one-3">实体施工</p>
+            <p class="one-3">实体施工</p>
+          </div>
+
           <p>
             <img class="one-4" src="/static/img/homePage_attestation.png" />
           </p>
@@ -20,12 +21,12 @@
           南宁市园博园项目建筑工程标段东
           <br />盟馆、游客服务中心、商业街...
         </p>
-        <!-- 项目成员框 -->
+        <!-- 项目成员框
         <div class="member">
           <p class="member-1">项目成员</p>
           <p>9999人</p>
         </div>
-        <!-- 项目圈 -->
+         -->
         <div class="circle">
           <img class="circle-1" src="/static/img/homePage_personIcon.png" />
           <p class="circle-2">项目圈</p>
@@ -51,33 +52,18 @@
         <img class="packet-2" src="/static/img/homePage_nextRight.png" />
       </div>
       <div class="packet-img">
-        <div class="img-one">
-          <img src="/static/img/NO.2.png" />
+        <div class="img_one">
           <p class="ming">李庆明</p>
+          <div>
           <p class="money">￥</p>
           <p class="number">265.00</p>
-          <p class="ziti">广西建工集团装饰工程建设安全公...</p>
-        </div>
-        <div class="img-two">
-          <img src="/static/img/NO.1.png" />
-          <p class="ming-2">朱浩</p>
-          <p class="money-2">￥</p>
-          <p class="number-2">365.00</p>
-          <p class="ziti-2">
-            广西建工集团装饰工程建设安全建设一建责任有限公司...
-          </p>
-        </div>
-        <div class="img-three">
-          <img src="/static/img/NO.3.png" />
-          <p class="ming">张莉莉</p>
-          <p class="money">￥</p>
-          <p class="number">165.00</p>
-          <p class="ziti">广西建工集团装饰工程建设安全公...</p>
+          </div>
+          <p class="ziti">广西建工集团装饰工程建设安全公...</p>-->
         </div>
       </div>
     </div>
-    <div class="navigation">
-      <!-- 分为四个部分 -->
+    <!-- <div class="navigation">
+
       <div class="navigation-1">
         <img class="tu" src="/static/img/homePage_Icon1.png" />
         <p class="tu-1">任务</p>
@@ -103,7 +89,7 @@
       </div>
       <div>
         <div class="wai">
-          <!-- 这个div用于包裹图片＋中间缝隙 -->
+
           <div class="zhaopian">
             <img
               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
@@ -134,7 +120,7 @@
           </div>
         </div>
         <div class="wai">
-          <!-- 这个div用于包裹图片＋中间缝隙 -->
+
           <div class="zhaopian">
             <img
               src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
@@ -164,38 +150,124 @@
             <p class="xingming">王思聪</p>
           </div>
         </div>
+    </div>-->
+    <!-- </div><div class="navigation">
+
+      <div class="navigation-1">
+        <img class="tu" src="/static/img/homePage_Icon1.png" />
+        <p class="tu-1">任务</p>
+      </div>
+      <div class="navigation-1">
+        <img class="tu" src="/static/img/homePage_Icon2.png" />
+        <p class="tu-1">会议</p>
+      </div>
+      <div class="navigation-1">
+        <img class="tu" src="/static/img/homePage_Icon3.png" />
+        <p class="tu-1">日志</p>
+      </div>
+      <div class="navigation-1">
+        <img class="tu" src="/static/img/homePage_Icon4.png" />
+        <p class="tu-1">资料</p>
       </div>
     </div>
+    <div>
+      <div class="picture">
+        <div class="picture-1">项目图片</div>
+        <p class="picture-2">查看全部</p>
+        <img class="picture-3" src="/static/img/homePage_nextRight.png" />
+      </div>
+      <div>
+        <div class="wai">
+
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+        </div>
+        <div class="wai">
+
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+          <div class="zhaopian">
+            <img
+              src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1563797436198&di=a1b037ec959ee1512d9bf684615d6629&imgtype=0&src=http%3A%2F%2Fimg.efw.cn%2Fnewhouse%2F2010%2F07%2F01%2FT2010070109024716690555832087025.jpg"
+            />
+            <p class="riqi">2019/08/09</p>
+            <p class="xingming">王思聪</p>
+          </div>
+        </div>
+    </div>-->
   </div>
 </template>
 
 <style scoped>
 .top {
   width: 100%;
-  height: 7.44rem;
   position: relative;
 }
-.img {
+.top .img {
   width: 100%;
   height: 4.86rem;
+  display: block;
 }
 .message {
-  width: 10.4rem;
-  height: 4.51rem;
   background-color: #ffffff;
   box-shadow: 0rem 0rem 0.24rem 0rem;
   /* rgba(0, 0, 0, 0.15); */
   border-radius: 0.1rem;
   position: absolute;
-  bottom: 0.54rem;
+  top: 50%;
   left: 0.19rem;
-  display: inline-block;
+  right: 0.21rem;
 }
 .one {
   width: 5.53rem;
   margin-left: 0.52rem;
   margin-top: 0.61rem;
-  position: relative;
+  overflow: hidden;
 }
 .one-1 {
   font-family: PingFang-SC-Medium;
@@ -204,22 +276,27 @@
   color: #666464;
   float: left;
 }
-.one-2 {
+.one .statediv {
+  overflow: hidden;
+}
+.one .statediv .one-2 {
   width: 0.27rem;
   height: 0.27rem;
+  float: left;
+
   /* background-color: #9c9c9c; */
-  position: absolute;
+  /* position: absolute;
   top: 0.1rem;
-  left: 2.03rem;
+  left: 2.03rem; */
 }
-.one-3 {
+
+.one .statediv .one-3 {
   font-family: PingFang-SC-Medium;
   font-size: 0.3rem;
   line-height: 0.43rem;
   color: #57bfc1;
-  position: absolute;
-  top: 0rem;
-  left: 2.38rem;
+  float: left;
+  margin-left: 0.08rem;
 }
 .one-4 {
   width: 0.28rem;
@@ -383,9 +460,12 @@
   border-bottom: 0.21rem solid #dddddd;
   position: relative;
 }
-.img-one {
+.img_one {
   width: 2.11rem;
   height: 2.78rem;
+  background-image: url(/static/img/NO.2.png);
+  background-size: 2.11rem auto;
+  background-repeat: no-repeat;
   background-image: linear-gradient(
     180deg,
     #c484fd 0%,
@@ -397,106 +477,10 @@
   margin-left: 0.53rem;
   top: 0.32rem;
 }
-.img-one img,
-.img-three img {
-  width: 2.11rem;
-  height: 2.78rem;
-}
-.img-two img {
-  width: 5.41rem;
-  height: 2.78rem;
-}
-.img-two {
-  width: 5.41rem;
-  height: 2.78rem;
-  background-image: linear-gradient(
-    180deg,
-    #c484fd 0%,
-    #d66add 37%,
-    #e850bd 100%
-  );
-  border-radius: 0.1rem;
-  position: absolute;
-  left: 2.72rem;
-  top: 0.32rem;
-}
-.img-three {
-  width: 2.11rem;
-  height: 2.78rem;
-  background-image: linear-gradient(
-    180deg,
-    #c484fd 0%,
-    #d66add 37%,
-    #e850bd 100%
-  );
-  border-radius: 0.1rem;
-  position: absolute;
-  left: 8.22rem;
-  top: 0.32rem;
-}
-.ming {
-  font-size: 0.36rem;
-  color: #ffc4e5;
-  position: absolute;
-  left: 0.52rem;
-  top: 1.03rem;
-}
-.money {
-  font-size: 0.31rem;
-  color: #ffffff;
-  position: absolute;
-  left: 0.39rem;
-  top: 1.69rem;
-}
-.number {
-  font-family: PingFang-SC-Bold;
-  font-size: 0.43rem;
-  color: #ffffff;
-  position: absolute;
-  left: 0.64rem;
-  top: 1.59rem;
-}
-.ziti {
-  font-family: PingFang-SC-Medium;
-  font-size: 0.18rem;
-  color: #ffbbf4;
-  position: absolute;
-  left: 0.1rem;
-  top: 2.1rem;
-}
-.ming-2 {
-  font-size: 0.61rem;
-  color: #fff2b8;
-  position: absolute;
-  left: 0.52rem;
-  top: 1.03rem;
-}
-.money-2 {
-  font-size: 0.44rem;
-  color: #ffffff;
-  position: absolute;
-  left: 2.86rem;
-  top: 1.26rem;
-}
-.number-2 {
-  font-family: PingFang-SC-Bold;
-  font-size: 0.62rem;
-  color: #ffffff;
-  position: absolute;
-  left: 3.22rem;
-  top: 0.95rem;
-}
-.ziti-2 {
-  font-family: PingFang-SC-Medium;
-  font-size: 0.25rem;
-  color: #ffbbf4;
-  position: absolute;
-  left: 0.47rem;
-  top: 2.1rem;
-}
 .navigation {
   width: 100%;
   height: 2.44rem;
+
   border-bottom: 0.21rem solid #dddddd;
 }
 .navigation-1 {
@@ -581,10 +565,10 @@
 }
 .riqi {
   width: 2.37rem;
-	height: 0.56rem;
+  height: 0.56rem;
   background-color: #000000;
-	border-radius: 0rem 0rem 0.04rem 0.04rem;
-	opacity: 0.4;
+  border-radius: 0rem 0rem 0.04rem 0.04rem;
+  opacity: 0.4;
   font-family: PingFang-SC-Medium;
   font-size: 0.3rem;
   line-height: 0.43rem;
