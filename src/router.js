@@ -340,5 +340,13 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+  {
+    path: 'pages/newproject/givereward',
+    name: 'giverewardt',
+    config: {
+      navigationBarTitleText: '打赏',
+      enablePullDownRefresh: false
+    },
+  },
 ]
 module.exports = routes

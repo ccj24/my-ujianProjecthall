@@ -21,7 +21,7 @@
       <div v-for="(item1,index1) in filtrate" :key="index1">
         <p class="letter">{{item1}}</p>
         <!-- ProjectMemberList和item1为传给子组件的参数 -->
-        <!-- 使用组件spellChild    列表组件-->
+        <!-- 使用组件spellChild 列表组件-->
         <spellChild :ProjectMemberList="ProjectMemberList" :spell="item1"></spellChild>
       </div>
     </div>

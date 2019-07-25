@@ -35,11 +35,14 @@
         </div>
       </div>
     </div>
+
     <div style="margin-top: 2.4rem;" v-if="packetlist">
-      <div style="text-align: center">
-        <p style="color:#cecece">2016年4月28日 20:07</p>
-        <p style="float:left">朱芳芳</p>
-        <p style="color:#cecece;display: inline-block">（广西十分科技股份有限公司）</p>
+      <div>
+        <p style="text-align: center" class="timelist">2016年4月28日 20:07</p>
+        <div class="namefirm">
+          <div style="float:left">朱芳芳</div>
+          <div style="color:#cecece;">（广西十分科技股份有限公司）</div>
+        </div>
       </div>
     </div>
   </div>
@@ -138,6 +141,17 @@ export default {
   float: left;
   overflow: hidden;
 }
+.timelist {
+  padding-top: 0.47rem;
+  font-size: 0.35rem;
+  color: #cecece;
+}
+.namefirm {
+  font-size: 0.43rem;
+  padding-top: 0.36rem;
+  text-align: center;
+}
+
 .index .top .top_rttext {
   float: right;
   font-size: 0.45rem;

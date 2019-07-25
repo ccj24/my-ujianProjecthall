@@ -3,8 +3,9 @@
     <div class="userMessage" v-for="(item,index) in memberlist" :key="index">
       <img :src="item.Portrait" />
       <ul>
-        <li style="color: #353535;">{{item.UserName}}</li>
-        <li style="color: #8c8c8c;">岗位：{{item.PostName}}</li>
+        <li style="">{{item.UserName}}</li>
+        <li style="color: #8c8c8c;">部门：{{item.DepartmentName}}</li>
+        <li style="color: #8c8c8c;">职位：{{item.PostName}}</li>
       </ul>
       <div class="coefficient">
         <p
@@ -57,7 +58,7 @@ export default {
 .userMessage {
   background-color: #ffffff;
   border-top: solid 0.01rem #e8e8e8;
-  height: 1.5rem;
+  height: 1.7rem;
   font-size: 0.36rem;
 }
 .userMessage img {
