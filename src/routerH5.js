@@ -12,6 +12,7 @@ import mission from './pages/Environmentalprotection/mission.vue'
 import crew from './pages/Environmentalprotection/crew'
 import newProject from './pages/Environmentalprotection/newProject'
 
+
 import store from './store'
 Vue.use(Router)//使用/注册路由
 var routes = [
@@ -146,6 +147,7 @@ var routes = [
         alias: '/pages/Environmentalprotection/newProject',
         component: newProject
       },
+     
 ]
 
 
