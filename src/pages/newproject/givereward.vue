@@ -11,7 +11,10 @@
     <!-- 金额 -->
     <div class="money">
       <p style="float:left">金额</p>
-      <p style="float:right;">20元</p>
+      <div style="float:right;">
+        <input type="number" placeholder="请输入金额" v-model="isNullInput" @input="getInputValue" />
+        <p style="overflow: hidden;">元</p>
+      </div>
     </div>
     <!-- 人数 -->
     <div class="number">该项目共{{ProjectDetailed.NumberOfPeople}}人</div>
@@ -29,8 +32,10 @@
     </div>
     <!-- 金额 -->
     <div class="sum">￥20.00</div>
-    <!-- 按钮 -->
-    <button class="packetButton">塞进红包</button>
+    <!-- 输入框没输入数字的状态 灰色 -->
+    <button v-if="btnOK" class="packetButton">塞进红包</button>
+    <!-- 输入框输入数字的状态 蓝色-->
+    <button v-if="isOK" class="packetButton1">塞进红包</button>
     <!-- 余额 -->
     <div class="balance">
       <p style="color:#8c8c8c;float:left">使用账户余额支付，</p>
@@ -44,9 +49,26 @@
 export default {
   data() {
     return {
+      isOK: false,
+      btnOK: true,
+      isNullInput: null,
       balance: "", //个人钱包余额
       RedPacketRemar: [] //获取红包祝福语
     };
+  },
+  methods: {
+    getInputValue() {
+      //  判断如果输入不为空的话，让按钮的颜色变为蓝色
+      if (this.isNullInput != "") {
+        this.isOK = true;
+        this.btnOK = false;
+      }
+      //  输入为空的话，让按钮的背景颜色变为灰色
+      else {
+        this.isOK = false;
+        this.btnOK = true;
+      }
+    }
   },
   computed: {
     //  获取保存在vuex中的项目详情数据
@@ -64,11 +86,11 @@ export default {
       this.balance = rep.data;
     }
     //获取红包祝福语
-    var rep=await this.$UJAPI. RedPacket_CommonInfo({})
-    if (rep.ret==0) {
-      this.RedPacketRemar=rep.data
+    var rep = await this.$UJAPI.RedPacket_CommonInfo({});
+    if (rep.ret == 0) {
+      this.RedPacketRemar = rep.data;
     }
-    console.log(this.RedPacketRemar)
+    console.log(this.RedPacketRemar);
   }
 };
 </script>
@@ -86,6 +108,11 @@ export default {
   overflow: hidden;
   padding-left: 0.43rem;
   padding-right: 0.52rem;
+}
+.money input {
+  width: 2.5rem;
+  padding-top: 0.4rem;
+  float: left;
 }
 .number {
   line-height: 0.89rem;
@@ -119,6 +146,14 @@ export default {
   height: 1.65rem;
   border-radius: 0.14rem;
   background-color: #8c8c8c;
+  color: #ffffff;
+  margin-top: 0.76rem;
+}
+.packetButton1 {
+  width: 9.64rem;
+  height: 1.65rem;
+  border-radius: 0.14rem;
+  background-color: #ff6c6c;
   color: #ffffff;
   margin-top: 0.76rem;
 }
