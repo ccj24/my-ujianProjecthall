@@ -117,4 +117,16 @@ export default {
     Task_GetReplyTaskList: param => {
         return http.get(BaseHost + "api/Task/GetReplyTaskList", param)
     },
+    // 发红包、打赏红包
+    RedPacket: param => {
+        return http.post(BaseHost + " api/RedPacket/GiveRedPacket", param)
+    },
+    // 获取当前登录用户钱包余额
+    Purse_Balance: param => {
+        return http.get(BaseHost + "api/Purse/Balance", param)
+    },
+    // 获取红包祝福语列表
+    RedPacket_CommonInfo: param => {
+        return http.get(BaseHost + "api/CommonInfo/RedPacketRemarksKeyword", param)
+    },
 }

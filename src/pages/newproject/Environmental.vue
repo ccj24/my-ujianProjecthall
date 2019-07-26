@@ -31,7 +31,7 @@ export default {
     }
   },
   async mounted() {
-    console.log(this.$store.state.Project.ProjectDetailedView);
+    // console.log(this.$store.state.Project.ProjectDetailedView);
   }
 };
 </script>

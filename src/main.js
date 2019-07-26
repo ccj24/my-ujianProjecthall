@@ -20,19 +20,20 @@ Vue.mixin({
             return true;
         },
         // 写在这里就可以全局使用
-        ProjectId(){
-            var pid = this.$store.state.Project.ProjectId||"70057154-a003-4815-b247-0fe887ab4469";
+        ProjectId() {
+            var pid = this.$store.state.Project.ProjectId || "70057154-a003-4815-b247-0fe887ab4469";
             return pid
         }
     },
     methods: {
+        // 这些方法写在这里是为了能全局使用  和单独写在同一个页下面的作用效果的一样
         go: function (path) {
             this.$router.push(path);
         },
-        goProject(ProjectId){
-            // debugger;
-            this.$store.commit("setProjectId",ProjectId) 
-            this.go({path:'/pages/home/index',isTab: true})
+        // 这个方法是从项目大厅跳转到主页里面的方法 commit方法将参数发给vuex保存
+        goProject(ProjectId) {
+            this.$store.commit("setProjectId", ProjectId)
+            this.go({ path: '/pages/newproject/homepage' })
         },
         replace: function (path) {
             this.$router.replace(path);

@@ -39,7 +39,8 @@ export default new Vuex.Store({//store对象
         ProjectDetailedView: null,//定义项目详情
         ProjectId: null,
         chooseItem: null,      //选择父类的每一项
-        choosePostItem: null  //选择子类的每一项
+        choosePostItem: null,  //选择子类的每一项
+        ProjectDetailed: null,  //定义一个项目详情
       },
       // 更改vuex中的store中的状态的唯一方法是提交mutations，vuex中的mutations非常类似事件，
       // 每个mutation都有一个类似字符串的的事件和一个回调函数，这个回调函数就是我们需要更改的地方
@@ -48,6 +49,7 @@ export default new Vuex.Store({//store对象
           // 变更状态
           state.chooseItem = _chooseItem;
         },
+        // 这个方法是保存项目大厅 跳转到主页的ProjectId
         setProjectId(state, ProjectId) {
           // 变更状态
           state.ProjectId = ProjectId;
@@ -60,6 +62,11 @@ export default new Vuex.Store({//store对象
         setProjectDetailedView(state, _ProjectDetailedView) {
           // 更变状态  改变原来的值
           state.ProjectDetailedView = _ProjectDetailedView;
+        },
+        // 定义项目详情一个回调函数  这个函数用于将主页的数据传输到红包页面
+        setProjectDetailed(state, _ProjectDetailed) {
+          // 更变状态  改变原来的值
+          state.ProjectDetailed = _ProjectDetailed;
         }
       }
     }

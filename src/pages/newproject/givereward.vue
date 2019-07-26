@@ -5,7 +5,7 @@
       <p style="color:#8c8c8c;float:left;">您将对</p>
       <p
         style="color:#353535;float:left; padding-left: 0.19rem;padding-right:0.26rem"
-      >云南省玉溪市新平县竹箐河流域水电开发</p>
+      >{{ProjectDetailed.ProjectName}}</p>
       <p style="color:#8c8c8c;">项目进行红包打赏</p>
     </div>
     <!-- 金额 -->
@@ -14,7 +14,7 @@
       <p style="float:right;">20元</p>
     </div>
     <!-- 人数 -->
-    <div class="number">该项目共50人</div>
+    <div class="number">该项目共{{ProjectDetailed.NumberOfPeople}}人</div>
     <!-- 祝福语 -->
     <div class="greeting">
       <p style="color:#8c8c8c">选择红包祝贺语</p>
@@ -34,10 +34,44 @@
     <!-- 余额 -->
     <div class="balance">
       <p style="color:#8c8c8c;float:left">使用账户余额支付，</p>
-      <p style="color:#ff6c6c;display: inline-block;">余额：19.54元</p>
+      <p style="color:#ff6c6c;display: inline-block;">余额：{{balance}}元</p>
     </div>
   </div>
 </template>
+
+
+<script>
+export default {
+  data() {
+    return {
+      balance: "", //个人钱包余额
+      RedPacketRemar: [] //获取红包祝福语
+    };
+  },
+  computed: {
+    //  获取保存在vuex中的项目详情数据
+    ProjectDetailed() {
+      // ProjectDetailed是主页保存去vuex中的项目详情数据
+      return this.$store.state.Project.ProjectDetailed;
+    }
+  },
+
+  async mounted() {
+    var that = this;
+    // 获取个人钱包余额
+    var rep = await this.$UJAPI.Purse_Balance({});
+    if (rep.ret == 0) {
+      this.balance = rep.data;
+    }
+    //获取红包祝福语
+    var rep=await this.$UJAPI. RedPacket_CommonInfo({})
+    if (rep.ret==0) {
+      this.RedPacketRemar=rep.data
+    }
+    console.log(this.RedPacketRemar)
+  }
+};
+</script>
 
 <style scoped>
 .gwtop {
@@ -84,7 +118,7 @@
   width: 9.64rem;
   height: 1.65rem;
   border-radius: 0.14rem;
-  background-color: #ff6c6c;
+  background-color: #8c8c8c;
   color: #ffffff;
   margin-top: 0.76rem;
 }
@@ -92,7 +126,6 @@
   font-size: 0.37rem;
   padding-left: 2.14rem;
   padding-top: 0.6rem;
-  
 }
 </style>
 
