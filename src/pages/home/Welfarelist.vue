@@ -38,11 +38,129 @@
     </div>
     <!--红包列表 -->
     <div style="margin-top: 2.4rem;" v-if="packetlist">
-      <div>
-        <p style="text-align: center" class="timelist">2016年4月28日 20:07</p>
-        <div class="namefirm">
-          <div style="float:left">朱芳芳</div>
-          <div style="color:#cecece;">（广西十分科技股份有限公司）</div>
+      <div class="index">
+        <!-- content********************************* -->
+        <div class="box">
+          <div class="time">
+            <p>2016年4月28日 20:07</p>
+          </div>
+          <div class="person">
+            <p>
+              朱芳芳
+              <span>（广西十分科技股份有限公司）</span>
+            </p>
+          </div>
+          <div class="hongbao_a">
+            <div class="hongbao_box">
+              <img class="hongbao" src="/static/img/hongbao1.png" alt />
+              <p class="gongxi">恭喜发财，大吉大利!11111111111111111111111111111111111111</p>
+              <p class="gongxi">
+                <span>已领取</span>
+              </p>
+            </div>
+            <div class="hongbao_border">
+              <p class="hongbao_padding">U建红包</p>
+            </div>
+          </div>
+
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="ling">
+            <img class="lingqu" src="/static/img/lingqu.png" />
+            <p class="name">
+              朱梓余领取了
+              <span>红包</span>
+            </p>
+          </div>
+          <div class="jian">
+            <img class="jiantou" src="/static/img/jiantou2.png" alt />
+          </div>
+
+          <div class="time">
+            <p>2016年4月28日 20:07</p>
+          </div>
+          <div class="hongbao_a">
+            <div class="hongbao_box">
+              <img class="hongbao" src="/static/img/hongbao1.png" alt />
+              <p class="gongxi">恭喜发财，大吉大利!</p>
+              <p class="gongxi">
+                <span>已领取</span>
+              </p>
+            </div>
+            <div class="hongbao_border">
+              <p class="hongbao_padding">U建红包</p>
+            </div>
+          </div>
+
+          <div class="time">
+            <p>2016年4月28日 20:07</p>
+          </div>
+          <div class="hongbao_a">
+            <div class="hongbao_box">
+              <img class="hongbao" src="/static/img/hongbao1.png" alt />
+              <p class="gongxi">恭喜发财，大吉大利!</p>
+              <p class="gongxi">
+                <span>已领取</span>
+              </p>
+            </div>
+            <div class="hongbao_border">
+              <p class="hongbao_padding">U建红包</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -53,6 +171,7 @@
 export default {
   data() {
     return {
+      RedPacketDetail: {},
       ProjectDetailed: {},
       packetlist: false,
       givereward: true,
@@ -92,9 +211,9 @@ export default {
   },
   async mounted() {
     this.ProjectDetailed = this.$store.state.Project.ProjectDetailed;
-    // console.log(this.$store.state.Project.ProjectDetailed);
+
     var that = this;
-    // console.log(this.$route.query.Projectid)
+
     //获取项目红包
     var res = await this.$UJAPI.Project_ProjectRedPacket({
       Projectid: this.ProjectDetailed.ProjectId
@@ -102,7 +221,12 @@ export default {
     if (res.ret == 0) {
       this.RedPacket = res.data;
     }
-    // console.log(this.RedPacket)
+    // 获取用户收到的红包
+    var res = await this.$UJAPI.RedPacketDetail({});
+    if (res.ret == 0) {
+      this.RedPacketDetail = res.data;
+    }
+    console.log(this.RedPacketDetail)
   }
 };
 </script>
@@ -322,7 +446,113 @@ export default {
   color: #12b7f5;
   font-size: 0.42rem;
 }
+.index .box {
+  padding: 0 0 1.28rem 0;
+}
 
+.index .box .time {
+  padding: 0.23rem 0 0.25rem;
+  text-align: center;
+  font-size: 0.35rem;
+  color: #cecece;
+}
+
+.index .box .person {
+  font-size: 0.43rem;
+  color: #353535;
+  text-align: center;
+  padding-bottom: 0.24rem;
+}
+
+.index .box .person span {
+  color: #8c8c8c;
+}
+
+.index .box .hongbao_a {
+  overflow: hidden;
+}
+
+.index .box .hongbao_a .hongbao_box {
+  border-radius: 0.1rem 0.1rem 0 0;
+  background: #fa9d3b;
+  width: 6.25rem;
+  height: 1.82rem;
+  margin-left: 23%;
+}
+
+.index .box .hongbao_a .hongbao_box .hongbao {
+  padding: 0.18rem 0 0 0.29rem;
+  width: 0.94rem;
+  height: 1.2rem;
+  float: left;
+}
+
+.index .box .hongbao_a .hongbao_box .gongxi {
+  overflow: hidden;
+  padding: 0.14rem 0 0 0.22rem;
+  width: 4.8rem;
+  font-size: 0.43rem;
+  color: #ffffff;
+  float: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.index .box .hongbao_a .hongbao_box .gongxi span {
+  font-size: 0.32rem;
+}
+
+.index .box .hongbao_a .hongbao_border {
+  width: 6.25rem;
+  margin-left: 23%;
+  border-radius: 0 0 0.1rem 0.1rem;
+  background: #ffffff;
+}
+
+.index .box .hongbao_a .hongbao_border .hongbao_padding {
+  font-size: 0.32rem;
+  height: 0.53rem;
+  color: #8c8c8c;
+  padding: 0.08rem 0 0.11rem 0.37rem;
+}
+
+.index .box .ling {
+  margin-top: 0.4rem;
+  margin-left: 33%;
+  width: 3.94rem;
+  height: 0.65rem;
+  background: #cecece;
+  border-radius: 0.1rem;
+  overflow: hidden;
+  padding: 0.14rem 0 0 0;
+}
+
+.index .box .ling .lingqu {
+  padding-left: 0.28rem;
+  width: 0.39rem;
+  height: 47;
+  float: left;
+}
+
+.index .box .ling .name {
+  font-size: 0.35rem;
+  float: left;
+  padding-left: 0.17rem;
+  color: #ffffff;
+}
+
+.index .box .ling .name span {
+  color: #fa9d3b;
+}
+
+.index .box .jian {
+  text-align: center;
+}
+
+.index .box .jian .jiantou {
+  width: 0.91rem;
+  height: 0.63rem;
+}
 .index .content .renwu .renwu_content .renwu_nr .rewu_nr_qita,
 .index .content2 .renwu .renwu_content .renwu_nr .rewu_nr_qita,
 .index .content3 .renwu .renwu_content .renwu_nr .rewu_nr_qita {

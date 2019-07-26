@@ -129,4 +129,8 @@ export default {
     RedPacket_CommonInfo: param => {
         return http.get(BaseHost + "api/CommonInfo/RedPacketRemarksKeyword", param)
     },
+    // 获取用户收到的红包
+    RedPacketDetail: param => {
+        return http.get(BaseHost + "api/RedPacketDetail/Get", param)
+    },
 }
