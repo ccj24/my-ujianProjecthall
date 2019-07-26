@@ -9,9 +9,9 @@
     <!-- 列表 -->
     <div class="Self-built">
       <ul v-for="(item,index) in filtrate" :key="index">
-        <li style="overflow: hidden;">
-          <p style="float:left">{{item.ProjectName}}</p>
-          <img style="float:right;" src="/static/images/details.png" />
+        <li style="overflow: hidden;" @click="goProject(item.ProjectId)">
+          <p class="projectname" style="float:left">{{item.ProjectName}}</p>
+          <img class="skipico" style="float:right;" src="/static/images/details.png" />
         </li>
       </ul>
     </div>
@@ -105,6 +105,17 @@ export default {
   width: 0.4rem;
   padding-right: 0.2rem;
   padding-top: 0.1rem;
+}
+.projectname {
+  width: 9rem;
+  /* 文字超出一行，省略超出部分，显示'...' */
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.skipico {
+  height: 0.3rem  !important;
+  width: 0.3rem  !important;
 }
 </style>
 

@@ -92,7 +92,7 @@
               <p class="rpTopTitle">项目红包</p>
             </div>
             <img
-              @click="go({path:'/pages/home/Welfarelist',query:{ProjectId:ProjectDetailed.ProjectId}})"
+              @click="ClickDetailed(ProjectDetailed)"
               class="rpTopnextRight"
               src="/static/img/homePage_nextRight.png"
               alt
@@ -108,7 +108,7 @@
                 </div>
                 <div class="rpRight">
                   <div class="rpBtn">
-                    <P class="rpBtnP">发红包</P>
+                    <P class="rpBtnP" @click="ClickDetailed(ProjectDetailed)">发红包</P>
                     <img class="rpDot1" src="/static/img/homePage_redPacketDot1.png" alt />
                     <img class="rpDot2" src="/static/img/homePage_redPacketDot2.png" alt />
                     <img class="rpDot3" src="/static/img/homePage_redPacketDot3.png" alt />
@@ -117,7 +117,7 @@
               </div>
 
               <!-- 有红包的操作 获取项目红包-->
-              <!-- <div v-if="RedPacket.length>0">
+              <div v-if="RedPacket.length>0">
                 <img class="rpIcon" src="/static/img/homePage_redPacket.png" alt />
                 <div class="rpTextDiv" v-for="(item,index) in RedPacket" :key="index">
                   <div class="rpText">
@@ -134,7 +134,7 @@
                     <img class="rpDot3" src="/static/img/homePage_redPacketDot3.png" alt />
                   </div>
                 </div>
-              </div>-->
+              </div>
             </div>
 
             <!-- 当没有红包领取的时候显示 红包排行 -->
@@ -219,7 +219,10 @@
           </div>
           <div class="hpImgNr">
             <div class="hpImgNrDemo" v-for="(item,index) in Projectpicture" :key="index">
-              <div class="hpImgDivs">
+              <div
+                class="hpImgDivs"
+                @click="go({path:'/pages/home/Logdetails',query:{LogId:item.LogId}})"
+              >
                 <img class="hpImg" :src="item.Images[0]" />
                 <div class="hpImgDate">{{item.CreateTimeFormat}}</div>
               </div>
@@ -312,12 +315,17 @@
         </div>
       </div>
     </div>
+    <backHome></backHome>
   </div>
 </template>
 
 <script>
 import "../../assets/style.css"; //引入公共的css文件
+import backHome from "@/components/backHome";
 export default {
+  components: {
+    backHome
+  },
   data() {
     return {
       ProjectDetailed: {}, //获取项目详情
@@ -330,6 +338,7 @@ export default {
       Exceptionalranking: [] //获取项目打赏排行
     };
   },
+
   methods: {
     liveDataLinkUrl(item) {
       //  人员页面跳转
@@ -369,6 +378,14 @@ export default {
           query: { ProjectId: this.ProjectDetailed.ProjectId }
         });
       }
+    },
+    // 点击跳转页面到红包详情  将项目详情数据保存到vuex中
+    ClickDetailed(ProjectDetailed) {
+      this.$router.push({
+        path: "/pages/home/Welfarelist"
+      });
+      //store用Mutation定义修改 ,然后用store.commit('xx') 触发 setProjectDetailed保存的方法
+      this.$store.commit("setProjectDetailed", ProjectDetailed);
     }
   },
   async mounted() {

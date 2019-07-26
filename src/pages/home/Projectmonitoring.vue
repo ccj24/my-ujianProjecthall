@@ -39,7 +39,7 @@ export default {
     if (rep.ret == 0) {
       this.ProjectMonitoringVideo = rep.data;
     }
-    console.log(this.ProjectMonitoringVideo);
+    
   }
 };
 </script>

@@ -2,12 +2,13 @@
   <div class="index">
     <!-- 顶部收到任务发出任务 -->
     <div class="top">
-      <p class="top_rttext">打赏</p>
+      <p class="top_rttext" @click="Givereward(ProjectDetailed) ;">打赏</p>
       <div class="top_title2">
         <div :class="{top_title2_fqrw:receive,top_title2_fqrw2:giveout}" @click="SetReceive">打赏排行</div>
         <div :class="{top_title2_fqrw2:receive,top_title2_fqrw:giveout}" @click="SetGet">红包列表</div>
       </div>
     </div>
+    <!-- 打赏排行 -->
     <div v-if="givereward" class="Welfarelist" style="margin-top: 2.4rem;">
       <div
         @click="go({path:'/pages/home/details',query:{UserId:item.UserId}})"
@@ -35,11 +36,14 @@
         </div>
       </div>
     </div>
+    <!--红包列表 -->
     <div style="margin-top: 2.4rem;" v-if="packetlist">
-      <div style="text-align: center">
-        <p style="color:#cecece">2016年4月28日 20:07</p>
-        <p style="float:left">朱芳芳</p>
-        <p style="color:#cecece;display: inline-block">（广西十分科技股份有限公司）</p>
+      <div>
+        <p style="text-align: center" class="timelist">2016年4月28日 20:07</p>
+        <div class="namefirm">
+          <div style="float:left">朱芳芳</div>
+          <div style="color:#cecece;">（广西十分科技股份有限公司）</div>
+        </div>
       </div>
     </div>
   </div>
@@ -49,12 +53,20 @@
 export default {
   data() {
     return {
+      ProjectDetailed: {},
       packetlist: false,
       givereward: true,
       receive: true,
       giveout: false,
       RedPacket: []
     };
+  },
+  computed: {
+    //  获取保存在vuex中的项目详情数据
+    ProjectDetailed() {
+      // ProjectDetailed是主页保存去vuex中的项目详情数据
+      return this.$store.state.Project.ProjectDetailed;
+    }
   },
   methods: {
     SetReceive() {
@@ -68,14 +80,24 @@ export default {
       this.giveout = !this.giveout;
       this.packetlist = true;
       this.givereward = false;
+    },
+    // 点击跳转页面到红包详情  将项目详情数据保存到vuex中
+    Givereward(ProjectDetailed) {
+      this.$router.push({
+        path: "/pages/newproject/givereward"
+      });
+      //store用Mutation定义修改 ,然后用store.commit('xx') 触发 setProjectDetailed保存的方法
+      this.$store.commit("setProjectDetailed", ProjectDetailed);
     }
   },
   async mounted() {
+    this.ProjectDetailed = this.$store.state.Project.ProjectDetailed;
+    // console.log(this.$store.state.Project.ProjectDetailed);
     var that = this;
-
+    // console.log(this.$route.query.Projectid)
     //获取项目红包
     var res = await this.$UJAPI.Project_ProjectRedPacket({
-      Projectid: this.$route.query.ProjectId
+      Projectid: this.ProjectDetailed.ProjectId
     });
     if (res.ret == 0) {
       this.RedPacket = res.data;
@@ -138,6 +160,17 @@ export default {
   float: left;
   overflow: hidden;
 }
+.timelist {
+  padding-top: 0.47rem;
+  font-size: 0.35rem;
+  color: #cecece;
+}
+.namefirm {
+  font-size: 0.43rem;
+  padding-top: 0.36rem;
+  text-align: center;
+}
+
 .index .top .top_rttext {
   float: right;
   font-size: 0.45rem;

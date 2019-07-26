@@ -23,7 +23,12 @@
           <div class="ryInfoLeftDiv">
             <div class="ryInfoDiv" v-for="(item,index) in ProjectDoor.peopleList" :key="index">
               <div class="ryInfoLe">
-                <img class="ryHeadImg" v-if="item.ActionImage==null" src="/static/img/ryHeadImg.png" alt />
+                <img
+                  class="ryHeadImg"
+                  v-if="item.ActionImage==null"
+                  src="/static/img/ryHeadImg.png"
+                  alt
+                />
                 <img class="ryHeadImg" v-else :src="item.ActionImage" alt />
                 <div class="ryInfoleTextDiv">
                   <p class="ryinfoP">{{item.Name}}</p>
@@ -55,7 +60,7 @@ export default {
     };
   },
   async mounted() {
-    console.log(this.$route.query.ProjectId); //这样接收
+    //this.$route.query.ProjectId //这样接收
     var that = this;
     // 获取项目人员进出记录
     var rep = await this.$UJAPI.GetDoorPeopleList({
@@ -64,7 +69,6 @@ export default {
     if (rep.ret == 0) {
       this.ProjectDoor = rep.data;
     }
-  
   }
 };
 </script>

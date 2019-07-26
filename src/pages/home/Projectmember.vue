@@ -11,21 +11,58 @@
         <Child :ProjectMemberList="ProjectMemberList" :ModelResponse="item"></Child>
       </div>
     </div>
+
     <!-- 拼音排序 -->
     <div v-if="spellsort">
-      <div class="crewlist" v-for="(item,index) in mode" :key="index">
-        
-        <Child :ProjectMemberList="ProjectMemberList" :ModelResponse="item"></Child>
+      <!-- 右侧字母 -->
+      <div class="LetterFixation">
+        <p v-for="(item,index) in filtrate" :key="index">{{item}}</p>
+      </div>
+      <div v-for="(item1,index1) in filtrate" :key="index1">
+        <p class="letter">{{item1}}</p>
+        <!-- ProjectMemberList和item1为传给子组件的参数 -->
+        <!-- 使用组件spellChild 列表组件-->
+        <spellChild :ProjectMemberList="ProjectMemberList" :spell="item1"></spellChild>
       </div>
     </div>
   </div>
 </template>
 
 <script>
+// 引入组件
+import spellChild from "@/components/spellChild";
 import Child from "@/components/MemberChild";
 export default {
   data() {
     return {
+      Letters: [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F",
+        "G",
+        "H",
+        "I",
+        "J",
+        "K",
+        "L",
+        "M",
+        "N",
+        "O",
+        "P",
+        "Q",
+        "R",
+        "S",
+        "T",
+        "U",
+        "V",
+        "W",
+        "X",
+        "Y",
+        "Z"
+      ],
       spellsort: false,
       postsort: true,
       ModelResponse: [], //获取各部门
@@ -53,6 +90,28 @@ export default {
       }
       return _ModelResponse;
     },
+    //筛选项目成员中人员的拼音的首字母  是否出现在列表中
+    filtrate() {
+      // 定义一个新的数组  把符合的项赋给新的数组
+      let _Letters = [];
+      // 循环26个拼音
+      for (let index = 0; index < this.Letters.length; index++) {
+        const element = this.Letters[index];
+        // 循环项目成员
+        for (let index = 0; index < this.ProjectMemberList.length; index++) {
+          const member = this.ProjectMemberList[index];
+          // 判断项目成员的 姓名拼音第一个字母是否在26个字母中出现
+          if (member.Spelling[0] == element) {
+            _Letters.push(element);
+            // 只要符合这个条件的  就结束它
+            break;
+          }
+        }
+      }
+
+      return _Letters;
+    },
+
     //小数转为百分之比
     coefficient() {}
   },
@@ -72,8 +131,11 @@ export default {
       this.ModelResponse = rep.data;
     }
   },
+
+  // 注册组件
   components: {
-    Child
+    Child,
+    spellChild
   }
 };
 </script>
@@ -130,6 +192,22 @@ export default {
   padding-top: 0.3rem;
   padding-right: 0.2rem;
   overflow: hidden;
+}
+.letter {
+  font-size: 0.37rem;
+  color: #353535;
+  padding-left: 0.29rem;
+  padding-top: 0.24rem;
+}
+.LetterFixation {
+  position: fixed;
+  right: 0.1rem;
+  top: 3.67rem;
+  bottom: 0;
+  font-size: 0.29rem;
+}
+.LetterFixation p {
+  padding-bottom: 0.1rem;
 }
 </style>
 
