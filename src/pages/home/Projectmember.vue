@@ -172,7 +172,7 @@ export default {
 }
 .userMessage {
   border-top: solid 0.1rem #fafafa;
-  height: 1.5rem;
+  height: 2rem;
   font-size: 0.36rem;
 }
 .userMessage img {
