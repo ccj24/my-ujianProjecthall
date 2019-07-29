@@ -73,10 +73,10 @@ export default {
     Project_ProjectGetList: param => {
         return http.get(BaseHost + "api/Project/GetList", param)
     },
-    // 获取与用户有关的申请记录。包括他人申请加入你管理的项目，你申请加入别人的项目
+    // 获取与用户有关的申请记录。包括他人申请加入你管理的项目，你申请加入别人的项目  
     Project_MemberApply: param => {
         return http.get(BaseHost + "api/ProjectMemberApply/GetApplyHistory", param)
-    },
+    },  
     // 获取用户消息提醒总数
     User_GetUserRemind: param => {
         return http.get(BaseHost + "api/User/GetUserRemind", param)

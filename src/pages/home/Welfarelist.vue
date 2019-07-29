@@ -40,126 +40,55 @@
     <div style="margin-top: 2.4rem;" v-if="packetlist">
       <div class="index">
         <!-- content********************************* -->
-        <div class="box">
+        <div class="box" v-for="(item,index) in RedPacket" :key="index">
           <div class="time">
-            <p>2016年4月28日 20:07</p>
+            <p>{{item.CreateTime}}</p>
           </div>
           <div class="person">
             <p>
-              朱芳芳
-              <span>（广西十分科技股份有限公司）</span>
+              {{item.UserName}}
+              <span>（{{item.eName}}）</span>
             </p>
           </div>
           <div class="hongbao_a">
             <div class="hongbao_box">
               <img class="hongbao" src="/static/img/hongbao1.png" alt />
-              <p class="gongxi">恭喜发财，大吉大利!11111111111111111111111111111111111111</p>
+              <p class="gongxi">{{item.Remarks}}</p>
               <p class="gongxi">
-                <span>已领取</span>
+                <span>{{item.State==0?'未领取':'已领取'}}</span>
               </p>
             </div>
             <div class="hongbao_border">
               <p class="hongbao_padding">U建红包</p>
             </div>
           </div>
+          <div
+            :class="{'redenvelopes':isredenvelopes,'redenvelopes1':isredenvelopes1}"
+            v-if="item.RedPacketDetailList.length>0"
+          >
+            <div class="ling" v-for="(item1,index1) in item.RedPacketDetailList" :key="index1">
+              <img class="lingqu" src="/static/img/lingqu.png" />
+              <p class="name">
+                {{item1.UserName}}
+                <span>红包</span>
+              </p>
+            </div>
+          </div>
 
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
-          <div class="ling">
-            <img class="lingqu" src="/static/img/lingqu.png" />
-            <p class="name">
-              朱梓余领取了
-              <span>红包</span>
-            </p>
-          </div>
           <div class="jian">
-            <img class="jiantou" src="/static/img/jiantou2.png" alt />
-          </div>
-
-          <div class="time">
-            <p>2016年4月28日 20:07</p>
-          </div>
-          <div class="hongbao_a">
-            <div class="hongbao_box">
-              <img class="hongbao" src="/static/img/hongbao1.png" alt />
-              <p class="gongxi">恭喜发财，大吉大利!</p>
-              <p class="gongxi">
-                <span>已领取</span>
-              </p>
-            </div>
-            <div class="hongbao_border">
-              <p class="hongbao_padding">U建红包</p>
-            </div>
-          </div>
-
-          <div class="time">
-            <p>2016年4月28日 20:07</p>
-          </div>
-          <div class="hongbao_a">
-            <div class="hongbao_box">
-              <img class="hongbao" src="/static/img/hongbao1.png" alt />
-              <p class="gongxi">恭喜发财，大吉大利!</p>
-              <p class="gongxi">
-                <span>已领取</span>
-              </p>
-            </div>
-            <div class="hongbao_border">
-              <p class="hongbao_padding">U建红包</p>
-            </div>
+            <img
+              v-if="wallet==1"
+              class="jiantou"
+              @click="Redenvelopes"
+              src="/static/img/jiantou2.png"
+              alt
+            />
+            <img
+              v-if="wallet==2"
+              class="jiantou1"
+              @click="collectRedenve"
+              src="/static/images/wallet-morex.png"
+            />
           </div>
         </div>
       </div>
@@ -171,6 +100,9 @@
 export default {
   data() {
     return {
+      wallet: 1,
+      isredenvelopes: true,
+      isredenvelopes1: false,
       RedPacketDetail: {},
       ProjectDetailed: {},
       packetlist: false,
@@ -188,6 +120,17 @@ export default {
     }
   },
   methods: {
+    Redenvelopes() {
+      this.isredenvelopes = false;
+      this.isredenvelopes1 = true;
+      this.wallet = 2;
+    },
+    collectRedenve() {
+      this.isredenvelopes = true;
+      this.isredenvelopes1 = false;
+      this.wallet = 1;
+    },
+
     SetReceive() {
       this.receive = !this.receive;
       this.giveout = !this.giveout;
@@ -221,12 +164,14 @@ export default {
     if (res.ret == 0) {
       this.RedPacket = res.data;
     }
+    console.log(this.RedPacket);
+
     // 获取用户收到的红包
-    var res = await this.$UJAPI.RedPacketDetail({});
-    if (res.ret == 0) {
-      this.RedPacketDetail = res.data;
-    }
-    console.log(this.RedPacketDetail)
+    // var res = await this.$UJAPI.RedPacketDetail({});
+    // if (res.ret == 0) {
+    //   this.RedPacketDetail = res.data;
+    // }
+    // console.log(this.RedPacketDetail)
   }
 };
 </script>
@@ -294,7 +239,13 @@ export default {
   padding-top: 0.36rem;
   text-align: center;
 }
-
+.redenvelopes1 {
+  font-size: 0.4rem;
+}
+.redenvelopes {
+  max-height: 11.5rem;
+  overflow: hidden;
+}
 .index .top .top_rttext {
   float: right;
   font-size: 0.45rem;
@@ -552,6 +503,10 @@ export default {
 .index .box .jian .jiantou {
   width: 0.91rem;
   height: 0.63rem;
+}
+.jiantou1 {
+  width: 0.51rem;
+  height: 0.43rem;
 }
 .index .content .renwu .renwu_content .renwu_nr .rewu_nr_qita,
 .index .content2 .renwu .renwu_content .renwu_nr .rewu_nr_qita,
