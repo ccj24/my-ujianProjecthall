@@ -120,23 +120,26 @@ export default {
     }
   },
   methods: {
+    // 红包列表中的展开方法
     Redenvelopes() {
       this.isredenvelopes = false;
       this.isredenvelopes1 = true;
       this.wallet = 2;
     },
+    // 红包列表中的收缩方法
     collectRedenve() {
       this.isredenvelopes = true;
       this.isredenvelopes1 = false;
       this.wallet = 1;
     },
-
+    // 打赏按钮
     SetReceive() {
       this.receive = !this.receive;
       this.giveout = !this.giveout;
       this.packetlist = false;
       this.givereward = true;
     },
+    // 红包列表排行
     SetGet() {
       this.receive = !this.receive;
       this.giveout = !this.giveout;
@@ -164,14 +167,6 @@ export default {
     if (res.ret == 0) {
       this.RedPacket = res.data;
     }
-    console.log(this.RedPacket);
-
-    // 获取用户收到的红包
-    // var res = await this.$UJAPI.RedPacketDetail({});
-    // if (res.ret == 0) {
-    //   this.RedPacketDetail = res.data;
-    // }
-    // console.log(this.RedPacketDetail)
   }
 };
 </script>

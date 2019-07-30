@@ -82,10 +82,10 @@ export default {
 }
 .searchico {
   position: relative;
-  top: -23px;
+  top: -25px;
   left: 0.3rem;
-  height: 0.6rem;
-  width: 0.6rem;
+  height: 0.45rem;
+  width: 0.45rem;
 }
 
 .Self-built {

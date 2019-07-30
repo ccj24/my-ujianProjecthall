@@ -58,7 +58,7 @@ export default {
 .userMessage {
   background-color: #ffffff;
   border-top: solid 0.01rem #e8e8e8;
-  height: 1.7rem;
+  height: 2rem;
   font-size: 0.36rem;
 }
 .userMessage img {

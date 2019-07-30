@@ -80,11 +80,11 @@ export default {
   font-size: 0.38rem;
 }
 .searchico {
-  position: relative;
-  top: -23px;
+ position: relative;
+  top: -25px;
   left: 0.3rem;
-  height: 0.6rem;
-  width: 0.6rem;
+  height: 0.45rem;
+  width: 0.45rem;
 }
 
 .Self-built {

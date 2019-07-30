@@ -80,7 +80,7 @@ export default {
     if (rep.ret == 0) {
       this.ProjectBIMVideo = rep.data;
     }
-    console.log(this.ProjectBIMVideo);
+   
   }
 };
 </script>

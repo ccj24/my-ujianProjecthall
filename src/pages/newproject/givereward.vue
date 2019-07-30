@@ -22,7 +22,7 @@
     <div class="greeting">
       <p style="color:#8c8c8c">选择红包祝贺语</p>
       <div class="single">
-        <img src="/static/images/select1.png" alt />
+        <img src="/static/images/dan.png" alt />
         <p>恭喜发财</p>
       </div>
       <div class="single">
@@ -31,15 +31,33 @@
       </div>
     </div>
     <!-- 金额 -->
-    <div class="sum">￥20.00</div>
+    <div class="sum">￥{{isNullInput}}.00</div>
     <!-- 输入框没输入数字的状态 灰色 -->
     <button v-if="btnOK" class="packetButton">塞进红包</button>
     <!-- 输入框输入数字的状态 蓝色-->
-    <button v-if="isOK" class="packetButton1">塞进红包</button>
+    <button v-if="isOK" class="packetButton1" @click="Ambtnthods">塞进红包</button>
     <!-- 余额 -->
     <div class="balance">
       <p style="color:#8c8c8c;float:left">使用账户余额支付，</p>
       <p style="color:#ff6c6c;display: inline-block;">余额：{{balance}}元</p>
+    </div>
+
+    <!-- 弹框 -->
+    <div class="message-box-wrapper" v-if="showed" @click.stop="checktanchuceng">
+      <div class="confirm" @click.stop v-if="reminder">
+        <div class="top">
+          <div class="cancel" style="float:left">X</div>
+          <div style="text-align: center; color:#353535">请输入验证码</div>
+        </div>
+        <div class="ujpacket">U建红包</div>
+        <div class="money">￥20.00</div>
+        <div class="balance">
+          <div style="overflow: hidden;">
+            <img src="/static/images/balance.png" alt="">
+            <p style="color: #353535;">余额</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -49,9 +67,11 @@
 export default {
   data() {
     return {
+      reminder: true,
+      showed: true,
       isOK: false,
       btnOK: true,
-      isNullInput: null,
+      isNullInput: 0,
       balance: "", //个人钱包余额
       RedPacketRemar: [] //获取红包祝福语
     };
@@ -67,6 +87,17 @@ export default {
       else {
         this.isOK = false;
         this.btnOK = true;
+      }
+    },
+    // 点击按钮弹窗
+    Ambtnthods() {
+      this.showed = true;
+    },
+    //点击弹窗  让弹窗消失
+    checktanchuceng() {
+      if ((this.showed = true)) {
+        this.showed = false;
+        this.reminder = true;
       }
     }
   },
@@ -90,7 +121,6 @@ export default {
     if (rep.ret == 0) {
       this.RedPacketRemar = rep.data;
     }
-    console.log(this.RedPacketRemar);
   }
 };
 </script>
@@ -110,6 +140,7 @@ export default {
   padding-right: 0.52rem;
 }
 .money input {
+  overflow: hidden;
   width: 2.5rem;
   padding-top: 0.4rem;
   float: left;
@@ -161,6 +192,75 @@ export default {
   font-size: 0.37rem;
   padding-left: 2.14rem;
   padding-top: 0.6rem;
+}
+
+/* 隐藏提示框 */
+/* 先定位 才能设置四个值得属性 居中定位*/
+.message-box-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.message-box-wrapper::after {
+  content: "";
+  display: inline-block;
+  height: 100%;
+  width: 0;
+  vertical-align: middle; /*让行级元素垂直居中*/
+}
+.confirm {
+  position: relative;
+  left: 1.5rem;
+  top: 3.04rem;
+  width: 7.77rem;
+  height: 8.9rem;
+  background-color: #ffffff;
+  border-radius: 0.25rem;
+  font-size: 0.16rem;
+}
+.confirm .top {
+  height: 1.38rem;
+  border-bottom: 0.01rem #12b7f5 solid;
+  font-size: 0.49rem;
+  padding-top: 0.49rem;
+}
+.confirm .top .cancel {
+  padding-left: 0.46rem;
+  color: #aaaaaa;
+}
+.ujpacket {
+  font-size: 0.43rem;
+  text-align: center;
+  padding-top: 0.45rem;
+  color: #353535;
+}
+.confirm .money {
+  font-size: 1.09rem;
+  text-align: center;
+  padding-top: 0.37rem;
+  color: #353535;
+}
+.confirm .balance {
+  background-color: #12b7f5;
+  width: 4.63rem !important;
+  overflow: hidden;
+  margin-left: 0.8rem;
+  margin-top: 0.42rem;
+}
+.confirm .balance img {
+  width: 0.75rem;
+	height: 0.75rem;
+  float: left;
+  overflow: hidden;
+  margin-right: 0.32rem;
+  margin-left: 0.66rem;
+}
+.confirm .balance p {
+  font-size: 0.43rem;
+  line-height: 0.75rem;
 }
 </style>
 
