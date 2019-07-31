@@ -348,5 +348,21 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+  {
+    path: 'pages/Environmentalprotection/particulars',
+    name: 'particulars',
+    config: {
+      navigationBarTitleText: '详情',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/Environmentalprotection/journal',
+    name: 'journal',
+    config: {
+      navigationBarTitleText: '日志',
+      enablePullDownRefresh: false
+    },
+  },
 ]
 module.exports = routes

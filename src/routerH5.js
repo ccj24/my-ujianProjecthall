@@ -11,14 +11,15 @@ import personnel from './pages/Environmentalprotection/personnel.vue'
 import mission from './pages/Environmentalprotection/mission.vue'
 import crew from './pages/Environmentalprotection/crew'
 import newProject from './pages/Environmentalprotection/newProject'
-
+import particulars from './pages/Environmentalprotection/particulars'
+import journal from './pages/Environmentalprotection/journal'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
 var routes = [
     {
         path:'/',
-        redirect:'pages/Environmentalprotection/personnel'
+        redirect:'pages/Environmentalprotection/journal'
     },
     {
         path: 'pages/Login/Projecthall',
@@ -146,6 +147,26 @@ var routes = [
         meta: { noAuth: true },
         alias: '/pages/Environmentalprotection/newProject',
         component: newProject
+      },
+      {
+        path: 'pages/Environmentalprotection/particulars',
+        name: 'particulars',
+        config: {
+          navigationBarTitleText: '详情',
+          enablePullDownRefresh: false
+        },
+        alias: '/pages/Environmentalprotection/particulars',
+        component: particulars
+      },
+      {
+        path: 'pages/Environmentalprotection/journal',
+        name: 'journal',
+        config: {
+          navigationBarTitleText: '日志',
+          enablePullDownRefresh: false
+        },
+        alias: '/pages/Environmentalprotection/journal',
+        component: journal
       },
      
 ]

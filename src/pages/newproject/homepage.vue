@@ -413,7 +413,7 @@ export default {
       this.Exceptionalranking = rep.data;
     }
 
-    //获取项目图片
+    //获取项目图片 获取项目日志列表
     var res = await this.$UJAPI.Project_GetList({
       Projectid: this.ProjectId,
       QueryType: 4
@@ -421,6 +421,7 @@ export default {
     if (res.ret == 0) {
       this.Projectpicture = res.data;
     }
+   console.log(this.Projectpicture)
     // 获取当前登录人的信息
     var rep = await this.$UJAPI.User_Get();
     if (rep.ret == 0) {
