@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <img class="logo" :class="{logoHide:logoHide}" src="/static/images/logo108.png" mode="widthFix">
-    <p>U建商城</p>
+    <p>U建+</p>
     <div class="userinfo">
       <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover">
       <div class="userinfo-nickname">
