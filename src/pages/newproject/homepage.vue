@@ -395,6 +395,7 @@ export default {
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
     }
+    console.log( this.ProjectDetailed )
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({

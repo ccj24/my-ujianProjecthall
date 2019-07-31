@@ -60,6 +60,32 @@
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  data() {
+    return {
+      // 定义获取项目详情
+      ProjectDetailed :{},
+    };
+  },
+  async mounted() {
+    var that=this;
+    //获取获取项目详情接口
+    var rep=await this.$UJAPI.Project_GetDetailed(
+      // Projectid是在UJAPI.js里面的后面接着的，所有获取获取项目详情的时候不用加projectId
+      "70057154-a003-4815-b247-0fe887ab4469"
+    )
+    //请求响应码，调用成功返回0；其他表示调用出错或异常。
+    if (rep.ret==0) {
+      this.ProjectDetailed=rep.data
+    }
+    //打印
+    console.log( this.ProjectDetailed)
+  }
+}
+</script>
+
 <style scoped>
 .hezi .kuai .dian {
   /* 圆点 */
