@@ -40,7 +40,7 @@
     <div class="kuai" style=" overflow: hidden;">
       <p class="dian"></p>
       <div class="right">
-        <p class="aa">风速</p>
+        <p class="aa">风2速</p>
         <p class="b1">3m/s</p>
       </div>
     </div>
