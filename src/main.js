@@ -12,6 +12,19 @@ Vue.prototype.$UJAPI = UJAPI; //在实例中用$UJAPI调用UJAPI封装好的Rest
 Vue.prototype.$ShoppingAPI = ShoppingAPI; //在实例中用$ShoppingAPI调用ShoppingAPI.js封装好的RestAPI
 Vue.prototype.$store = store;
 Vue.mixin({
+    data(){
+        return {
+            userInfo: {
+              Account: "",
+              PassWord: "",
+              avatarUrl: "",
+              nickName: "",
+              unionid: "",
+              openid: ""
+            },
+            logoHide: false
+          };
+    },
     computed: {
         $route: function () {
             return this.$router.currentRoute
@@ -58,6 +71,54 @@ Vue.mixin({
                     }
                 }
             })
+        },
+        //全局wx登录函数,vue生命周期执行时,对于需要登录票据才可进行访问请求的异步操作可以放置到获取登录之后执行
+        wx_login(callback) {
+            // var parms ={};
+            // if(this.launchOptions.query&&this.launchOptions.query.InvitaId)
+            // {
+            //     parms.InvitaId=this.launchOptions.query.InvitaId;
+            // }
+            if(!this.$store.getters.Logined)//没有登录尝试登录 
+            {
+                // 调用wx登录接口
+                wx.login({
+                    success: obj => {
+                        if (obj.errMsg.indexOf("login:ok") > -1) {
+                            this.$ShoppingAPI.Account_wxLogin(obj.code).then(rep => {
+                                if (rep.ret == 0) {
+                                    this.userInfo.unionid = rep.data.result.unionid;
+                                    this.userInfo.openid = rep.data.result.openid;
+                    
+                                    if (rep.data.ticket) {
+                                        this.$store.commit("Login", { Ticket: rep.data.ticket }); //存入Ticket
+                                        this.$ShoppingAPI.User_Get().then(userinfo => {
+                                            if (userinfo.ret == 0) {
+                                            userinfo.data.unionid= rep.data.result.unionid;
+                                            userinfo.data.openid = rep.data.result.openid;
+                                            this.$store.commit("GetUserInfo", userinfo.data);
+                                            }
+                                        });
+                                    }
+                                    if(callback)
+                                        callback();
+                                }else
+                                {
+                                    if(callback)
+                                        allback();
+                                }
+                            });
+                        } else {
+                            if(callback)
+                            callback()
+                        }
+                    }
+                });
+            }else
+            {
+                if(callback)
+                    callback();
+            }
         }
     },
     onLoad() {

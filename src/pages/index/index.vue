@@ -21,19 +21,6 @@
 import card from "@/components/card";
 import login from "@/components/login";
 export default {
-  data() {
-    return {
-      userInfo: {
-        Account: "",
-        PassWord: "",
-        avatarUrl: "",
-        nickName: "",
-        unionid: "",
-        openid: ""
-      },
-      logoHide: false
-    };
-  },
   components: {
     card,
     login
@@ -65,47 +52,6 @@ export default {
         });
       }
     },
-     wx_login() {
-       var that =this;
-      // 调用wx登录接口
-         wx.login({
-         async success(obj){
-          if (obj.code) {
-            //微信登录  (用户在首次绑定账号后   既可以自动登录)
-            // .then((data)=>{ })里的data是指接口成功返回的数据,包含请求头,请求体,等信息;
-            // .then(data => {}) 这个 data 就是你请求url的返回结果。
-
-            var rep = await that.$ShoppingAPI.Account_wxLogin(obj.code);
-
-              if (rep.ret == 0) {
-                that.userInfo.unionid = rep.data.result.unionid;
-                that.userInfo.openid = rep.data.result.openid;
-                if (rep.data.ticket) {
-                  if(that.$store.state.User.SingleTicket)
-                  {
-                    console.log("已有登录票据");
-                  }else
-                  {
-                    console.log("没有登录票据,重新获取并写入vuex");
-                    that.$store.commit("Login", { Ticket: rep.data.ticket }); //存入Ticket
-                    //有票据之后就可以获取用户信息
-                    var userinfo =  await  that.$ShoppingAPI.User_Get();
-                    if (userinfo.ret == 0) {
-                        userinfo.data.unionid = rep.data.result.unionid;
-                        userinfo.data.openid = rep.data.result.openid;
-                          // commit：同步操作，写法：this.$store.commit('mutations方法名',值)
-                        that.$store.commit("GetUserInfo", userinfo.data);
-                        that.$router.push({ path: "/pages/Login/Projecthall" });
-                    }
-                  }
-                }
-            }
-          } else {
-            console.log('登录失败！' + res.errMsg)
-          }
-        }
-      });
-    }
   },
   mounted() {
     if(this.isMp)
@@ -125,15 +71,7 @@ export default {
         }
       });
     }
-
   },
-  created() {
-
-    //1. 调用wx.login
-    if(this.isMp)
-     this.wx_login();
-
-  }
 };
 </script>
 

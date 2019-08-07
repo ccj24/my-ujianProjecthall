@@ -92,34 +92,38 @@ export default {
 
   // 把请求放在onShow 事件 这样让回退也会触发改变值
   async onShow() {
-    // 获取用户消息提醒总数
-    var res = await this.$UJAPI.User_GetUserRemind({});
-    if (res.ret == 0) {
-      this.UserRemind = res.data;
-    }
+    this.wx_login( async ()=>{
+
+      //自建项目请求
+      var rep = await this.$UJAPI.Project_ProjectGetList({
+        IsCreate: true,
+        PageSize: 4
+      });
+      if (rep.ret == 0) {
+        this.ProjectList = rep.data;
+      }
+
+      // 加入他建项目
+      var res = await this.$UJAPI.Project_ProjectGetList({
+        IsCreate: false,
+        PageIndex: 1,
+        PageSize: 4
+      });
+      if (res.ret == 0) {
+        this.othersProjectList = res.data;
+      }
+
+      // 获取用户消息提醒总数
+        var res2 = await this.$UJAPI.User_GetUserRemind({});
+        if (res2.ret == 0) {
+          this.UserRemind = res2.data;
+        }
+    }) 
+
   },
 
-  async mounted() {
-    //自建项目请求
-    var rep = await this.$UJAPI.Project_ProjectGetList({
-      IsCreate: true,
-      PageSize: 4
-    });
-    if (rep.ret == 0) {
-      this.ProjectList = rep.data;
-    }
-    // console.log(this.ProjectList);
+   mounted() {
 
-    // 加入他建项目
-    var res = await this.$UJAPI.Project_ProjectGetList({
-      IsCreate: false,
-      PageIndex: 1,
-      PageSize: 4
-    });
-    if (res.ret == 0) {
-      this.othersProjectList = res.data;
-    }
-   
   }
 };
 </script>

@@ -321,6 +321,7 @@
 
 <script>
 import "../../assets/style.css"; //引入公共的css文件
+import { mapState } from "vuex";
 import backHome from "@/components/backHome";
 export default {
   components: {
@@ -331,14 +332,17 @@ export default {
       ProjectDetailed: {}, //获取项目详情
       RedPacket: [], //获取项目红包
       Projectpicture: [], //获取项目图片
-      UserInfo: {}, //获取当前用户的登录信息
       ProjectMemberList: [], //获取项目成员列表
       AdvertProjectHome: [], // 获取项目首页店铺(广告)
       AdvertProjectDemand: [], //获取项目首页需求推荐(广告)
       Exceptionalranking: [] //获取项目打赏排行
     };
   },
-
+  computed:{
+        ...mapState({
+      UserInfo: state => state.User.UserInfo//获取当前用户的登录信息
+    }),
+  },
   methods: {
     liveDataLinkUrl(item) {
       //  人员页面跳转
@@ -394,8 +398,14 @@ export default {
     var rep = await this.$UJAPI.Project_GetDetailed(this.ProjectId);
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
+      if(this.ProjectDetailed.Photos&&this.ProjectDetailed.Photos.length>0)
+      {
+         this.ProjectDetailed.Photos=this.ProjectDetailed.Photos[0];
+      }else
+      {
+         this.ProjectDetailed.Photos="/static/images/bg.png";
+      }
     }
-    console.log( this.ProjectDetailed )
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
@@ -422,17 +432,16 @@ export default {
     if (res.ret == 0) {
       this.Projectpicture = res.data;
     }
-   console.log(this.Projectpicture)
     // 获取当前登录人的信息
-    var rep = await this.$UJAPI.User_Get();
-    if (rep.ret == 0) {
-      this.UserInfo = rep.data;
-    }
+    // var rep = await this.$UJAPI.User_Get();
+    // if (rep.ret == 0) {
+    //   this.UserInfo = rep.data;
+    // }
 
     // 获取项目成员列表
     var rep = await this.$UJAPI.Project_ProjectMember({
       Projectid: this.ProjectId,
-      UserId: "a327307c-b133-4663-96f4-7462292b872c"
+      UserId:this.UserInfo.UserId
     });
     if (rep.ret == 0) {
       this.ProjectMemberList = rep.data;
