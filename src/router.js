@@ -237,14 +237,6 @@ var routes = [
     },
   },
   {
-    path: 'pages/newproject/projecthome',
-    name: 'projecthome',
-    config: {
-      navigationBarTitleText: '新版主页',
-      enablePullDownRefresh: false
-    },
-  },
-  {
     path: 'pages/newproject/homepage',
     name: 'homepage',
     config: {

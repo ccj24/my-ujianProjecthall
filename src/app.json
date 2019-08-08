@@ -14,7 +14,7 @@
     "selectedColor":"#c77b2d",
     "list": [
       {
-        "pagePath": "pages/home/index",
+        "pagePath": "pages/newproject/homepage",
        
         "text": "主页"
       },
