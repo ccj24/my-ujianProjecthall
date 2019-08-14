@@ -86,13 +86,13 @@
         </div>
         <!-- 项目红包 -->
         <div class="redPacket">
-          <div class="rpTop">
+          <div class="rpTop" @click="ClickDetailed(ProjectDetailed)">
             <div class="rpTopleft">
               <div class="rpTopsquare"></div>
               <p class="rpTopTitle">项目红包</p>
             </div>
             <img
-              @click="ClickDetailed(ProjectDetailed)"
+              
               class="rpTopnextRight"
               src="/static/img/homePage_nextRight.png"
               alt
