@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <script>
+        var a;
+        var c;
+        var yinsu = 0;//因素
+        var b = 0;
+
+        for (a = 101; a <= 200; a++) {
+            for (c = 2; c < a; c++) {
+                if (a % c == 0) {
+                    //通过判断因数的个数从而判断是否是素数
+                    yinsu = yinsu + 1;
+                }
+            }
+            //因数是0的时候，则这个数是素数
+            if (yinsu == 0) {
+                console.log(a + "是素数");
+                b++;
+
+            }
+            //从新定义yinshu 为0开始
+            yinsu = 0;
+
+        }
+        console.log("素数总共有：" + b)
+    </script>
+
+</body>
+
+</html>

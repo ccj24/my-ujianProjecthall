@@ -6,20 +6,18 @@ import meeting from './pages/meeting/index'
 import Projecthall from './pages/Login/Projecthall'
 import data from './pages/data/index'
 import login from './pages/index/indexH5'
-import Environmental from './pages/Environmentalprotection/Environmental.vue'
-import personnel from './pages/Environmentalprotection/personnel.vue'
-import mission from './pages/Environmentalprotection/mission.vue'
-import crew from './pages/Environmentalprotection/crew'
-import newProject from './pages/Environmentalprotection/newProject'
-import particulars from './pages/Environmentalprotection/particulars'
-import journal from './pages/Environmentalprotection/journal'
+import particulars from './pages/log/particulars'
+import journal from './pages/log/journal'
+import Logdetails from './pages/log/Logdetails'
+import writeLog from './pages/log/writeLog'
+
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
 var routes = [
     {
         path:'/',
-        redirect:'pages/Environmentalprotection/journal'
+        redirect:'pages/Login/Projecthall'
     },
     {
         path: 'pages/Login/Projecthall',
@@ -93,82 +91,47 @@ var routes = [
         alias: '/pages/meeting/index',
         component: meeting
     },
-    {
-        path: 'pages/Environmentalprotection/Environmental',
-        name: 'Environmental',
-        config: {
-          navigationBarTitleText: '环保',
-          enablePullDownRefresh: false
-        },
-        meta: { noAuth: true },
-        alias: '/pages/Environmentalprotection/Environmental',
-        component: Environmental
-      },
       {
-        path: 'pages/Environmentalprotection/personnel',
-        name: 'personnel',
-        config: {
-          navigationBarTitleText: '人员',
-          enablePullDownRefresh: false
-        },
-        meta: { noAuth: true },
-        alias: '/pages/Environmentalprotection/personnel',
-        component: personnel
-      },
-      {
-        path: 'pages/Environmentalprotection/mission',
-        name: 'mission',
-        config: {
-          navigationBarTitleText: '任务',
-          enablePullDownRefresh: false
-        },
-        meta: { noAuth: true },
-        alias: '/pages/Environmentalprotection/mission',
-        component: mission
-      },
-      {
-        path: 'pages/Environmentalprotection/crew',
-        name: 'crew',
-        config: {
-          navigationBarTitleText: '新人员',
-          enablePullDownRefresh: false
-        },
-        meta: { noAuth: true },
-        alias: '/pages/Environmentalprotection/crew',
-        component: crew
-      },
-      {
-        path: 'pages/Environmentalprotection/newProject',
-        name: 'newProject',
-        config: {
-          navigationBarTitleText: '项目主页',
-          enablePullDownRefresh: false
-        },
-        meta: { noAuth: true },
-        alias: '/pages/Environmentalprotection/newProject',
-        component: newProject
-      },
-      {
-        path: 'pages/Environmentalprotection/particulars',
+        path: 'pages/log/particulars',
         name: 'particulars',
         config: {
           navigationBarTitleText: '详情',
           enablePullDownRefresh: false
         },
-        alias: '/pages/Environmentalprotection/particulars',
+        alias: '/pages/log/particulars',
         component: particulars
       },
       {
-        path: 'pages/Environmentalprotection/journal',
+        path: 'pages/log/journal',
         name: 'journal',
         config: {
           navigationBarTitleText: '日志',
           enablePullDownRefresh: false
         },
-        alias: '/pages/Environmentalprotection/journal',
+        alias: '/pages/log/journal',
         component: journal
       },
-     
+      {
+        path: 'pages/log/Logdetails',
+        name: 'Logdetails',
+        config: {
+          navigationBarTitleText: '我的日志',
+          enablePullDownRefresh: false
+        },
+        alias: '/pages/log/Logdetails',
+        component: Logdetails
+      },
+      {
+        path: 'pages/log/writeLog',
+        name: 'writeLog',
+        config: {
+          navigationBarTitleText: '写日志',
+          enablePullDownRefresh: false
+        },
+        alias: '/pages/log/writeLog',
+        component: writeLog
+      },
+
 ]
 
 

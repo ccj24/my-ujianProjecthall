@@ -32,8 +32,13 @@ Vue.mixin({
           if(cancel)
             cancel();
         }
+      },
+      //全局wx登录函数,H5兼容
+      wx_login(callback) {
+        if(callback)
+        callback();
       }
-    } 
+    }
 });
 Vue.config.productionTip = false
 

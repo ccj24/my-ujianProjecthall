@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <input type="text" id="demo" />
+    <button type="button" onclick="cha()">查询成绩等级</button>
+    <script>
+        function cha() {
+            var x = document.getElementById("demo").value;//获取input内元素
+            x = parseInt(x);
+            if (x>100||x<0)
+            alert("数字不能为负数且不大于100")
+            if (0<x && x<60) {//进行数字校验
+                alert("c");
+            }
+            else if (60<=x&& x<=89) {
+                alert("B")
+            }
+           else if (x>=90&& x<=100) {
+                alert("A")
+            }
+        }
+
+    </script>
+</body>
+
+</html>

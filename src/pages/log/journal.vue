@@ -2,22 +2,23 @@
   <div>
     <div>
       <div class="journal_top">
-        <div class="top_one">
-          <img src="/static/img/ren.png" />
+        <div class="top_one" :class="{top_oneNr:checkIndex==0}" @click="checktab(0)">
+          <img src="/static/img/log-all@3x.1.png" />
           <p>公共日志</p>
         </div>
-        <div class="top_one">
-          <img src="/static/img/ren.png" />
+        <div class="top_one" :class="{top_oneNr:checkIndex==1}" @click="checktab(1)">
+          <img src="/static/img/log-all@3x.2.png" />
           <p>内部日志</p>
         </div>
-        <div class="top_one">
-          <img src="/static/img/ren.png" />
+        <!-- 跳转到我的日志 -->
+        <div class="top_one" @click="go({path:'/pages/log/Logdetails'})">
+          <img src="/static/img/log-all@3x.3.png" />
           <p>我的日志</p>
         </div>
-         <div class="top_one">
-          <img src="/static/img/ren.png" />
+         <!-- <div class="top_one" :class="{top_oneNr:checkIndex==3}" @click="checktab(3)">
+          <img src="/static/img/log-all@3x.4.png" />
           <p>待审核日志</p>
-        </div>
+        </div> -->
       </div>
       <!-- calendar:classshow是隐藏样式，calendarshow:classconceal是打开样式 -->
       <div :class="{calendar:classshow,calendarshow:classconceal}">
@@ -98,9 +99,9 @@
       </div>
     </div>
     <!-- item是每一项  index索引和key值是一样的 -->
-    <div class="middle" v-for="(item,index) in  ProjectLog" :key="index">
+    <div class="middle" v-for="(item,index) in ProjectLog" :key="index">
       <div class="middle_top">
-        <img src="/static/img/ryHeadImg.png" />
+        <img :src="item.Portrait" />
         <div class="one">
           <p class="name">{{item.CreatorName}}</p>
           <p class="pm">{{item.PostName}}</p>
@@ -113,7 +114,7 @@
       <div class="typeface">{{item.LogContent}}</div>
       <div class="img">
         <!-- 不能使用同一个索引 -->
-        <img v-for="(item,indexs) in ProjectLog.Images" :key="indexs" :src="item" />
+        <img v-for="(items,indexs) in ProjectLog.Images" :key="indexs" :src="items" />
      
         <div class="kuang">+</div>
       </div>
@@ -134,7 +135,8 @@ export default {
       classshow:true,
       classconceal:false,
       show:true,
-      conceal:false
+      conceal:false,  
+      checkIndex: 0,
     };
 
   },
@@ -154,53 +156,61 @@ export default {
       this.classconceal=false,
       this.show=true,
       this.conceal=false
+    },
+    checktab(index) {
+      this.checkIndex = index;
     }
   },
   async mounted() {
     var that=this;
     // 获取日志接口
     var rep=await this.$UJAPI.Project_GetList({
-      // ProjectId是获取项目日志列表的接口传过去的参数
-      ProjectId:"70057154-a003-4815-b247-0fe887ab4469"
+      ProjectId:this.ProjectId
     })
     if (rep.ret==0) {
       // 这个ProjectLog是data自己定义的
-    this.ProjectLog=rep.data
-  }
+      this.ProjectLog=rep.data
+    }
   console.log(this.ProjectLog)
   }
-};
+}
 </script>
 
 <style scoped>
 .journal_top {
   overflow: hidden;
   border-bottom: 0.03rem solid #ebebeb;
+  display: flex;
 }
 .top_one {
   /* 分为4部分 */
-  width: 25%;
+  /* width: 25%; */
+  /* 等分 */
+  flex:1;
   overflow: hidden;
-  position: relative;
+  /* position: relative; */
   float: left;
+  background-color: #e8e8e8;
+  text-align: center;
 }
-.top_one:nth-child(2) {
+.top_oneNr {
   background-color: #fafafa;
 }
 .top_one img {
-  width: 0.45rem;
-  height: 0.45rem;
-  position: absolute;
-  top: 0.47rem;
-  left: 1.12rem;
-}
+  /* position: absolute;
+  top: 0.47rem; */
+  width: 0.65rem;
+	height: 0.65rem;
+  padding-top: 0.47rem;
+  
+ }
 .top_one p {
   font-size: 0.42rem;
   line-height: 0.7rem;
   color: #8c8c8c;
   text-align: center;
-  padding-top: 1.4rem;
-  padding-bottom: 0.47rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.27rem;
 }
 /* 隐藏样式 */
 .calendar {
@@ -311,6 +321,7 @@ export default {
   /* 图片设为块元素 */
   display: block;
   float: left;
+  background-color: #000000;
 }
 .one {
   padding-left: 0.33rem;

@@ -20,7 +20,8 @@
        
         </div>
         <div class="time">
-          <div class="tubiao"></div>
+          <!-- <div class="tubiao"></div> -->
+          <img src="/static/images/Clock@3x.png" alt="">
           <div class="riqi">{{ProjectLog.CreateTimeFormat}}</div>
         </div>
         <div class="photo">
@@ -94,7 +95,7 @@ export default {
 .particulars_bottom {
   width: 100%;
   margin-top: 0.46rem;
-  border-top: 0.01rem solid #eeeeee;
+  border-top: 0.01rem solid #e8e8e8;
 }
 .title {
   margin-top: 0.73rem;
@@ -114,16 +115,16 @@ export default {
   display: flex;
   align-items: center;
 }
-.tubiao {
+.time img {
   width: 0.33rem;
   height: 0.33rem;
-  background-color: #999999;
+  /* background-color: #999999; */
   float: left;
 }
 .riqi {
   font-size: 0.35rem;
   color: #565656;
-  padding-left: 0.59rem;
+  padding-left: 0.27rem;
 }
 .photo {
   overflow: hidden;
@@ -145,6 +146,11 @@ export default {
   line-height: 0.63rem;
   color: #353535;
   margin: 0.39rem 0.39rem auto 0.39rem;
+}
+</style>
+<style>
+.page {
+  background-color: #ffffff;
 }
 </style>
 

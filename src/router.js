@@ -253,24 +253,8 @@ var routes = [
     },
   },
   {
-    path: 'pages/Environmentalprotection/Environmental',
-    name: 'Environmental',
-    config: {
-      navigationBarTitleText: '环保',
-      enablePullDownRefresh: false
-    },
-  },
-  {
     path: 'pages/newproject/projectpersonnel',
     name: 'projectpersonnel',
-    config: {
-      navigationBarTitleText: '人员',
-      enablePullDownRefresh: false
-    },
-  },
-  {
-    path: 'pages/Environmentalprotection/personnel',
-    name: 'personnel',
     config: {
       navigationBarTitleText: '人员',
       enablePullDownRefresh: false
@@ -309,30 +293,6 @@ var routes = [
     },
   },
   {
-    path: 'pages/Environmentalprotection/mission',
-    name: 'mission',
-    config: {
-      navigationBarTitleText: '任务',
-      enablePullDownRefresh: false
-    },
-  },
-  {
-    path: 'pages/Environmentalprotection/crew',
-    name: 'crew',
-    config: {
-      navigationBarTitleText: '人员',
-      enablePullDownRefresh: false
-    },
-  },
-  {
-    path: 'pages/Environmentalprotection/newproject',
-    name: 'newproject',
-    config: {
-      navigationBarTitleText: '项目主页',
-      enablePullDownRefresh: false
-    },
-  },
-  {
     path: 'pages/newproject/givereward',
     name: 'giverewardt',
     config: {
@@ -341,7 +301,7 @@ var routes = [
     },
   },
   {
-    path: 'pages/Environmentalprotection/particulars',
+    path: 'pages/log/particulars',
     name: 'particulars',
     config: {
       navigationBarTitleText: '详情',
@@ -349,10 +309,26 @@ var routes = [
     },
   },
   {
-    path: 'pages/Environmentalprotection/journal',
+    path: 'pages/log/journal',
     name: 'journal',
     config: {
       navigationBarTitleText: '日志',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/log/writeLog',
+    name: 'writeLog',
+    config: {
+      navigationBarTitleText: '写日志',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/log/Logdetails',
+    name: 'Logdetails',
+    config: {
+      navigationBarTitleText: '我的日志',
       enablePullDownRefresh: false
     },
   },

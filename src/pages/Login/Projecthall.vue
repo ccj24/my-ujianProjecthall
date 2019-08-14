@@ -92,8 +92,11 @@ export default {
 
   // 把请求放在onShow 事件 这样让回退也会触发改变值
   async onShow() {
-    this.wx_login( async ()=>{
+  },
 
+   mounted() {
+      this.wx_login( async ()=>{
+     
       //自建项目请求
       var rep = await this.$UJAPI.Project_ProjectGetList({
         IsCreate: true,
@@ -119,11 +122,6 @@ export default {
           this.UserRemind = res2.data;
         }
     }) 
-
-  },
-
-   mounted() {
-
   }
 };
 </script>
