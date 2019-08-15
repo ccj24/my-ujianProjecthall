@@ -1,6 +1,9 @@
 <template>
   <!-- 我的日志***所有 -->
   <div>
+    <div class="write">
+      <p @click="go({path:'/pages/log/writeLog'})">写日志</p>
+    </div>
     <div class="top">
       <div class="top_one" :class="{top_oneNr:checkIndex==0}" @click="checktab(0)">
         <p>所有</p>
@@ -90,6 +93,18 @@ export default {
 }
 </script>
 <style scoped>
+.write {
+  width: 100%;
+  height: 1.28rem;;
+  background-color: #12b7f5;
+  font-size: 0.46rem;
+	color: #ffffff;
+}
+.write p {
+  float: right;
+  line-height: 1.28rem;
+  padding-right: 0.3rem;
+}
 .top {
   width: 100%;
   height: 1.28rem;

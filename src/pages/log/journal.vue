@@ -157,8 +157,25 @@ export default {
       this.show=true,
       this.conceal=false
     },
-    checktab(index) {
+    async checktab(index) {
       this.checkIndex = index;
+      let QueryType;
+      // 点击时候传公共日志的数据
+      if(index==0)
+      {
+        QueryType=1;
+      }
+       // 点击时候传内部日志的数据
+       else if(index==1) {
+         QueryType=5;
+       }
+       var rep=await this.$UJAPI.Project_GetList({
+      ProjectId:this.ProjectId
+    })
+    if (rep.ret==0) {
+      // 这个ProjectLog是data自己定义的
+      this.ProjectLog=rep.data
+    }
     }
   },
   async mounted() {
@@ -316,6 +333,7 @@ export default {
   overflow: hidden;
 }
 .middle_top img {
+  margin-left: 0.28rem;
   width: 1.14rem;
   height: 1.15rem;
   /* 图片设为块元素 */
