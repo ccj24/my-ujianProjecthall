@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from './pages/home/index'
+import home from './pages/newproject/homepage'
 import Thelog from './pages/Thelog/index'
 import meeting from './pages/meeting/index'
 import Projecthall from './pages/Login/Projecthall'
@@ -10,6 +10,7 @@ import particulars from './pages/log/particulars'
 import journal from './pages/log/journal'
 import Logdetails from './pages/log/Logdetails'
 import writeLog from './pages/log/writeLog'
+import Welfarelist from './pages/home/Welfarelist'
 
 
 import store from './store'
@@ -53,14 +54,14 @@ var routes = [
     },
 
     {
-        path: 'pages/home/index',
+        path: 'pages/newproject/homepage',
         name: 'home',
         config: {
             navigationBarTitleText: '主页',
             enablePullDownRefresh: true,
             EnableNav:true,
         },
-        alias: '/pages/home/index',
+        alias: '/pages/newproject/homepage',
         component: home
     },
    
@@ -76,8 +77,6 @@ var routes = [
         alias: '/pages/Thelog/index',
         component: Thelog
     },
-   
-    
     {
         path: 'pages/meeting/index',
         name: 'meeting',
@@ -130,6 +129,16 @@ var routes = [
         },
         alias: '/pages/log/writeLog',
         component: writeLog
+      },
+      {
+        path: 'pages/home/Welfarelist',
+        name: 'home-Welfarelist',
+        config: {
+          navigationBarTitleText: '红包详情',
+          enablePullDownRefresh: true,
+        },
+        alias: '/pages/home/Welfarelist',
+        component: Welfarelist
       },
 
 ]

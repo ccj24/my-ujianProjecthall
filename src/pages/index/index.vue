@@ -3,29 +3,40 @@
     <img class="logo" :class="{logoHide:logoHide}" src="/static/images/logo108.png" mode="widthFix">
     <p>U建+</p>
     <div class="userinfo">
-      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover">
+      <img class="userinfo-avatar" v-if="UserInfo.avatarUrl" :src="UserInfo.avatarUrl" background-size="cover">
       <div class="userinfo-nickname">
-        <card :text="userInfo.nickName"></card>
+        <card :text="UserInfo.nickName?UserInfo.nickName:''"></card>
       </div>
     </div>
-    <div v-if="!userInfo.nickName" class="authorize">
+    <div v-if="!UserInfo.nickName" class="authorize">
       <p>申请获得你的公开信息(昵称、头像等)</p>
       <button open-type="getUserInfo" @getuserinfo="getUserInfoData">授权登录</button>
     </div>
-    <!-- <button v-if="userInfo.nickName" @click="opensetting">打开授权设置</button> -->
-    <login v-if="userInfo.nickName" :userInfo="userInfo"></login>
+    <!-- <button v-if="UserInfo.nickName" @click="opensetting">打开授权设置</button> -->
+    <login v-if="UserInfo.nickName"></login>
   </div>
 </template>
 
 <script>
 import card from "@/components/card";
 import login from "@/components/login";
+import { mapState } from "vuex";
+
 export default {
+  data(){
+    return {
+      logoHide:false,
+    }
+  },
   components: {
     card,
     login
   },
-
+  computed:{
+    ...mapState({
+      UserInfo: state => state.User.UserInfo//获取当前用户的登录信息
+    }),
+  },
   methods: {
     opensetting() {
       wx.openSetting(); //调起客户端小程序设置界面
@@ -33,8 +44,11 @@ export default {
     // 获取用户登录授权
     getUserInfoData(obj) {
       if (obj.mp.detail.errMsg.indexOf("getUserInfo:ok") != -1) {
-        this.userInfo.nickName = obj.mp.detail.userInfo.nickName;
-        this.userInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
+        debugger;
+        this.UserInfo.nickName = obj.mp.detail.userInfo.nickName;
+        this.UserInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
+        this.$store.commit("GetUserInfo", this.UserInfo);
+
         this.logoHide = true;
       } else {
         // 提示框窗口
@@ -54,6 +68,8 @@ export default {
     },
   },
   mounted() {
+    debugger;
+    console.log(this.UserInfo);
     if(this.isMp)
     {
       // 检查是否授权
@@ -63,8 +79,10 @@ export default {
           } else {
             wx.getUserInfo({
               success(res) {
-                this.userInfo.nickName = res.userInfo.nickName;
-                this.userInfo.avatarUrl = res.userInfo.avatarUrl;
+                this.UserInfo.nickName = res.userInfo.nickName;
+                this.UserInfo.avatarUrl = res.userInfo.avatarUrl;
+                this.$store.commit("GetUserInfo", this.UserInfo);
+
               }
             });
           }

@@ -12,19 +12,6 @@ Vue.prototype.$UJAPI = UJAPI; //在实例中用$UJAPI调用UJAPI封装好的Rest
 Vue.prototype.$ShoppingAPI = ShoppingAPI; //在实例中用$ShoppingAPI调用ShoppingAPI.js封装好的RestAPI
 Vue.prototype.$store = store;
 Vue.mixin({
-    data(){
-        return {
-            userInfo: {
-              Account: "",
-              PassWord: "",
-              avatarUrl: "",
-              nickName: "",
-              unionid: "",
-              openid: ""
-            },
-            logoHide: false
-          };
-    },
     computed: {
         $route: function () {
             return this.$router.currentRoute
@@ -87,18 +74,29 @@ Vue.mixin({
                         if (obj.errMsg.indexOf("login:ok") > -1) {
                             this.$ShoppingAPI.Account_wxLogin(obj.code).then(rep => {
                                 if (rep.ret == 0) {
-                                    this.userInfo.unionid = rep.data.result.unionid;
-                                    this.userInfo.openid = rep.data.result.openid;
                     
                                     if (rep.data.ticket) {
                                         this.$store.commit("Login", { Ticket: rep.data.ticket }); //存入Ticket
                                         this.$ShoppingAPI.User_Get().then(userinfo => {
                                             if (userinfo.ret == 0) {
-                                            userinfo.data.unionid= rep.data.result.unionid;
+                                            userinfo.data.unionid = rep.data.result.unionid;
                                             userinfo.data.openid = rep.data.result.openid;
+                                            userinfo.data.Account= "";
+                                            userinfo.data.PassWord= "";
                                             this.$store.commit("GetUserInfo", userinfo.data);
                                             }
                                         });
+                                    }else
+                                    {
+                                        var userInfo= {
+                                            Account: "",
+                                            PassWord: "",
+                                            avatarUrl: "",
+                                            nickName: "",
+                                            unionid: rep.data.result.unionid,
+                                            openid:  rep.data.result.openid,
+                                          };
+                                        this.$store.commit("GetUserInfo", userInfo);
                                     }
                                     if(callback)
                                         callback();

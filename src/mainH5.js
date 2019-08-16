@@ -14,6 +14,11 @@ Vue.mixin({
   computed: {
     isMP(){
         return false;
+    },
+     // 写在这里就可以全局使用
+     ProjectId() {
+      var pid = this.$store.state.Project.ProjectId || "70057154-a003-4815-b247-0fe887ab4469";
+      return pid
     }
   },
   methods: {
@@ -22,6 +27,11 @@ Vue.mixin({
       },
       toast(title){
         this.$toast.center(title);
+      },
+      goProject(ProjectId) {
+        // 这个方法是从项目大厅跳转到主页里面的方法 commit方法将参数发给vuex保存
+                this.$store.commit("setProjectId", ProjectId)
+                this.go({ path: '/pages/newproject/homepage',isTab: true})
       },
       modal(title,content,confirm,cancel){
         if(window.confirm(content)){

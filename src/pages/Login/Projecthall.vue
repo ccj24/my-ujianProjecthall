@@ -9,7 +9,7 @@
       >新建项目</button>
       <button
         @click="go({path:'/pages/Login/Addproject'})"
-        style="background-color: #12b7f5;"
+        style="background-color: #12b7f5;display: block;"
         class="btn"
       >加入项目</button>
     </div>
@@ -139,6 +139,7 @@ export default {
   border-radius: 0.16rem;
   color: #ffffff;
   font-size: 0.48rem;
+  border: none;
 }
 .Self-built {
   color: #12b7f5;

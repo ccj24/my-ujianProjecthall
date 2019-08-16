@@ -1,91 +1,57 @@
 <template>
   <div>
     <div class="index">
-      <div
-        v-if="isMP"
-        class="nr"
-      >
+      <div v-if="isMP" class="nr">
         <!-- 输入手机号码 -->
         <div class="tel">
           <i class="icon">&#xe60d;</i>
-          <input
-            type="tel"
-            placeholder="请输入手机号码"
-            v-model="userInfo.Account"
-          >
+          <input type="tel" placeholder="请输入手机号码" v-model="userInfo.Account">
         </div>
         <!-- 输入验证码 -->
         <div class="message">
           <div class="emal">
             <i class="icon">&#xe60b;</i>
-            <input
-              type="number"
-              placeholder="请输入验证码"
-              v-model="VerificationCode"
-            >
+            <input type="number" placeholder="请输入验证码" v-model="VerificationCode">
           </div>
-          <p
-            class="yzm"
-            :class="{action:codeAction}"
-            @click="countDown"
-          >{{countDownStr}}</p>
+          <p class="yzm" :class="{action:codeAction}" @click="countDown">{{countDownStr}}</p>
         </div>
         <!-- 登录按钮 -->
-        <div
-          class="btn"
-          :class="{action:loginAction}"
-          @click="login"
-        >立即登录</div>
+        <div class="btn" :class="{action:loginAction}" @click="login">立即登录</div>
         <!-- 底部提示文字 -->
         <div class="fttext">
-          <p>欢迎使用U建行业市场,</p>
-          <p>请您输入手机号码进入下步购物环节</p>
+          <p>欢迎使用U建,</p>
+          <p>请您输入手机号码进入项目大厅</p>
         </div>
       </div>
-      <div
-        v-else
-        class="nr"
-      >
+      <div v-else class="nr">
         <!-- 输入手机号码 -->
         <div class="tel">
           <i class="icon">&#xe60d;</i>
-          <input
-            type="tel"
-            placeholder="请输入手机号码"
-            v-model="userInfo.Account"
-          >
+          <input type="tel" placeholder="请输入手机号码" v-model="userInfo.Account">
         </div>
         <!-- 输入密码 -->
         <div class="pwd">
           <i class="icon">&#xe75c;</i>
-          <input
-            type="password"
-            placeholder="请输入密码"
-            v-model="userInfo.PassWord"
-          >
+          <input type="password" placeholder="请输入密码" v-model="userInfo.PassWord">
         </div>
         <!-- 登录按钮 -->
-        <div
-          class="btn"
-          :class="{action:loginAction}"
-          @click="login2"
-        >立即登录</div>
+        <div class="btn" :class="{action:loginAction}" @click="login2">立即登录</div>
         <!-- 底部提示文字 -->
         <div class="fttext">
-          <p>欢迎使用U建行业市场,</p>
-          <p>请您登录后进入下步购物环节</p>
+          <p>欢迎使用U建,</p>
+          <p>请您输入手机号码进入项目大厅</p>
         </div>
       </div>
     </div>
   </div>
-
 </template>
 <script>
-import $toast from "@/utils/toast";
+import { mapState } from "vuex";
+
 export default {
   props: {
-    userInfo: Object
   },
+  
   data() {
     return {
       countDownStr: "获取验证码",
@@ -100,7 +66,10 @@ export default {
     },
     loginAction() {
       return this.VerificationCode && this.VerificationCode.length > 0;
-    }
+    },
+    ...mapState({
+      userInfo: state => state.User.UserInfo//获取当前用户的登录信息
+    }),
   },
   methods: {
     async countDown() {
@@ -126,10 +95,10 @@ export default {
     },
     async login2() {
       var req = await this.$ShoppingAPI.Account_Login({
-        Account: this.userInfo.Account,     //账号
-        PassWord: this.userInfo.PassWord    //密码 
+        Account: this.userInfo.Account, //账号
+        PassWord: this.userInfo.PassWord //密码
       });
-    
+
       if (req.ret == 0) {
         this.$store.commit("Login", { Ticket: req.data }); //存入Ticket
         var userinfo = await this.$ShoppingAPI.User_Get();
@@ -144,8 +113,6 @@ export default {
       }
     },
 
-
-    
     async login() {
       if (!this.codeAction) {
         this.toast("请输入手机号码");
@@ -162,7 +129,7 @@ export default {
         UserName: this.userInfo.nickName,
         VerificationCode: this.VerificationCode
       });
-       
+
       if (req.ret == 0) {
         this.$store.commit("Login", { Ticket: req.data }); //存入Ticket
         var userinfo = await this.$ShoppingAPI.User_Get();
@@ -171,7 +138,7 @@ export default {
           // 切换至 tabBar页面
           this.$router.push({ path: this.$route.query.redirect, isTab: true });
         // 切换至 tabBar页面
-        else this.$router.push({ path: "/pages/Login/Projecthall"});
+        else this.$router.push({ path: "/pages/Login/Projecthall" });
       } else {
         this.toast("登录失败");
       }
@@ -215,8 +182,8 @@ export default {
       color: #999999;
     }
   }
-  .pwd{
-    margin-top:0.64rem;
+  .pwd {
+    margin-top: 0.64rem;
   }
 }
 
