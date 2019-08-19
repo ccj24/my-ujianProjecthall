@@ -6,18 +6,23 @@
     <div class="index">
       <div class="topNr">
         <span class="top_one" @click="returnRoom">取消</span>
-        <span class="top_two">发表</span>
+        <span class="top_two" @click="release">发布</span>
       </div>
       <!-- 时间 -->
       <div class="day">
         <span>日期:</span>
-        <span>2017年8月16号</span>
+        <span>{{ProjectInfo.CreateTime}}</span>
         <img src="/static/img/time_icon.png" alt />
       </div>
       <div class="content">
         <div class="rich">
           <!-- maxlength设计最大字数 auto-height="ture"是高度随字数增加而增加-->
-          <textarea placeholder="不能超过2000字" maxlength="2000" auto-height="ture"></textarea>
+          <textarea
+            v-model="ProjectInfo.LogContent"
+            placeholder="不能超过2000字"
+            maxlength="2000"
+            auto-height="ture"
+          ></textarea>
         </div>
       </div>
       <div class="rizhi">
@@ -32,19 +37,26 @@
     <div class="frame" v-show="conceal">
       <div class="frame_top">确定取消？</div>
       <div class="frame_two">
-        <div class="one" style="float:left" @click="go({path:'/pages/log/Logdetails'})">确认</div>
+        <div class="one" style="float:left" @click="affirm">确认</div>
         <div class="two" @click="cancel">取消</div>
       </div>
     </div>
   </div>
 </template>
 <script>
+// 引进来获取时间
+import utils from "@/utils/index.js";
 export default {
   data() {
     return {
       // 提示框刚刚开始是隐藏状态
       conceal: false,
-      yincang: false
+      yincang: false,
+      ProjectInfo: {
+        ProjectId: "",
+        LogContent: "",
+        CreateTime: "",
+      }
     };
   },
   methods: {
@@ -56,7 +68,24 @@ export default {
       // 点击弹出框的取消后再次隐藏
       this.conceal = false;
       this.yincang = false;
+    },
+    affirm() {
+      // 点击确定取消后返回上一级
+      this.$router.back();
+    },
+    // 点击发布触发事件
+    async release() {
+      console.log(this.ProjectInfo);
+      var that = this;
+      // ProjectInfo既是上面定义的对象
+      var rep = await this.$UJAPI.ProjectLog_Add(this.ProjectInfo);
     }
+  },
+  mounted() {
+    // 获取引进来的当地时间
+    this.ProjectInfo.CreateTime = utils.formatTime(new Date());
+    // 获取日志ProjectId
+    this.ProjectInfo.ProjectId = this.ProjectId;
   }
 };
 </script>
@@ -137,7 +166,7 @@ export default {
   position: fixed;
   width: 100%;
   height: 100%;
-  background-color:#353535;
+  background-color: #353535;
   /* 背景透明度 */
   opacity: 0.5;
   position: fixed;

@@ -133,4 +133,9 @@ export default {
     RedPacketDetail: param => {
         return http.get(BaseHost + "api/RedPacketDetail/Get", param)
     },
+     // 写日志
+     ProjectLog_Add: (param)=> {
+        return http.post(BaseHost + "api/ProjectLog/Add", param)
+    },
+
 }

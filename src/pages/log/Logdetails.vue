@@ -28,7 +28,7 @@
             <span>{{item.DepartmentId}}</span>
             <span>{{item.PostId}}</span>
           </div>
-          <span class="zhuangtai">{{item.Audit}}</span>
+          <span class="zhuangtai">{{item.Audit==0?"待审核":[item.Audit==1?"通过":"未通过"]}}</span>
         </div>
       </div>
       <div class="content">
@@ -70,10 +70,12 @@ export default {
       if(index==0)
       {
         Audit=null;
+        
       }
       else if(index==1)
       {
         Audit=-1;
+        
       }
       else if (index==2)
       {

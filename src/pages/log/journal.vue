@@ -15,10 +15,10 @@
           <img src="/static/img/log-all@3x.3.png" />
           <p>我的日志</p>
         </div>
-         <!-- <div class="top_one" :class="{top_oneNr:checkIndex==3}" @click="checktab(3)">
+         <div class="top_one" :class="{top_oneNr:checkIndex==2}" @click="checktab(2)">
           <img src="/static/img/log-all@3x.4.png" />
           <p>待审核日志</p>
-        </div> -->
+        </div>
       </div>
       <!-- calendar:classshow是隐藏样式，calendarshow:classconceal是打开样式 -->
       <div :class="{calendar:classshow,calendarshow:classconceal}">
@@ -340,6 +340,7 @@ export default {
   display: block;
   float: left;
   background-color: #000000;
+  margin-left: 0.28rem;
 }
 .one {
   padding-left: 0.33rem;
