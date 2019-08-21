@@ -26,12 +26,15 @@
         </div>
       </div>
       <div class="rizhi">
-        <div class="rizhi_img_box">
-          <img class="rizhi_img" src="/static/img/myrizhi.png" />
-        </div>
-        <div class="rizhi_img_box">
-          <img class="rizhi_img" src="/static/images/组30@3x.png" />
-        </div>
+        <img
+          class="rizhi_img"
+          v-for="(items,index) in Images"
+          :key="index"
+          :src="items"
+          @click="yulan(items)"
+          @longpress="deleteImage(items,index)"
+        />
+        <img @click="chuantupian" src="/static/images/组30@3x.png" />
       </div>
     </div>
     <div class="frame" v-show="conceal">
@@ -52,11 +55,13 @@ export default {
       // 提示框刚刚开始是隐藏状态
       conceal: false,
       yincang: false,
+      Images: [],
+      // ProjectInfo代表一个日志
       ProjectInfo: {
         ProjectId: "",
         LogContent: "",
-        CreateTime: "",
-      }
+        CreateTime: "",       
+      },
     };
   },
   methods: {
@@ -74,11 +79,57 @@ export default {
       this.$router.back();
     },
     // 点击发布触发事件
+    
     async release() {
-      console.log(this.ProjectInfo);
       var that = this;
+      var fileNames = []
+      for(var i = 0 ; i<this.Images.length; i++)
+      {
+        fileNames.push("Images["+i+"]");       
+      }
       // ProjectInfo既是上面定义的对象
-      var rep = await this.$UJAPI.ProjectLog_Add(this.ProjectInfo);
+      var rep = await this.$UJAPI.ProjectLog_Add(this.ProjectInfo,this.Images,fileNames);  
+    },
+    // 获取本地照片上传
+    chuantupian() {
+      var that = this;
+      wx.chooseImage({
+        count: 1, //照片数量
+        sizeType: ["original", "compressed"],
+        sourceType: ["album", "camera"],
+        //接口调用成功的回调函数
+        success(res) {
+          console.log(res);
+          // 每次向图片里增加一张图片用push
+          that.Images.push(res.tempFilePaths[0]);
+        }
+      });
+    },
+    // 预览图片
+    yulan(items) {
+      wx.previewImage({
+        current: items,
+        urls: this.Images,
+      });
+    },
+    //长按删除事件
+    deleteImage(items, index) {
+      var that =this;
+      var Images = that.Images;
+      wx.showModal({
+        title: "提示",
+        content: "确定要删除此图片吗？",
+        success(res) {
+          if (res.confirm) {
+            console.log("点击确定了");
+            // 删除图片
+           Images.splice(index, 1);
+          } else if (res.cancel) {
+            console.log("点击取消了");
+            return false;
+          }
+        }
+      });
     }
   },
   mounted() {
@@ -146,20 +197,18 @@ export default {
   float: left;
   margin-left: 0.31rem;
   margin-bottom: 0.3rem;
+  overflow: hidden;
 }
-
-.rizhi_img_box {
+.rizhi img {
   float: left;
-  margin-right: 0.3rem;
-  margin-bottom: 0.3rem;
-}
-.rizhi_img {
   width: 2.27rem;
   height: 2.27rem;
+  padding-right: 0.28rem;
+  padding-top: 0.28rem;
   display: block;
 }
-.rizhi_img_box:nth-child(4n) {
-  margin-right: 0;
+.rizhi_img:nth-child(4n) {
+  padding-right: 0;
 }
 /* 点击弹出框背景 */
 .layout {

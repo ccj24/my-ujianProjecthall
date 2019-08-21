@@ -114,14 +114,19 @@
       <div class="typeface">{{item.LogContent}}</div>
       <div class="img">
         <!-- 不能使用同一个索引 -->
-        <img v-for="(items,indexs) in ProjectLog.Images" :key="indexs" :src="items" />
+        <img v-for="(items,indexs) in item.Images" :key="indexs" :src="items" />
      
-        <div class="kuang">+</div>
+        <!-- <div class="kuang">+</div> -->
       </div>
       <div class="dianping">
         <img src="/static/images/bubble.png" alt="">
         <span>点评</span>
       </div>
+    </div>
+    <!-- 评论框 -->
+    <div>
+      <textarea class="comment"></textarea>
+      <span>评论</span>
     </div>
     <div class="bottom">加载完毕</div>
   </div>
@@ -366,13 +371,13 @@ export default {
   margin-top: 0.16rem;
 }
 .typeface {
-  	font-size: 0.46rem;
+  font-size: 0.46rem;
 	line-height: 0.7rem;
 	letter-spacing: 0.01rem;
 	color: #404040;
   margin-left: 0.44rem;
   margin-right: 0.64rem;
-  margin-top: 1.06rem;
+  margin-top: 0.6rem;
   word-break: break-all;
   /* 将对象作为弹性伸缩盒子模型显示 */
   display: -webkit-box;
@@ -393,11 +398,10 @@ export default {
 .img img {
   width: 2.2rem;
 	height: 2.2rem;
-	background-color: #404040;
   float: left;
   margin-right: 0.3rem;
 }
-.kuang {
+/* .kuang {
   width: 2.2rem;
 	height: 2.2rem;
 	border: 0.03rem dashed #a0a0a0;
@@ -406,7 +410,7 @@ export default {
   text-align: center;
 	color: #b3b3b3;
   margin-left: 7.54rem;
-}
+} */
 .dianping {
   width: 1.38rem;
 	height: 0.4rem;

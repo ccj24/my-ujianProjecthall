@@ -134,8 +134,9 @@ export default {
         return http.get(BaseHost + "api/RedPacketDetail/Get", param)
     },
      // 写日志
-     ProjectLog_Add: (param)=> {
-        return http.post(BaseHost + "api/ProjectLog/Add", param)
+     ProjectLog_Add: (param,paths,filenames)=> {
+        // return http.post(BaseHost + "api/ProjectLog/Add", param)
+        return http.upload(BaseHost + "api/ProjectLog/Add?t=json", param,paths,filenames)
     },
 
 }
