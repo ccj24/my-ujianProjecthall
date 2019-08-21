@@ -154,7 +154,7 @@ const net = {
           name: names[index],
           formData: data,
           header: {
-            'dataType-Type': 'application/json',
+            'Accept': '*/*',
             'Device': "WebApp",
             'DisplayVersion': "2.0.11",
             'SingleTicket': store.state.User.SingleTicket
