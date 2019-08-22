@@ -44,7 +44,7 @@ export default {
     // 获取用户登录授权
     getUserInfoData(obj) {
       if (obj.mp.detail.errMsg.indexOf("getUserInfo:ok") != -1) {
-        debugger;
+        //debugger;
         this.UserInfo.nickName = obj.mp.detail.userInfo.nickName;
         this.UserInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
         this.$store.commit("GetUserInfo", this.UserInfo);
@@ -68,7 +68,7 @@ export default {
     },
   },
   mounted() {
-    debugger;
+    //debugger;
     console.log(this.UserInfo);
     if(this.isMp)
     {

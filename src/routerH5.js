@@ -8,7 +8,7 @@ import data from './pages/data/index'
 import login from './pages/index/indexH5'
 import particulars from './pages/log/particulars'
 import journal from './pages/log/journal'
-import Logdetails from './pages/log/Logdetails'
+import myLog from './pages/log/myLog'
 import writeLog from './pages/log/writeLog'
 import Welfarelist from './pages/home/Welfarelist'
 
@@ -111,14 +111,14 @@ var routes = [
         component: journal
       },
       {
-        path: 'pages/log/Logdetails',
-        name: 'Logdetails',
+        path: 'pages/log/myLog',
+        name: 'myLog',
         config: {
           navigationBarTitleText: '我的日志',
           enablePullDownRefresh: false
         },
-        alias: '/pages/log/Logdetails',
-        component: Logdetails
+        alias: '/pages/log/myLog',
+        component: myLog
       },
       {
         path: 'pages/log/writeLog',

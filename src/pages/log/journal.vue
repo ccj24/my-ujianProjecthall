@@ -1,6 +1,7 @@
 <template>
   <div>
     <div>
+    <div>
       <div class="journal_top">
         <div class="top_one" :class="{top_oneNr:checkIndex==0}" @click="checktab(0)">
           <img src="/static/img/log-all@3x.1.png" />
@@ -15,7 +16,7 @@
           <img src="/static/img/log-all@3x.3.png" />
           <p>我的日志</p>
         </div>
-         <div class="top_one" :class="{top_oneNr:checkIndex==2}" @click="checktab(2)">
+        <div class="top_one" :class="{top_oneNr:checkIndex==2}" @click="checktab(2)">
           <img src="/static/img/log-all@3x.4.png" />
           <p>待审核日志</p>
         </div>
@@ -23,10 +24,10 @@
       <!-- calendar:classshow是隐藏样式，calendarshow:classconceal是打开样式 -->
       <div :class="{calendar:classshow,calendarshow:classconceal}">
         <div class="month">
-          <img src="/static/img/back.png" alt="">
+          <img src="/static/img/back.png" alt />
           <span>2016年12月</span>
-          <img src="/static/images/theMore.png" alt="">
-          </div>
+          <img src="/static/images/theMore.png" alt />
+        </div>
         <table>
           <tr class="week">
             <td>日</td>
@@ -39,14 +40,16 @@
           </tr>
           <tr class="time">
             <td>30</td>
-            <td><p>31</p></td>
+            <td>
+              <p>31</p>
+            </td>
             <td>1</td>
             <td>2</td>
             <td>3</td>
             <td>4</td>
             <td>5</td>
           </tr>
-           <tr class="time_hide">
+          <tr class="time_hide">
             <td>6</td>
             <td>7</td>
             <td>8</td>
@@ -55,7 +58,7 @@
             <td>11</td>
             <td>12</td>
           </tr>
-           <tr class="time_hide">
+          <tr class="time_hide">
             <td>13</td>
             <td>14</td>
             <td>15</td>
@@ -64,7 +67,7 @@
             <td>18</td>
             <td>19</td>
           </tr>
-           <tr class="time_hide">
+          <tr class="time_hide">
             <td>20</td>
             <td>21</td>
             <td>22</td>
@@ -73,7 +76,7 @@
             <td>25</td>
             <td>26</td>
           </tr>
-           <tr class="time_hide">
+          <tr class="time_hide">
             <td>27</td>
             <td>28</td>
             <td>29</td>
@@ -83,17 +86,16 @@
             <td>2</td>
           </tr>
         </table>
-
       </div>
       <div class="unfold">
         <div class="unfold_content">
           <div v-if="show" @click="triggershow">
-          <img src="/static/images/xc_xialan.png" />
-          <p>展开</p>
+            <img src="/static/images/xc_xialan.png" />
+            <p>展开</p>
           </div>
-          <div  v-if="conceal" @click="triggerconceal">
-          <img src="/static/images/wallet-morex.png" alt="">
-          <p>收起</p>
+          <div v-if="conceal" @click="triggerconceal">
+            <img src="/static/images/wallet-morex.png" alt />
+            <p>收起</p>
           </div>
         </div>
       </div>
@@ -115,87 +117,98 @@
       <div class="img">
         <!-- 不能使用同一个索引 -->
         <img v-for="(items,indexs) in item.Images" :key="indexs" :src="items" />
-     
-        <!-- <div class="kuang">+</div> -->
       </div>
-      <div class="dianping">
-        <img src="/static/images/bubble.png" alt="">
+      <div class="dianping" @click="estimate">
+        <img src="/static/images/bubble.png" alt />
         <span>点评</span>
       </div>
     </div>
-    <!-- 评论框 -->
-    <div>
-      <textarea class="comment"></textarea>
-      <span>评论</span>
-    </div>
     <div class="bottom">加载完毕</div>
+    <!-- 评论框 -->
+    <div v-if="commentbox" class="comment_box" >
+      <div class="comment">
+        <!-- 用失去焦点事件让评论框隐藏 -->
+        <textarea maxlength="1000" v-model="textContent" @blur="lose"></textarea>
+      </div>
+      <div class="pinglun" :class="{pinglunNr:textContent.length>0}">评论</div>
+    </div>
+    </div>
   </div>
 </template>
 
 <script>
 export default {
-  data(){
-    return{
-      ProjectLog :[],//项目日志
-      classshow:true,
-      classconceal:false,
-      show:true,
-      conceal:false,  
+  data() {
+    return {
+      ProjectLog: [], //项目日志
+      classshow: true,
+      classconceal: false,
+      show: true,
+      conceal: false,
       checkIndex: 0,
+      // 评论框
+      commentbox: false,
+      textContent: []
     };
-
   },
-  methods:{
+  methods: {
     // 显示的方法
-    triggershow(){
+    triggershow() {
       // 控制样式
-      this.classshow=false,
-      this.classconceal=true,
-    // 控制控件
-      this.show=false,
-      this.conceal=true
+      (this.classshow = false),
+        (this.classconceal = true),
+        // 控制控件
+        (this.show = false),
+        (this.conceal = true);
     },
     // 隐藏的方法
-    triggerconceal(){
-      this.classshow=true,
-      this.classconceal=false,
-      this.show=true,
-      this.conceal=false
+    triggerconceal() {
+      (this.classshow = true),
+        (this.classconceal = false),
+        (this.show = true),
+        (this.conceal = false);
     },
+    estimate() {
+      this.commentbox = true;
+    },
+    lose() {
+      console.log("事件成功")
+      this.commentbox= false;
+    },
+
     async checktab(index) {
       this.checkIndex = index;
       let QueryType;
       // 点击时候传公共日志的数据
-      if(index==0)
-      {
-        QueryType=1;
+      if (index == 0) {
+        QueryType = 1;
       }
-       // 点击时候传内部日志的数据
-       else if(index==1) {
-         QueryType=5;
-       }
-       var rep=await this.$UJAPI.Project_GetList({
-      ProjectId:this.ProjectId
-    })
-    if (rep.ret==0) {
-      // 这个ProjectLog是data自己定义的
-      this.ProjectLog=rep.data
-    }
+      // 点击时候传内部日志的数据
+      else if (index == 1) {
+        QueryType = 5;
+      }
+      var rep = await this.$UJAPI.Project_GetList({
+        ProjectId: this.ProjectId
+      });
+      if (rep.ret == 0) {
+        // 这个ProjectLog是data自己定义的
+        this.ProjectLog = rep.data;
+      }
     }
   },
   async mounted() {
-    var that=this;
+    var that = this;
     // 获取日志接口
-    var rep=await this.$UJAPI.Project_GetList({
-      ProjectId:this.ProjectId
-    })
-    if (rep.ret==0) {
+    var rep = await this.$UJAPI.Project_GetList({
+      ProjectId: this.ProjectId
+    });
+    if (rep.ret == 0) {
       // 这个ProjectLog是data自己定义的
-      this.ProjectLog=rep.data
+      this.ProjectLog = rep.data;
     }
-  console.log(this.ProjectLog)
+    console.log(this.ProjectLog);
   }
-}
+};
 </script>
 
 <style scoped>
@@ -205,10 +218,8 @@ export default {
   display: flex;
 }
 .top_one {
-  /* 分为4部分 */
-  /* width: 25%; */
   /* 等分 */
-  flex:1;
+  flex: 1;
   overflow: hidden;
   /* position: relative; */
   float: left;
@@ -222,10 +233,9 @@ export default {
   /* position: absolute;
   top: 0.47rem; */
   width: 0.65rem;
-	height: 0.65rem;
+  height: 0.65rem;
   padding-top: 0.47rem;
-  
- }
+}
 .top_one p {
   font-size: 0.42rem;
   line-height: 0.7rem;
@@ -259,7 +269,7 @@ export default {
 }
 .month img {
   width: 0.19rem;
-	height: 0.4rem;
+  height: 0.4rem;
 }
 .month span {
   padding-left: 1.08rem;
@@ -311,7 +321,7 @@ export default {
   letter-spacing: -0.01rem;
   color: #000000;
   display: flex;
-} 
+}
 .time_hide td {
   flex: 1;
 }
@@ -328,7 +338,6 @@ export default {
   font-size: 0.46rem;
   color: #9f9f9f;
   margin-left: 4.95rem;
-
 }
 .middle {
   margin-top: 0.33rem;
@@ -372,9 +381,9 @@ export default {
 }
 .typeface {
   font-size: 0.46rem;
-	line-height: 0.7rem;
-	letter-spacing: 0.01rem;
-	color: #404040;
+  line-height: 0.7rem;
+  letter-spacing: 0.01rem;
+  color: #404040;
   margin-left: 0.44rem;
   margin-right: 0.64rem;
   margin-top: 0.6rem;
@@ -397,25 +406,15 @@ export default {
 }
 .img img {
   width: 2.2rem;
-	height: 2.2rem;
+  height: 2.2rem;
   float: left;
   margin-right: 0.3rem;
 }
-/* .kuang {
-  width: 2.2rem;
-	height: 2.2rem;
-	border: 0.03rem dashed #a0a0a0;
-  font-size: 1.05rem;
-	line-height: 2.2rem;
-  text-align: center;
-	color: #b3b3b3;
-  margin-left: 7.54rem;
-} */
 .dianping {
   width: 1.38rem;
-	height: 0.4rem;
-	border-radius: 0.2rem;
-	border: solid 0.02rem #898989;
+  height: 0.4rem;
+  border-radius: 0.2rem;
+  border: solid 0.02rem #898989;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -425,21 +424,65 @@ export default {
 }
 .dianping img {
   width: 0.31rem;
-	height: 0.25rem;
+  height: 0.25rem;
   float: left;
   padding-left: 0.1rem;
 }
 .dianping span {
   font-size: 0.28rem;
-	line-height: 0.7rem;
-	color: #757575;
+  line-height: 0.7rem;
+  color: #757575;
   padding-left: 0.15rem;
+}
+.comment_box {
+  width: 100%;
+  overflow: hidden;
+  position: fixed;
+  top: 50%;
+  border-top: 0.02rem solid #898989;
+  border-bottom: 0.02rem solid #898989;
+  background-color: #ffffff;
+  opacity: 1;
+  display: flex;
+  align-items: center;
+}
+.comment {
+  float: left;
+  margin-left: 0.15rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  width: 8.3rem;
+}
+.comment textarea {
+  padding: 0.1rem;
+  width: 8rem;
+  max-height: 1.2rem;
+  font-size: 0.4rem;
+  word-wrap: break-word;
+  word-break: break-all;
+  overflow-y: auto;
+  border-radius: 0.15rem;
+  border: 0.02rem solid #898989;
+}
+.pinglun {
+  height: 0.8rem;
+  width: 2rem;
+  font-size: 0.4rem;
+  line-height: 0.8rem;
+  text-align: center;
+  background-color: #898989;
+  color: #ffffff;
+  border-radius: 0.15rem;
+  float: right;
+}
+.pinglunNr {
+  background-color: #29bef6;
 }
 .bottom {
   font-size: 0.4rem;
-	line-height: 0.7rem;
-	letter-spacing: 0.02rem;
-	color: #757575;
+  line-height: 0.7rem;
+  letter-spacing: 0.02rem;
+  color: #757575;
   text-align: center;
   margin-top: 0.47rem;
 }

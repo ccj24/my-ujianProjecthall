@@ -60,8 +60,8 @@ export default {
       ProjectInfo: {
         ProjectId: "",
         LogContent: "",
-        CreateTime: "",       
-      },
+        CreateTime: ""
+      }
     };
   },
   methods: {
@@ -79,16 +79,18 @@ export default {
       this.$router.back();
     },
     // 点击发布触发事件
-    
     async release() {
       var that = this;
-      var fileNames = []
-      for(var i = 0 ; i<this.Images.length; i++)
-      {
-        fileNames.push("Images["+i+"]");       
+      var fileNames = [];
+      for (var i = 0; i < this.Images.length; i++) {
+        fileNames.push("Images[" + i + "]");
       }
       // ProjectInfo既是上面定义的对象
-      var rep = await this.$UJAPI.ProjectLog_Add(this.ProjectInfo,this.Images,fileNames);  
+      var rep = await this.$UJAPI.ProjectLog_Add(
+        this.ProjectInfo,
+        this.Images,
+        fileNames
+      );
     },
     // 获取本地照片上传
     chuantupian() {
@@ -109,12 +111,12 @@ export default {
     yulan(items) {
       wx.previewImage({
         current: items,
-        urls: this.Images,
+        urls: this.Images
       });
     },
     //长按删除事件
     deleteImage(items, index) {
-      var that =this;
+      var that = this;
       var Images = that.Images;
       wx.showModal({
         title: "提示",
@@ -123,7 +125,7 @@ export default {
           if (res.confirm) {
             console.log("点击确定了");
             // 删除图片
-           Images.splice(index, 1);
+            Images.splice(index, 1);
           } else if (res.cancel) {
             console.log("点击取消了");
             return false;

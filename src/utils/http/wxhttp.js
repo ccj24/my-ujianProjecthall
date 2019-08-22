@@ -160,7 +160,7 @@ const net = {
             'SingleTicket': store.state.User.SingleTicket
           }, // 设置请求的 header
           success: (resp) => {
-            debugger;
+            // debugger;
             resolve(JSON.parse(resp.data));
           },
           fail: (res) => {

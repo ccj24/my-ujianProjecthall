@@ -325,8 +325,8 @@ var routes = [
     },
   },
   {
-    path: 'pages/log/Logdetails',
-    name: 'Logdetails',
+    path: 'pages/log/myLog',
+    name: 'myLog',
     config: {
       navigationBarTitleText: '我的日志',
       enablePullDownRefresh: false
