@@ -11,13 +11,9 @@
           </div>
         </div>
       </div>
-
       <div class="particulars_bottom">
         <div class="title">
-          <p>工程开工申请表:</p>
-          <p>监A-(004)</p>
           <p>{{ProjectLog.ProjectName}}</p>
-       
         </div>
         <div class="time">
           <!-- <div class="tubiao"></div> -->
@@ -26,8 +22,7 @@
         </div>
         <div class="photo">
           <!-- index是一个索引 -->
-          <img v-for="(item,index) in  ProjectLog.Images "  :key="index"  :src="item" />
-          
+          <img v-for="(item,index) in  ProjectLog.Images "  :key="index"  :src="item" @click="yulan(item)" />     
         </div>
         <div class="input">
           {{ProjectLog.LogContent}}
@@ -44,13 +39,24 @@ export default {
       ProjectLog :{},//项目日志（名字自己命名）
     };
   },
+  methods: {
+     // 预览图片
+    yulan(items) {
+      var arr = Array(items);
+      wx.previewImage({
+        current: items,
+        urls: arr
+      });
+    },
+  },
   // 在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
   async mounted() {
     var that=this;
     //rep代表请求获取项目日志详情接口数据
     var rep=await this.$UJAPI.Project_ProjectLog({
-      LogId:1944,
-      ProjectId:"70057154-a003-4815-b247-0fe887ab4469"
+      // logid当前所点击的日志Id
+      LogId:this.$route.query.LogId,
+      Projectid: this.ProjectId
     })
     // 当ret=0时，代表请求项目日志接口成功，然后把请求回来的数据赋值给ProjectLog。
    if (rep.ret==0) {
@@ -135,7 +141,6 @@ export default {
   float: left;
   width: 3.4rem;
   height: 3.37rem;
-  background-color: #565b5f;
   padding-right: 0.02rem;
 }
 .photo img:nth-child(3n) {

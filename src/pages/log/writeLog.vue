@@ -49,6 +49,7 @@
 <script>
 // 引进来获取时间
 import utils from "@/utils/index.js";
+import { compare } from "semver";
 export default {
   data() {
     return {
@@ -91,6 +92,8 @@ export default {
         this.Images,
         fileNames
       );
+      // 点击确定取消后返回上一级
+      this.$router.back();
     },
     // 获取本地照片上传
     chuantupian() {
@@ -180,15 +183,17 @@ export default {
   margin-top: 0.41rem;
 }
 .rich {
-  /* 给高度设置一个最低限制 */
-  min-height: 4rem;
-  height: auto;
-  font-size: 0.46rem;
   /* overflow-y: auto是设计竖方向超出内容形成滚动条显示 */
   /* overflow-y: auto; */
   padding: 0.43rem;
   /* 设计四个边框 */
   outline: 0;
+}
+.rich textarea {
+  /* 给高度设置一个最低限制 */
+  min-height: 4rem;
+  height: auto;
+  font-size: 0.46rem;
   /* 下面二个都是自动换行的，但是word-wrap如果
   在最后长度不够会自动保留单
   次字体的完整性换行到下一行 */

@@ -301,8 +301,8 @@ var routes = [
     },
   },
   {
-    path: 'pages/log/particulars',
-    name: 'particulars',
+    path: 'pages/log/auditLog',
+    name: 'auditLog',
     config: {
       navigationBarTitleText: '详情',
       enablePullDownRefresh: false
@@ -329,6 +329,22 @@ var routes = [
     name: 'myLog',
     config: {
       navigationBarTitleText: '我的日志',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/log/LogDetails',
+    name: 'LogDetails',
+    config: {
+      navigationBarTitleText: '日志详情',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/log/toAudit',
+    name: 'toAudit',
+    config: {
+      navigationBarTitleText: '待审核',
       enablePullDownRefresh: false
     },
   },

@@ -1,137 +1,147 @@
 <template>
   <div>
+    <div :class="{zhezhaoceng:yincang}"></div>
     <div>
-    <div>
-      <div class="journal_top">
-        <div class="top_one" :class="{top_oneNr:checkIndex==0}" @click="checktab(0)">
-          <img src="/static/img/log-all@3x.1.png" />
-          <p>公共日志</p>
-        </div>
-        <div class="top_one" :class="{top_oneNr:checkIndex==1}" @click="checktab(1)">
-          <img src="/static/img/log-all@3x.2.png" />
-          <p>内部日志</p>
-        </div>
-        <!-- 跳转到我的日志 -->
-        <div class="top_one" @click="go({path:'/pages/log/Logdetails'})">
-          <img src="/static/img/log-all@3x.3.png" />
-          <p>我的日志</p>
-        </div>
-        <div class="top_one" :class="{top_oneNr:checkIndex==2}" @click="checktab(2)">
-          <img src="/static/img/log-all@3x.4.png" />
-          <p>待审核日志</p>
-        </div>
-      </div>
-      <!-- calendar:classshow是隐藏样式，calendarshow:classconceal是打开样式 -->
-      <div :class="{calendar:classshow,calendarshow:classconceal}">
-        <div class="month">
-          <img src="/static/img/back.png" alt />
-          <span>2016年12月</span>
-          <img src="/static/images/theMore.png" alt />
-        </div>
-        <table>
-          <tr class="week">
-            <td>日</td>
-            <td>一</td>
-            <td>二</td>
-            <td>三</td>
-            <td>四</td>
-            <td>五</td>
-            <td>六</td>
-          </tr>
-          <tr class="time">
-            <td>30</td>
-            <td>
-              <p>31</p>
-            </td>
-            <td>1</td>
-            <td>2</td>
-            <td>3</td>
-            <td>4</td>
-            <td>5</td>
-          </tr>
-          <tr class="time_hide">
-            <td>6</td>
-            <td>7</td>
-            <td>8</td>
-            <td>9</td>
-            <td>10</td>
-            <td>11</td>
-            <td>12</td>
-          </tr>
-          <tr class="time_hide">
-            <td>13</td>
-            <td>14</td>
-            <td>15</td>
-            <td>16</td>
-            <td>17</td>
-            <td>18</td>
-            <td>19</td>
-          </tr>
-          <tr class="time_hide">
-            <td>20</td>
-            <td>21</td>
-            <td>22</td>
-            <td>23</td>
-            <td>24</td>
-            <td>25</td>
-            <td>26</td>
-          </tr>
-          <tr class="time_hide">
-            <td>27</td>
-            <td>28</td>
-            <td>29</td>
-            <td>30</td>
-            <td>31</td>
-            <td>1</td>
-            <td>2</td>
-          </tr>
-        </table>
-      </div>
-      <div class="unfold">
-        <div class="unfold_content">
-          <div v-if="show" @click="triggershow">
-            <img src="/static/images/xc_xialan.png" />
-            <p>展开</p>
+      <div>
+        <div class="journal_top">
+          <div class="top_one" :class="{top_oneNr:checkIndex==0}" @click="checktab(0)">
+            <img src="/static/img/log-all@3x.1.png" />
+            <p>公共日志</p>
           </div>
-          <div v-if="conceal" @click="triggerconceal">
-            <img src="/static/images/wallet-morex.png" alt />
-            <p>收起</p>
+          <div class="top_one" :class="{top_oneNr:checkIndex==1}" @click="checktab(1)">
+            <img src="/static/img/log-all@3x.2.png" />
+            <p>内部日志</p>
+          </div>
+          <!-- 跳转到我的日志 -->
+          <div class="top_one" @click="go({path:'/pages/log/myLog'})">
+            <img src="/static/img/log-all@3x.3.png" />
+            <p>我的日志</p>
+          </div>
+          <div class="top_one" @click="go({path:'/pages/log/toAudit'})">
+            <img src="/static/img/log-all@3x.4.png" />
+            <p>待审核日志</p>
           </div>
         </div>
-      </div>
-    </div>
-    <!-- item是每一项  index索引和key值是一样的 -->
-    <div class="middle" v-for="(item,index) in ProjectLog" :key="index">
-      <div class="middle_top">
-        <img :src="item.Portrait" />
-        <div class="one">
-          <p class="name">{{item.CreatorName}}</p>
-          <p class="pm">{{item.PostName}}</p>
+        <!-- calendar:classshow是隐藏样式，calendarshow:classconceal是打开样式 -->
+        <div :class="{calendar:classshow,calendarshow:classconceal}">
+          <div class="month">
+            <img src="/static/img/back.png" alt />
+            <span>2016年12月</span>
+            <img src="/static/images/theMore.png" alt />
+          </div>
+          <table>
+            <tr class="week">
+              <td>日</td>
+              <td>一</td>
+              <td>二</td>
+              <td>三</td>
+              <td>四</td>
+              <td>五</td>
+              <td>六</td>
+            </tr>
+            <tr class="time">
+              <td>30</td>
+              <td>
+                <p>31</p>
+              </td>
+              <td>1</td>
+              <td>2</td>
+              <td>3</td>
+              <td>4</td>
+              <td>5</td>
+            </tr>
+            <tr class="time_hide">
+              <td>6</td>
+              <td>7</td>
+              <td>8</td>
+              <td>9</td>
+              <td>10</td>
+              <td>11</td>
+              <td>12</td>
+            </tr>
+            <tr class="time_hide">
+              <td>13</td>
+              <td>14</td>
+              <td>15</td>
+              <td>16</td>
+              <td>17</td>
+              <td>18</td>
+              <td>19</td>
+            </tr>
+            <tr class="time_hide">
+              <td>20</td>
+              <td>21</td>
+              <td>22</td>
+              <td>23</td>
+              <td>24</td>
+              <td>25</td>
+              <td>26</td>
+            </tr>
+            <tr class="time_hide">
+              <td>27</td>
+              <td>28</td>
+              <td>29</td>
+              <td>30</td>
+              <td>31</td>
+              <td>1</td>
+              <td>2</td>
+            </tr>
+          </table>
         </div>
-        <div class="date">
-          <span>{{item.CreateTimeFormat}}</span>
-          <span>{{item.CreateTimeWeekFormat}}</span>
+        <div class="unfold">
+          <div class="unfold_content">
+            <div v-if="show" @click="triggershow">
+              <img src="/static/images/xc_xialan.png" />
+              <p>展开</p>
+            </div>
+            <div v-if="conceal" @click="triggerconceal">
+              <img src="/static/images/wallet-morex.png" alt />
+              <p>收起</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="typeface">{{item.LogContent}}</div>
-      <div class="img">
-        <!-- 不能使用同一个索引 -->
-        <img v-for="(items,indexs) in item.Images" :key="indexs" :src="items" />
+      <!-- item是每一项  index索引和key值是一样的 -->
+      <div
+        class="middle"
+        v-for="(item,index) in ProjectLog"
+        :key="index"
+        @click="goaudit(item.LogId)" >
+        <div class="middle_top">
+          <img :src="item.Portrait" />
+          <div class="one">
+            <p class="name">{{item.CreatorName}}</p>
+            <p class="pm">{{item.PostName}}</p>
+          </div>
+          <div class="date">
+            <span>{{item.CreateTimeFormat}}</span>
+            <span>{{item.CreateTimeWeekFormat}}</span>
+          </div>
+        </div>
+        <div class="typeface">{{item.LogContent}}</div>
+        <div class="img">
+          <!-- 不能使用同一个索引 -->
+          <img
+            v-for="(items,indexs) in item.Images"
+            :key="indexs"
+            :src="items"
+            @click.stop="yulan(items)"
+          />
+        </div>
+        <div class="dianping" @click.stop="estimate(item)">
+          <img src="/static/images/bubble.png" alt />
+          <span>点评</span>
+        </div>
+        <div v-if="item.commentbox" class="comment_box">
+          <div class="comment">
+            <!-- 用失去焦点 @blur失焦事件让评论框隐藏 -->
+            <textarea maxlength="1000" v-model="textContent" @click.stop @blur="lose(item)"></textarea>
+          </div>
+          <div class="pinglun" :class="{pinglunNr:textContent.length>0}">评论</div>
+        </div>
       </div>
-      <div class="dianping" @click="estimate">
-        <img src="/static/images/bubble.png" alt />
-        <span>点评</span>
-      </div>
-    </div>
-    <div class="bottom">加载完毕</div>
-    <!-- 评论框 -->
-    <div v-if="commentbox" class="comment_box" >
-      <div class="comment">
-        <!-- 用失去焦点事件让评论框隐藏 -->
-        <textarea maxlength="1000" v-model="textContent" @blur="lose"></textarea>
-      </div>
-      <div class="pinglun" :class="{pinglunNr:textContent.length>0}">评论</div>
-    </div>
+      <div class="bottom">加载完毕</div>
+      <!-- 评论框 -->
     </div>
   </div>
 </template>
@@ -148,7 +158,8 @@ export default {
       checkIndex: 0,
       // 评论框
       commentbox: false,
-      textContent: []
+      textContent: [],
+      yincang: false,
     };
   },
   methods: {
@@ -168,12 +179,21 @@ export default {
         (this.show = true),
         (this.conceal = false);
     },
-    estimate() {
-      this.commentbox = true;
+    estimate(item) {
+      item.commentbox = true;
+      this.yincang = true;
     },
-    lose() {
-      console.log("事件成功")
-      this.commentbox= false;
+    lose(item) {
+      item.commentbox = false;
+      this.yincang = false;
+    },
+    // 预览图片
+    yulan(items) {
+      var arr = Array(items);
+      wx.previewImage({
+        current: items,
+        urls: arr
+      });
     },
 
     async checktab(index) {
@@ -194,6 +214,16 @@ export default {
         // 这个ProjectLog是data自己定义的
         this.ProjectLog = rep.data;
       }
+    },
+    goaudit(LogId) {
+      this.commentbox = false;
+      // 传参
+      this.$router.push({
+        path: "/pages/log/LogDetails",
+        query: {
+          LogId: LogId
+        }
+      });
     }
   },
   async mounted() {
@@ -212,6 +242,16 @@ export default {
 </script>
 
 <style scoped>
+.zhezhaoceng {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  /* 背景透明度 */
+  opacity: 0;
+  z-index: 2;
+}
+
 .journal_top {
   overflow: hidden;
   border-bottom: 0.03rem solid #ebebeb;
@@ -437,14 +477,13 @@ export default {
 .comment_box {
   width: 100%;
   overflow: hidden;
-  position: fixed;
-  top: 50%;
   border-top: 0.02rem solid #898989;
   border-bottom: 0.02rem solid #898989;
   background-color: #ffffff;
   opacity: 1;
   display: flex;
   align-items: center;
+  z-index: 3;
 }
 .comment {
   float: left;

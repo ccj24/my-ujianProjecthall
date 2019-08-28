@@ -6,11 +6,14 @@ import meeting from './pages/meeting/index'
 import Projecthall from './pages/Login/Projecthall'
 import data from './pages/data/index'
 import login from './pages/index/indexH5'
-import particulars from './pages/log/particulars'
+import particulars from './pages/log/auditLog'
 import journal from './pages/log/journal'
 import myLog from './pages/log/myLog'
 import writeLog from './pages/log/writeLog'
+import LogDetails from './pages/log/LogDetails'
+import toAudit from './pages/log/toAudit'
 import Welfarelist from './pages/home/Welfarelist'
+
 
 
 import store from './store'
@@ -91,14 +94,14 @@ var routes = [
         component: meeting
     },
       {
-        path: 'pages/log/particulars',
-        name: 'particulars',
+        path: 'pages/log/auditLog',
+        name: 'auditLog',
         config: {
           navigationBarTitleText: '详情',
           enablePullDownRefresh: false
         },
-        alias: '/pages/log/particulars',
-        component: particulars
+        alias: '/pages/log/auditLog',
+        component: auditLog
       },
       {
         path: 'pages/log/journal',
@@ -140,7 +143,27 @@ var routes = [
         alias: '/pages/home/Welfarelist',
         component: Welfarelist
       },
-
+      {
+        path: 'pages/log/LogDetails',
+        name: 'LogDetails',
+        config: {
+          navigationBarTitleText: '日志详情',
+          enablePullDownRefresh: false
+        },
+        alias: '/pages/log/LogDetails',
+        component: LogDetails
+      },
+      {
+        path: 'pages/log/toAudit',
+        name: 'toAudit',
+        config: {
+          navigationBarTitleText: '待审核',
+          enablePullDownRefresh: false
+        },
+        alias: '/pages/log/toAudit',
+        component: toAudit
+      },
+       
 ]
 
 

@@ -56,6 +56,10 @@ export default {
     Project_ProjectLog: param => {
         return http.get(BaseHost + "api/ProjectLog/Get", param)
     },
+    // 审核项目日志
+    ProjectLog_SetAudit: param => {
+        return http.post(BaseHost + "api/ProjectLog/SetAudit", param)
+    },
     //获取指定用户所属的企业列表
     Project_Enterprise: param => {
         return http.get(BaseHost + "api/Enterprise/Get", param)
@@ -133,7 +137,7 @@ export default {
     RedPacketDetail: param => {
         return http.get(BaseHost + "api/RedPacketDetail/Get", param)
     },
-     // 写日志
+     // 新增项目日志
      ProjectLog_Add: (param,paths,filenames)=> {
         // return http.post(BaseHost + "api/ProjectLog/Add", param)
         return http.upload(BaseHost + "api/ProjectLog/Add?t=json", param,paths,filenames)

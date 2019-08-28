@@ -19,22 +19,24 @@
       </div>-->
     </div>
     <!-- 日志内容 -->
-    <div class="particulars" v-for="(item,index) in ProjectLog" :key="index">
+    <div class="particulars" v-for="(item,index) in ProjectLog" :key="index" @click="goaudit(item.LogId)">
       <div class="particulars_one">
         <img :src="item.Portrait">
         <div class="information">
           <p class="name">{{item.CreatorName}}</p>
           <div class="bumen">
-            <span>{{item.DepartmentId}}</span>
-            <span>{{item.PostId}}</span>
+            <span>{{item.DepartmentName}}</span>
+            <span>{{item.PostName}}</span>
           </div>
-          <span class="zhuangtai">{{item.Audit==0?"待审核":[item.Audit==1?"通过":"未通过"]}}</span>
+          <span class="zhuangtai" v-if="item.Audit==0">待审核</span>
+          <span class="zhuangtai" v-if="item.Audit==1">通过</span>
+          <span class="zhuangtai" v-if="item.Audit==-1">未通过</span>
         </div>
       </div>
       <div class="content">
         <p>{{item.LogContent}}</p>
         <div class="picture">
-          <img v-for="(items,indexs) in ProjectLog.Images" :key="indexs" :src="items"  />        
+          <img v-for="(items,indexs) in item.Images" :key="indexs" :src="items" @click.stop="yulan(items)" />        
         </div>
         <div class="time">{{item.CreateTime}}</div>
       </div>
@@ -63,6 +65,24 @@ export default {
     console.log(this.ProjectLog)
   },
   methods: {
+      // 预览图片
+    yulan(items) {
+      var arr = Array(items);
+      wx.previewImage({
+        current: items,
+        urls: arr
+      });
+    },
+    goaudit(LogId) {
+      this.commentbox = false;
+      // 传参
+      this.$router.push({
+        path: "/pages/log/LogDetails",
+        query: {
+          LogId: LogId
+        }
+      });
+    },
      async checktab(index) {
       this.checkIndex = index;
       // 触发不同的事件，返回不同的数据
@@ -109,7 +129,7 @@ export default {
 }
 .top {
   width: 100%;
-  height: 1.28rem;
+  /* height: 1.28rem; */
   background-color: #ffffff;
   box-shadow: 0rem 0.01rem 0rem 0rem #e8e8e8;
   overflow: hidden;
@@ -120,9 +140,10 @@ export default {
   text-align: center;
   color: #353535;
   float: left;
+  
 }
 .top_oneNr {
-  background-color: 0.1rem solid #12b7f5;
+  border-bottom: 0.05rem solid #12b7f5;
   color: #12b7f5;
 }
 .top_one p {
