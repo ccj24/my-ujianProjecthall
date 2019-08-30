@@ -92,6 +92,7 @@ export default {
         this.Images,
         fileNames
       );
+      var hint= that. toast("发布成功")
       // 点击确定取消后返回上一级
       this.$router.back();
     },

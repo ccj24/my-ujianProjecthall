@@ -27,6 +27,14 @@
         <div class="input">
           {{ProjectLog.LogContent}}
         </div>
+        <!-- 评语 -->
+        <div class="remark">
+          <div class="remark_box" v-for="(itemx,indexx) in ProjectLog.CommentList" :key="indexx">
+            <span class="remark_name">{{itemx.Commentator_R}}：</span>
+            <span class="remark_word">{{itemx.CommentContent}}</span>
+            <span class="remark_time">{{itemx.CommentTime}}</span>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -151,6 +159,32 @@ export default {
   line-height: 0.63rem;
   color: #353535;
   margin: 0.39rem 0.39rem auto 0.39rem;
+}
+
+.remark {
+  margin: 0.36rem;
+  background-color: #f2f2f2;
+}
+.remark_box {
+  margin: 0.1rem 0.27rem 0rem 0.27rem;
+  padding: 0;
+  overflow: hidden;
+  display: block;
+}
+.remark_name {
+  font-size: 0.36rem;
+  color: #2a5892;
+  padding-right: 0.15rem;
+}
+.remark_word {
+  font-size: 0.36rem;
+  color: #404040;
+}
+.remark_time {
+  font-size: 0.36rem;
+  color: #8d8d8d;
+  float: right;
+  padding-top: 0.18rem;
 }
 </style>
 <style>

@@ -54,11 +54,25 @@ export default {
     async pass() {
       var that = this;
       var rep = await this.$UJAPI.ProjectLog_SetAudit(LogId, Audit == 1);
+       if (rep.ret == 0) {
+        //成功执行的代码
+        console.log("通过成功");
+      } else {
+        //失败执行的代码
+        console.log("审核失败");
+      }
     },
     // 点击不通过
     async nopass() {
       var that = this;
       var rep = await this.$UJAPI.ProjectLog_SetAudit(LogId, Audit == -1);
+          if (rep.ret == 0) {
+        //成功执行的代码
+        console.log("不通过成功");
+      } else {
+        //失败执行的代码
+        console.log("审核失败");
+      }
     }
   },
   // 在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。

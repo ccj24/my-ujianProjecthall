@@ -142,5 +142,13 @@ export default {
         // return http.post(BaseHost + "api/ProjectLog/Add", param)
         return http.upload(BaseHost + "api/ProjectLog/Add?t=json", param,paths,filenames)
     },
+    //新增日志评论
+    ProjectLogComment_Add: param => {
+        return http.post(BaseHost + "api/ProjectLogComment/Add", param)
+    },
+    //删除日志评论
+    ProjectLogComment_Delete: param => {
+        return http.post(BaseHost + "api/ProjectLogComment/Delete?notecomid="+param)
+    },
 
 }

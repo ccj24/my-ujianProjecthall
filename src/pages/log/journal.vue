@@ -106,7 +106,8 @@
         class="middle"
         v-for="(item,index) in ProjectLog"
         :key="index"
-        @click="goaudit(item.LogId)" >
+        @click="goaudit(item.LogId)"
+      >
         <div class="middle_top">
           <img :src="item.Portrait" />
           <div class="one">
@@ -128,16 +129,37 @@
             @click.stop="yulan(items)"
           />
         </div>
+        <!-- 事件estimate(item)附带每一项日志的参数,点击只显示当前的评论框 -->
         <div class="dianping" @click.stop="estimate(item)">
           <img src="/static/images/bubble.png" alt />
-          <span>点评</span>
+          <span @click="dianping(item.LogGuid)">点评</span>
         </div>
-        <div v-if="item.commentbox" class="comment_box">
+        <!-- 评语 -->
+        <div class="remark" @click.stop>
+          <div class="remark_box" v-for="(itemx,indexx) in item.CommentList" :key="indexx" @longpress="deleteImage(itemx,indexx,index)">
+            <span class="remark_name">{{itemx.Commentator_R}}：</span>
+            <span class="remark_word">{{itemx.CommentContent}}</span>
+            <span class="remark_time">{{itemx.CommentTime}}</span>
+          </div>
+
+        </div>
+        <!-- 评论框 -->
+        <div v-if="item.commentbox" class="comment_box" @click.stop>
           <div class="comment">
             <!-- 用失去焦点 @blur失焦事件让评论框隐藏 -->
-            <textarea maxlength="1000" v-model="textContent" @click.stop @blur="lose(item)"></textarea>
+            <textarea
+              maxlength="1000"
+              v-model="LogComments.CommentContent"
+              auto-focus="’true’"
+              @click.stop
+              @blur="lose(item)"
+            ></textarea>
           </div>
-          <div class="pinglun" :class="{pinglunNr:textContent.length>0}">评论</div>
+          <div
+            class="pinglun"
+            :class="{pinglunNr:LogComments.CommentContent.length>0}"
+            @click="review"
+          >评论</div>
         </div>
       </div>
       <div class="bottom">加载完毕</div>
@@ -160,25 +182,36 @@ export default {
       commentbox: false,
       textContent: [],
       yincang: false,
+      // 日志评论
+      LogComments: {
+        NoteId: "",
+        CommentContent: ""
+      },
+      // 删除评论
+      notecomid:"",
+      
+  
+      
     };
   },
   methods: {
     // 显示的方法
     triggershow() {
       // 控制样式
-      (this.classshow = false),
-        (this.classconceal = true),
+      this.classshow = false;
+        this.classconceal = true;
         // 控制控件
-        (this.show = false),
-        (this.conceal = true);
+        this.show = false;
+        this.conceal = true;
     },
     // 隐藏的方法
     triggerconceal() {
-      (this.classshow = true),
-        (this.classconceal = false),
-        (this.show = true),
-        (this.conceal = false);
+      this.classshow = true;
+        this.classconceal = false;
+        this.show = true;
+        this.conceal = false;
     },
+    // 点评
     estimate(item) {
       item.commentbox = true;
       this.yincang = true;
@@ -222,6 +255,53 @@ export default {
         path: "/pages/log/LogDetails",
         query: {
           LogId: LogId
+        }
+      });
+    },
+    dianping(LogGuid) {
+      console.log("这个日志Id" + LogGuid);
+      this.LogComments.NoteId = LogGuid;
+    },
+    // 点击评论日志传回去的数据
+    async review() {
+      console.log("ddd");
+      var rep = await this.$UJAPI.ProjectLogComment_Add(this.LogComments);
+      if (rep.ret == 0) {
+        //成功执行的代码
+        item.commentbox = false;
+        console.log("ss");
+      } else {
+        //失败执行的代码
+        console.log("nnn");
+      }
+    },
+       //长按删除评论
+     deleteImage(itemx, indexx,index) {
+       var that = this;
+      var group = that.ProjectLog[index].CommentList;
+      console.log("这些评论是",group)
+      wx.showModal({
+        title: "提示",
+        content: "确定要删除这条评论吗？",
+      async success(res) {
+          if (res.confirm) {
+            // this.ProjectLog[index].CommentList[indexx]
+            console.log("点击确定了");               
+             var notecomid = itemx.NoteComId;
+             console.log("这个评论标识是"+notecomid)
+             var rep = await that.$UJAPI.ProjectLogComment_Delete(notecomid)  
+              if (rep.ret == 0) {
+            // splice操作对象的是数组
+             group.splice(indexx, 1);
+             this.hint= that. toast("删除成功")
+              }
+              else if(rep.ret !=0) {
+                 this.hint= that. toast("删除失败，请重试")
+              }
+          } else if (res.cancel) {
+            console.log("点击取消了");
+            return false;
+          }
         }
       });
     }
@@ -470,10 +550,35 @@ export default {
 }
 .dianping span {
   font-size: 0.28rem;
-  line-height: 0.7rem;
   color: #757575;
   padding-left: 0.15rem;
 }
+.remark {
+  margin: 0.36rem;
+  background-color: #f2f2f2;
+}
+.remark_box {
+  margin: 0.1rem 0.27rem 0rem 0.27rem;
+  padding: 0;
+  overflow: hidden;
+  display: block;
+}
+.remark_name {
+  font-size: 0.36rem;
+  color: #2a5892;
+  padding-right: 0.15rem;
+}
+.remark_word {
+  font-size: 0.36rem;
+  color: #404040;
+}
+.remark_time {
+  font-size: 0.36rem;
+  color: #8d8d8d;
+  float: right;
+  padding-top: 0.18rem;
+}
+
 .comment_box {
   width: 100%;
   overflow: hidden;
@@ -483,6 +588,7 @@ export default {
   opacity: 1;
   display: flex;
   align-items: center;
+  position: absolute;
   z-index: 3;
 }
 .comment {
