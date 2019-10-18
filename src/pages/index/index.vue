@@ -3,39 +3,41 @@
     <img class="logo" :class="{logoHide:logoHide}" src="/static/images/logo108.png" mode="widthFix">
     <p>U建+</p>
     <div class="userinfo">
-      <img class="userinfo-avatar" v-if="UserInfo.avatarUrl" :src="UserInfo.avatarUrl" background-size="cover">
+      <img class="userinfo-avatar" v-if="userInfo.avatarUrl" :src="userInfo.avatarUrl" background-size="cover">
       <div class="userinfo-nickname">
-        <card :text="UserInfo.nickName?UserInfo.nickName:''"></card>
+        <card :text="userInfo.nickName?userInfo.nickName:''"></card>
       </div>
     </div>
-    <div v-if="!UserInfo.nickName" class="authorize">
+    <div v-if="!userInfo.nickName" class="authorize">
       <p>申请获得你的公开信息(昵称、头像等)</p>
       <button open-type="getUserInfo" @getuserinfo="getUserInfoData">授权登录</button>
     </div>
-    <!-- <button v-if="UserInfo.nickName" @click="opensetting">打开授权设置</button> -->
-    <login v-if="UserInfo.nickName"></login>
+    <!-- <button v-if="userInfo.nickName" @click="opensetting">打开授权设置</button> -->
+    <login v-if="userInfo.nickName" :userInfo="userInfo"></login>
   </div>
 </template>
 
 <script>
 import card from "@/components/card";
 import login from "@/components/login";
-import { mapState } from "vuex";
 
 export default {
-  data(){
+  data() {
     return {
-      logoHide:false,
-    }
+      userInfo: {
+        Account: "",
+        PassWord: "",
+        avatarUrl: "",
+        nickName: "",
+        unionid: "",
+        openid: ""
+      },
+      logoHide: false
+    };
   },
   components: {
     card,
     login
-  },
-  computed:{
-    ...mapState({
-      UserInfo: state => state.User.UserInfo//获取当前用户的登录信息
-    }),
   },
   methods: {
     opensetting() {
@@ -45,9 +47,8 @@ export default {
     getUserInfoData(obj) {
       if (obj.mp.detail.errMsg.indexOf("getUserInfo:ok") != -1) {
         //debugger;
-        this.UserInfo.nickName = obj.mp.detail.userInfo.nickName;
-        this.UserInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
-        this.$store.commit("GetUserInfo", this.UserInfo);
+        this.userInfo.nickName = obj.mp.detail.userInfo.nickName;
+        this.userInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
 
         this.logoHide = true;
       } else {
@@ -65,13 +66,10 @@ export default {
           }
         });
       }
-    },
+    }
   },
   mounted() {
-    //debugger;
-    console.log(this.UserInfo);
-    if(this.isMp)
-    {
+    if (this.isMp) {
       // 检查是否授权
       wx.getSetting({
         success: res => {
@@ -79,17 +77,16 @@ export default {
           } else {
             wx.getUserInfo({
               success(res) {
-                this.UserInfo.nickName = res.userInfo.nickName;
-                this.UserInfo.avatarUrl = res.userInfo.avatarUrl;
+                this.userInfo.nickName = res.userInfo.nickName;
+                this.userInfo.avatarUrl = res.userInfo.avatarUrl;
                 this.$store.commit("GetUserInfo", this.UserInfo);
-
               }
             });
           }
         }
       });
     }
-  },
+  }
 };
 </script>
 

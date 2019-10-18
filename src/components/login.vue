@@ -50,6 +50,7 @@ import { mapState } from "vuex";
 
 export default {
   props: {
+    userInfo: Object
   },
   
   data() {
@@ -67,9 +68,6 @@ export default {
     loginAction() {
       return this.VerificationCode && this.VerificationCode.length > 0;
     },
-    ...mapState({
-      userInfo: state => state.User.UserInfo//获取当前用户的登录信息
-    }),
   },
   methods: {
     async countDown() {
@@ -133,6 +131,8 @@ export default {
       if (req.ret == 0) {
         this.$store.commit("Login", { Ticket: req.data }); //存入Ticket
         var userinfo = await this.$ShoppingAPI.User_Get();
+        userinfo.data.unionid = this.userInfo.unionid;
+        userinfo.data.openid = this.userInfo.openid;
         this.$store.commit("GetUserInfo", userinfo.data);
         if (this.$route.query.redirect)
           // 切换至 tabBar页面
