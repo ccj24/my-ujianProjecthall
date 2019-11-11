@@ -25,66 +25,26 @@
         <!-- calendar:classshow是隐藏样式，calendarshow:classconceal是打开样式 -->
         <div :class="{calendar:classshow,calendarshow:classconceal}">
           <div class="month">
-            <img src="/static/img/back.png" alt />
-            <span>2016年12月</span>
-            <img src="/static/images/theMore.png" alt />
+            <img src="/static/img/back.png" @click="preMon" alt />
+            <span>{{year}}年{{(month+1)}}月</span>
+            <img src="/static/images/theMore.png" @click="nextMon" alt />
           </div>
-          <table>
+          <table class="rili">
             <tr class="week">
-              <td>日</td>
-              <td>一</td>
-              <td>二</td>
-              <td>三</td>
-              <td>四</td>
-              <td>五</td>
-              <td>六</td>
+              <td v-for="(item,index) in weeks" :key="index">{{item}}</td>
             </tr>
-            <tr class="time">
-              <td>30</td>
-              <td>
-                <p>31</p>
+            <tr class="time_hide">
+              <td
+                v-for="(item, index) in showCalender"
+                :key="index"
+                :class="[{otherday:item.Month!=month+1}]"
+                @click="today(item,index)"
+              >
+                <!-- <p :class="{today:(item.Day==d && item.Month==m+1 && item.Year==y)}"> -->
+                  <p :class="[{logday:item.haslog},{today:item.Year==y &&item.Month==m+1&& item.Day==d}]">
+                  {{item.Day}}
+                  </p>
               </td>
-              <td>1</td>
-              <td>2</td>
-              <td>3</td>
-              <td>4</td>
-              <td>5</td>
-            </tr>
-            <tr class="time_hide">
-              <td>6</td>
-              <td>7</td>
-              <td>8</td>
-              <td>9</td>
-              <td>10</td>
-              <td>11</td>
-              <td>12</td>
-            </tr>
-            <tr class="time_hide">
-              <td>13</td>
-              <td>14</td>
-              <td>15</td>
-              <td>16</td>
-              <td>17</td>
-              <td>18</td>
-              <td>19</td>
-            </tr>
-            <tr class="time_hide">
-              <td>20</td>
-              <td>21</td>
-              <td>22</td>
-              <td>23</td>
-              <td>24</td>
-              <td>25</td>
-              <td>26</td>
-            </tr>
-            <tr class="time_hide">
-              <td>27</td>
-              <td>28</td>
-              <td>29</td>
-              <td>30</td>
-              <td>31</td>
-              <td>1</td>
-              <td>2</td>
             </tr>
           </table>
         </div>
@@ -136,12 +96,16 @@
         </div>
         <!-- 评语 -->
         <div class="remark" @click.stop>
-          <div class="remark_box" v-for="(itemx,indexx) in item.CommentList" :key="indexx" @longpress="deleteImage(itemx,indexx,index)">
+          <div
+            class="remark_box"
+            v-for="(itemx,indexx) in item.CommentList"
+            :key="indexx"
+            @longpress="deleteImage(itemx,indexx,index)"
+          >
             <span class="remark_name">{{itemx.Commentator_R}}：</span>
             <span class="remark_word">{{itemx.CommentContent}}</span>
             <span class="remark_time">{{itemx.CommentTime}}</span>
           </div>
-
         </div>
         <!-- 评论框 -->
         <div v-if="item.commentbox" class="comment_box" @click.stop>
@@ -188,10 +152,16 @@ export default {
         CommentContent: ""
       },
       // 删除评论
-      notecomid:"",
-      
-  
-      
+      notecomid: "",
+      weeks: ["日", "一", "二", "三", "四", "五", "六"],
+      year: new Date().getFullYear(),
+      month: new Date().getMonth(),
+      day: new Date().getDate(),
+      y: new Date().getFullYear(), // 今日年份
+      m: new Date().getMonth(), // 今日月份
+      d: new Date().getDate(), // 今日日份
+      list: [], //存放每个页面的时间
+      logtime: []
     };
   },
   methods: {
@@ -199,17 +169,17 @@ export default {
     triggershow() {
       // 控制样式
       this.classshow = false;
-        this.classconceal = true;
-        // 控制控件
-        this.show = false;
-        this.conceal = true;
+      this.classconceal = true;
+      // 控制控件
+      this.show = false;
+      this.conceal = true;
     },
     // 隐藏的方法
     triggerconceal() {
       this.classshow = true;
-        this.classconceal = false;
-        this.show = true;
-        this.conceal = false;
+      this.classconceal = false;
+      this.show = true;
+      this.conceal = false;
     },
     // 点评
     estimate(item) {
@@ -259,52 +229,179 @@ export default {
       });
     },
     dianping(LogGuid) {
-      console.log("这个日志Id" + LogGuid);
       this.LogComments.NoteId = LogGuid;
     },
     // 点击评论日志传回去的数据
     async review() {
-      console.log("ddd");
       var rep = await this.$UJAPI.ProjectLogComment_Add(this.LogComments);
       if (rep.ret == 0) {
         //成功执行的代码
         item.commentbox = false;
-        console.log("ss");
       } else {
         //失败执行的代码
-        console.log("nnn");
       }
     },
-       //长按删除评论
-     deleteImage(itemx, indexx,index) {
-       var that = this;
+    //长按删除评论
+    deleteImage(itemx, indexx, index) {
+      var that = this;
       var group = that.ProjectLog[index].CommentList;
-      console.log("这些评论是",group)
       wx.showModal({
         title: "提示",
         content: "确定要删除这条评论吗？",
-      async success(res) {
+        async success(res) {
           if (res.confirm) {
             // this.ProjectLog[index].CommentList[indexx]
-            console.log("点击确定了");               
-             var notecomid = itemx.NoteComId;
-             console.log("这个评论标识是"+notecomid)
-             var rep = await that.$UJAPI.ProjectLogComment_Delete(notecomid)  
-              if (rep.ret == 0) {
-            // splice操作对象的是数组
-             group.splice(indexx, 1);
-             this.hint= that. toast("删除成功")
-              }
-              else if(rep.ret !=0) {
-                 this.hint= that. toast("删除失败，请重试")
-              }
+            var notecomid = itemx.NoteComId;
+            var rep = await that.$UJAPI.ProjectLogComment_Delete(notecomid);
+            if (rep.ret == 0) {
+              // splice操作对象的是数组
+              group.splice(indexx, 1);
+              this.hint = that.toast("删除成功");
+            } else if (rep.ret != 0) {
+              this.hint = that.toast("删除失败，请重试");
+            }
           } else if (res.cancel) {
-            console.log("点击取消了");
             return false;
           }
         }
       });
+    },
+    async today(item) {
+      var that = this;
+    // 获取日志接口
+    var rep = await this.$UJAPI.Project_GetList({
+      ProjectId: this.ProjectId,
+      StartDate:item.Year+"-"+item.Month+"-"+item.Day
+    });
+    if (rep.ret == 0) {
+      // 这个ProjectLog是data自己定义的
+      this.ProjectLog = rep.data;
     }
+    },
+    async preMon() {
+      if (this.month === 0) {
+        this.year--;
+        this.month = 11;
+      } else {
+        this.month--;
+      }
+        var rep1 = await this.$UJAPI.ProjectLog_LogStatistics({
+      ProjectId: this.ProjectId,
+      StartDate: this.year + "-" + (this.month+1)+ "-" + "1"
+    });
+   
+    if (rep1.ret == 0) {
+      // 这个ProjectLog是data自己定义的
+      this.logtime = rep1.data;
+    }
+    console.log(this.logtime);
+    },
+    async nextMon() {
+      
+      if ((this.y>this.year) ||(this.y==this.year&&this.m>this.month)) {
+          if (this.month === 11) {
+        this.year++;
+        this.month = 0;
+      } else {
+        this.month++;
+      }
+      var rep1 = await this.$UJAPI.ProjectLog_LogStatistics({
+      ProjectId: this.ProjectId,
+      StartDate: this.year + "-" + (this.month+1)+ "-" + "1"
+    });
+   
+    if (rep1.ret == 0) {
+      // 这个ProjectLog是data自己定义的
+      this.logtime = rep1.data;
+    }
+    console.log(this.logtime);
+    }
+      }
+  },
+
+  computed: {
+    showCalender() {
+      this.list = [];
+      this.otherlist = [];
+      var weekDay = new Date(this.year, this.month, "1").getDay(); //获取每个月一号星期几
+      var monthDays = [];
+      if (
+        (this.year % 4 == 0 && this.year % 100 != 0) ||this.year % 400 == 0
+      ) {
+        monthDays = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      } else {
+        monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+      }
+      
+      for (let i = 1; i <= monthDays[this.month]; i++) {
+        // 当前月份
+        this.list.push({
+          Year: this.year,
+          Month: this.month + 1,
+          Day: i,
+          time: this.year + "-" + (this.month+1 < 10 ? '0'+(this.month+1):this.month+1) + "-" + (i < 10 ? '0' +i:i)+" "+"00:00:00",
+          haslog: false
+        });
+         for (let j=0;j<this.logtime.length;j++) {
+          if (this.list[i-1].time==this.logtime[j].CreateDate){
+            this.list[i-1].haslog=true
+          }
+        }
+      }
+     
+      //前面部分
+      //上一个月是1月的情况
+      if (this.month === 0) {
+        var yearm = this.year - 1;
+        var monthm = 11; //这里11即是12月
+      } else {
+        yearm = this.year;
+        monthm = this.month - 1;
+      }
+      var a = monthDays[monthm];
+      for (let k = 0; k < weekDay; k++) {
+        this.list.unshift({
+          Year: yearm,
+          Month: monthm + 1,
+          Day: a,
+          time: yearm + "-" + ( monthm + 1< 10 ? '0' +(monthm + 1):monthm + 1) + "-" + (a < 10 ? '0' +a:a)+" "+"00:00:00",
+        });
+        a--;
+          for (let j=0;j<this.logtime.length;j++) {
+          if (this.list[k].time==this.logtime[j].CreateDate){
+            this.list[k].haslog=true
+          }
+        }
+      }
+      //月尾部分
+      if (this.month === 11) {
+        var years = this.year + 1;
+        var months = 0; //这里11即是12月
+      } else {
+        years = this.year;
+        months = this.month + 1;
+      }
+      var lastweekDay = new Date(years, months, "1").getDay();
+      //这是月末剩下格子数，小于7让他+7显示多一行
+      var b = 7 - lastweekDay;
+      if (b < 7) {
+        b = b + 7;
+      }
+      for (let k = 1; k <= b; k++) {
+        this.list.push({
+          Year: years,
+          Month: months + 1,
+          Day: k,
+          time: years + "-" + ( months + 1< 10 ? '0' + (months + 1):months + 1) + "-" + (k < 10 ? '0' +k:k)+" "+"00:00:00",
+        });
+        for (let j=0;j<this.logtime.length;j++) {
+          if (this.list[k-1].time==this.logtime[j].CreateDate){
+            this.list[k-1].haslog=true
+          }
+        }
+      }
+      return this.list;
+    },
   },
   async mounted() {
     var that = this;
@@ -316,11 +413,18 @@ export default {
       // 这个ProjectLog是data自己定义的
       this.ProjectLog = rep.data;
     }
-    console.log(this.ProjectLog);
+    var rep1 = await this.$UJAPI.ProjectLog_LogStatistics({
+      ProjectId: this.ProjectId,
+      StartDate: this.year + "-" + (this.month+1) + "-" + this.day
+    });
+    if (rep1.ret == 0) {
+      // 这个ProjectLog是data自己定义的
+      this.logtime = rep1.data;
+    }
+    console.log(this.logtime);
   }
 };
 </script>
-
 <style scoped>
 .zhezhaoceng {
   position: fixed;
@@ -331,7 +435,6 @@ export default {
   opacity: 0;
   z-index: 2;
 }
-
 .journal_top {
   overflow: hidden;
   border-bottom: 0.03rem solid #ebebeb;
@@ -366,7 +469,7 @@ export default {
 }
 /* 隐藏样式 */
 .calendar {
-  height: 2.5rem;
+  height: 2.3rem;
   overflow: hidden;
   margin-top: 0.22rem;
   text-align: center;
@@ -400,50 +503,34 @@ export default {
   line-height: 0.7rem;
   letter-spacing: 0.01rem;
   color: #8c8c8c;
-  display: flex;
+  font-weight: bold;
+  overflow: hidden;
 }
-.week td {
-  flex: 1;
-}
-.time {
-  font-size: 0.36rem;
-  line-height: 1rem;
-  letter-spacing: -0.01rem;
-  color: #000000;
-  display: flex;
-}
-.time td {
-  flex: 1;
-}
-/* 设计背景 */
-.time td p {
-  width: 0.5rem;
-  height: 0.5rem;
+/* 设计当天时间背景 */
+.today {
+  width: 1rem;
+  margin-left: 0.3rem;
   border-radius: 50%;
   background-color: #e5e5e5;
   color: #29bef6;
-  line-height: 0.5rem;
 }
-/* 用伪类选择器选中第二个元素、 */
-.time td:nth-child(2) {
-  /* 让里面内容上下左右居中 */
-  display: flex;
-  justify-content: center;
-  align-items: center;
+/* 不是本月的时间的样式 */
+.otherday {
+  color: #8c8c8c;
 }
-.time td:nth-child(3),
-.time td:nth-child(5) {
-  color: #29bef6;
+.logday {
+  color: #29bef6!important;
 }
 .time_hide {
+  overflow: hidden;
   font-size: 0.36rem;
   line-height: 1rem;
   letter-spacing: -0.01rem;
   color: #000000;
-  display: flex;
 }
-.time_hide td {
-  flex: 1;
+.rili td {
+  width: 14.2%;
+  float: left;
 }
 .unfold {
   margin-top: 0.03rem;

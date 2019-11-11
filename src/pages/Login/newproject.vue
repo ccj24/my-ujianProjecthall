@@ -12,7 +12,7 @@
         </li>
         <li>
           <p>*</p>
-          <input type="text" placeholder="项目详细地址)">
+          <input type="text" placeholder="项目详细地址">
         </li>
         <li>
           <p>*</p>

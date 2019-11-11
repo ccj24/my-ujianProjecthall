@@ -10,9 +10,17 @@
       </div>
       <!-- 时间 -->
       <div class="day">
-        <span>日期:</span>
-        <span>{{ProjectInfo.CreateTime}}</span>
-        <img src="/static/img/time_icon.png" alt />
+        <picker
+          mode="date"
+          :value="date"
+          start="2015-09-01"
+          end="date"
+          @change="bindDateChange"
+        >
+          <div class="picker time">时间: {{date}}</div>
+          <img class="picker tubiao" src="/static/img/time_icon.png" alt />
+        </picker>
+        
       </div>
       <div class="content">
         <div class="rich">
@@ -61,11 +69,17 @@ export default {
       ProjectInfo: {
         ProjectId: "",
         LogContent: "",
-        CreateTime: ""
-      }
+        CreateTime:""
+      },
+      date: "",
     };
   },
   methods: {
+  bindDateChange(e) {
+    console.log(e)
+    console.log('picker发送选择改变，携带值为', e.mp.detail.value)
+     this.date = e.mp.detail.value
+  },
     returnRoom() {
       this.conceal = true;
       this.yincang = true;
@@ -86,13 +100,15 @@ export default {
       for (var i = 0; i < this.Images.length; i++) {
         fileNames.push("Images[" + i + "]");
       }
+      this.ProjectInfo.CreateTime=this.date
+      console.log(this.ProjectInfo.CreateTime)
       // ProjectInfo既是上面定义的对象
       var rep = await this.$UJAPI.ProjectLog_Add(
         this.ProjectInfo,
         this.Images,
         fileNames
       );
-      var hint= that. toast("发布成功")
+      this.hint = that.toast("发布成功");
       // 点击确定取消后返回上一级
       this.$router.back();
     },
@@ -140,9 +156,17 @@ export default {
   },
   mounted() {
     // 获取引进来的当地时间
-    this.ProjectInfo.CreateTime = utils.formatTime(new Date());
+    // this.ProjectInfo.CreateTime = utils.formatTime(new Date());
+    
     // 获取日志ProjectId
     this.ProjectInfo.ProjectId = this.ProjectId;
+    //  debugger;
+    var myDate = new Date();
+    var y=myDate.getFullYear();
+    var m=myDate.getMonth()+1;
+    var d=myDate.getDate();
+    this.date=y+"-"+m+"-"+d;
+    this.ProjectInfo.CreateTime = this.date
   }
 };
 </script>
@@ -170,22 +194,26 @@ export default {
 }
 .day {
   margin-top: 0.38rem;
+  overflow: hidden;
 }
-.day span {
+ .picker{
   font-size: 0.37rem;
   padding-left: 0.34rem;
 }
-.day img {
+.time {
+    float: left;
+}
+.tubiao {
   width: 0.21rem;
   height: 0.12rem;
   padding-left: 1.95rem;
+  margin-bottom: 0.25rem;
 }
 .content {
   margin-top: 0.41rem;
 }
 .rich {
-  /* overflow-y: auto是设计竖方向超出内容形成滚动条显示 */
-  /* overflow-y: auto; */
+  overflow: hidden;
   padding: 0.43rem;
   /* 设计四个边框 */
   outline: 0;

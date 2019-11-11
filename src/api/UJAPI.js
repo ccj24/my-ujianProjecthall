@@ -150,5 +150,9 @@ export default {
     ProjectLogComment_Delete: param => {
         return http.post(BaseHost + "api/ProjectLogComment/Delete?notecomid="+param)
     },
+    // 日志统计列表
+    ProjectLog_LogStatistics: param => {
+        return http.get(BaseHost + "api/ProjectLog/LogStatistics", param)
+    },
 
 }
