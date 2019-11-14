@@ -53,25 +53,35 @@ export default {
     // 点击通过
     async pass() {
       var that = this;
-      var rep = await this.$UJAPI.ProjectLog_SetAudit(LogId, Audit == 1);
+      var rep = await this.$UJAPI.ProjectLog_SetAudit({
+        LogId:this.$route.query.LogId,
+        Audit: 1,
+        });
        if (rep.ret == 0) {
         //成功执行的代码
-        console.log("通过成功");
+        this.toast("审核成功");
+        this.$router.back()
       } else {
         //失败执行的代码
-        console.log("审核失败");
+        this.toast("审核失败");
+        this.$router.back()
       }
     },
     // 点击不通过
     async nopass() {
       var that = this;
-      var rep = await this.$UJAPI.ProjectLog_SetAudit(LogId, Audit == -1);
+      var rep = await this.$UJAPI.ProjectLog_SetAudit({
+        LogId:this.$route.query.LogId,
+        Audit: -1,
+      });
           if (rep.ret == 0) {
         //成功执行的代码
-        console.log("不通过成功");
+        this.toast("确认不通过");
+        this.$router.back()
       } else {
         //失败执行的代码
-        console.log("审核失败");
+        this.toast("审核失败");
+        this.$router.back()
       }
     }
   },

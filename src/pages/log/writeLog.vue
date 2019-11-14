@@ -108,9 +108,12 @@ export default {
         this.Images,
         fileNames
       );
-      this.hint = that.toast("发布成功");
+      if (rep.ret==0) {
+         this.toast("发布成功");
       // 点击确定取消后返回上一级
       this.$router.back();
+      }
+      else{this.toast("发布失败");}
     },
     // 获取本地照片上传
     chuantupian() {

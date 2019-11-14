@@ -17,7 +17,9 @@
             <img src="/static/img/log-all@3x.3.png" />
             <p>我的日志</p>
           </div>
-          <div class="top_one" @click="go({path:'/pages/log/toAudit'})">
+          <div class="top_one" @click="go({path:'/pages/log/toAudit'})"
+        v-if="activeUser!=null &&activeUser.Role>0"
+          >
             <img src="/static/img/log-all@3x.4.png" />
             <p>待审核日志</p>
           </div>
@@ -40,7 +42,6 @@
                 :class="[{otherday:item.Month!=month+1}]"
                 @click="today(item,index)"
               >
-                <!-- <p :class="{today:(item.Day==d && item.Month==m+1 && item.Year==y)}"> -->
                   <p :class="[{logday:item.haslog},{today:item.Year==y &&item.Month==m+1&& item.Day==d}]">
                   {{item.Day}}
                   </p>
@@ -90,19 +91,24 @@
           />
         </div>
         <!-- 事件estimate(item)附带每一项日志的参数,点击只显示当前的评论框 -->
-        <div class="dianping" @click.stop="estimate(item)">
+        <div class="dianping" @click.stop="estimate(item,item.LogGuid)">
           <img src="/static/images/bubble.png" alt />
-          <span @click="dianping(item.LogGuid)">点评</span>
+          <span>点评</span>
         </div>
         <!-- 评语 -->
-        <div class="remark" @click.stop>
+        <div class="remark" @click.stop
+        >
           <div
             class="remark_box"
-            v-for="(itemx,indexx) in item.CommentList"
+             v-for="(itemx,indexx) in item.CommentList"
             :key="indexx"
             @longpress="deleteImage(itemx,indexx,index)"
+            @click.stop="reply(item,itemx,item.LogGuid,itemx.CommentatorId,itemx.Commentator_R)"
+           
           >
-            <span class="remark_name">{{itemx.Commentator_R}}：</span>
+            <span class="remark_name">{{itemx.Commentator_R}}
+              <span v-if="itemx.ReplyId !=null">回复 {{itemx.ReplyName}}</span>:
+            </span>
             <span class="remark_word">{{itemx.CommentContent}}</span>
             <span class="remark_time">{{itemx.CommentTime}}</span>
           </div>
@@ -122,17 +128,17 @@
           <div
             class="pinglun"
             :class="{pinglunNr:LogComments.CommentContent.length>0}"
-            @click="review"
+            @click="review(item)"
           >评论</div>
         </div>
       </div>
       <div class="bottom">加载完毕</div>
-      <!-- 评论框 -->
     </div>
   </div>
 </template>
 
 <script>
+import {mapState} from 'vuex'
 export default {
   data() {
     return {
@@ -146,11 +152,14 @@ export default {
       commentbox: false,
       textContent: [],
       yincang: false,
+      QueryType :1,
       // 日志评论
       LogComments: {
         NoteId: "",
-        CommentContent: ""
+        CommentContent: "",
+        ReplyId:null,
       },
+      ReplyName:"",
       // 删除评论
       notecomid: "",
       weeks: ["日", "一", "二", "三", "四", "五", "六"],
@@ -161,7 +170,8 @@ export default {
       m: new Date().getMonth(), // 今日月份
       d: new Date().getDate(), // 今日日份
       list: [], //存放每个页面的时间
-      logtime: []
+      logtime: [],
+      Project_ProjectMember:null,
     };
   },
   methods: {
@@ -182,9 +192,11 @@ export default {
       this.conceal = false;
     },
     // 点评
-    estimate(item) {
+    estimate(item,LogGuid) {
       item.commentbox = true;
       this.yincang = true;
+      this.LogComments.NoteId = LogGuid;
+      this.LogComments.ReplyId = null;   
     },
     lose(item) {
       item.commentbox = false;
@@ -204,14 +216,15 @@ export default {
       let QueryType;
       // 点击时候传公共日志的数据
       if (index == 0) {
-        QueryType = 1;
+        this.QueryType = 1;
       }
       // 点击时候传内部日志的数据
       else if (index == 1) {
-        QueryType = 5;
+        this.QueryType = 5;
       }
       var rep = await this.$UJAPI.Project_GetList({
-        ProjectId: this.ProjectId
+        ProjectId: this.ProjectId,
+        QueryType:this.QueryType
       });
       if (rep.ret == 0) {
         // 这个ProjectLog是data自己定义的
@@ -228,17 +241,37 @@ export default {
         }
       });
     },
-    dianping(LogGuid) {
-      this.LogComments.NoteId = LogGuid;
-    },
+   reply(item,itemx,LogGuid,CommentatorId,Commentator_R) {
+    //  debugger
+     item.commentbox = true;
+     this.yincang = true;
+     this.LogComments.NoteId = LogGuid;
+     this.LogComments.ReplyId = CommentatorId;
+     this.ReplyName=Commentator_R;
+   },
     // 点击评论日志传回去的数据
-    async review() {
+    async review(item) {
       var rep = await this.$UJAPI.ProjectLogComment_Add(this.LogComments);
-      if (rep.ret == 0) {
-        //成功执行的代码
+      if (rep.ret == 0) { 
+        this.notecomid=rep.data
+        var date = new Date()
+        var time = (date.getFullYear()+'-'+(date.getMonth()+1)+'-'+date.getDate()+' '+date.getHours()+':'+date.getMinutes()+':'+date.getSeconds())
+        item.CommentList.push({
+          CommentContent:this.LogComments.CommentContent,
+          ReplyId:this.LogComments.ReplyId,
+          NoteId:this.LogComments.NoteId,
+          CommentTime:time,
+          ReplyName: this.ReplyName,
+          Commentator_R:this.UserInfo.UserName ,
+          NoteComId:this.notecomid,
+          CommentatorId:this.UserInfo.UserId
+        })
+        this.toast("评论成功");
         item.commentbox = false;
+        this.LogComments.CommentContent=""
       } else {
         //失败执行的代码
+        this.toast("评论失败");
       }
     },
     //长按删除评论
@@ -256,9 +289,9 @@ export default {
             if (rep.ret == 0) {
               // splice操作对象的是数组
               group.splice(indexx, 1);
-              this.hint = that.toast("删除成功");
+              this.toast("删除成功");
             } else if (rep.ret != 0) {
-              this.hint = that.toast("删除失败，请重试");
+              this.toast("删除失败，请重试");
             }
           } else if (res.cancel) {
             return false;
@@ -294,10 +327,8 @@ export default {
       // 这个ProjectLog是data自己定义的
       this.logtime = rep1.data;
     }
-    console.log(this.logtime);
     },
     async nextMon() {
-      
       if ((this.y>this.year) ||(this.y==this.year&&this.m>this.month)) {
           if (this.month === 11) {
         this.year++;
@@ -309,16 +340,13 @@ export default {
       ProjectId: this.ProjectId,
       StartDate: this.year + "-" + (this.month+1)+ "-" + "1"
     });
-   
     if (rep1.ret == 0) {
       // 这个ProjectLog是data自己定义的
       this.logtime = rep1.data;
     }
-    console.log(this.logtime);
     }
       }
   },
-
   computed: {
     showCalender() {
       this.list = [];
@@ -332,7 +360,6 @@ export default {
       } else {
         monthDays = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
       }
-      
       for (let i = 1; i <= monthDays[this.month]; i++) {
         // 当前月份
         this.list.push({
@@ -350,7 +377,6 @@ export default {
       }
      
       //前面部分
-      //上一个月是1月的情况
       if (this.month === 0) {
         var yearm = this.year - 1;
         var monthm = 11; //这里11即是12月
@@ -402,6 +428,17 @@ export default {
       }
       return this.list;
     },
+    ...mapState({
+      UserInfo: state => state.User.UserInfo   //获取当前用户的登录信息
+    }),
+    activeUser () {
+      if (this.Project_ProjectMember!=null) {
+        return this.Project_ProjectMember[0]
+      }
+      else {
+        return null;
+      }
+    },
   },
   async mounted() {
     var that = this;
@@ -412,16 +449,23 @@ export default {
     if (rep.ret == 0) {
       // 这个ProjectLog是data自己定义的
       this.ProjectLog = rep.data;
+      console.log(this.ProjectLog)
     }
     var rep1 = await this.$UJAPI.ProjectLog_LogStatistics({
       ProjectId: this.ProjectId,
       StartDate: this.year + "-" + (this.month+1) + "-" + this.day
     });
     if (rep1.ret == 0) {
-      // 这个ProjectLog是data自己定义的
       this.logtime = rep1.data;
     }
-    console.log(this.logtime);
+    // 获取项目成员列表
+    var rep2 = await this.$UJAPI.Project_ProjectMember({
+      ProjectId: this.ProjectId,
+      UserId: this.UserInfo.UserId
+    });
+    if (rep2.ret == 0) {
+      this.Project_ProjectMember = rep2.data;
+    }
   }
 };
 </script>
@@ -512,7 +556,6 @@ export default {
   margin-left: 0.3rem;
   border-radius: 50%;
   background-color: #e5e5e5;
-  color: #29bef6;
 }
 /* 不是本月的时间的样式 */
 .otherday {
