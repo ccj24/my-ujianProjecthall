@@ -10,39 +10,20 @@
       </div>
       <!-- 时间 -->
       <div class="day">
-        <picker
-          mode="date"
-          :value="date"
-          start="2015-09-01"
-          end="date"
-          @change="bindDateChange"
-        >
+        <picker mode="date" :value="date" start="2015-09-01" end="date" @change="bindDateChange">
           <div class="picker time">时间: {{date}}</div>
-          <img class="picker tubiao" src="/static/img/time_icon.png" alt />
+          <img class="picker tubiao" src="/static/img/time_icon.png" alt>
         </picker>
-        
       </div>
       <div class="content">
         <div class="rich">
           <!-- maxlength设计最大字数 auto-height="ture"是高度随字数增加而增加-->
-          <textarea
-            v-model="ProjectInfo.LogContent"
-            placeholder="不能超过2000字"
-            maxlength="2000"
-            auto-height="ture"
-          ></textarea>
+          <textarea v-model="ProjectInfo.LogContent" placeholder="不能超过2000字" maxlength="2000" auto-height="ture"></textarea>
         </div>
       </div>
       <div class="rizhi">
-        <img
-          class="rizhi_img"
-          v-for="(items,index) in Images"
-          :key="index"
-          :src="items"
-          @click="yulan(items)"
-          @longpress="deleteImage(items,index)"
-        />
-        <img @click="chuantupian" src="/static/images/组30@3x.png" />
+        <img class="rizhi_img" v-for="(items,index) in Images" :key="index" :src="items" @click="yulan(items)" @longpress="deleteImage(items,index)">
+        <img @click="chuantupian" src="/static/images/组30@3x.png">
       </div>
     </div>
     <div class="frame" v-show="conceal">
@@ -69,17 +50,18 @@ export default {
       ProjectInfo: {
         ProjectId: "",
         LogContent: "",
-        CreateTime:""
+        CreateTime: "",
+        Images: []
       },
-      date: "",
+      date: ""
     };
   },
   methods: {
-  bindDateChange(e) {
-    console.log(e)
-    console.log('picker发送选择改变，携带值为', e.mp.detail.value)
-     this.date = e.mp.detail.value;
-  },
+    bindDateChange(e) {
+      console.log(e);
+      console.log("picker发送选择改变，携带值为", e.mp.detail.value);
+      this.date = e.mp.detail.value;
+    },
     returnRoom() {
       this.conceal = true;
       this.yincang = true;
@@ -101,21 +83,21 @@ export default {
       for (var i = 0; i < this.Images.length; i++) {
         fileNames.push("Images[" + i + "]");
       }
-      this.ProjectInfo.CreateTime=this.date+" 00:00:00"
+      this.ProjectInfo.CreateTime = this.date + " 00:00:00";
+
+      console.log(this.ProjectInfo);
       // ProjectInfo既是上面定义的对象
       var rep = await this.$UJAPI.ProjectLog_Add(
-        this.ProjectInfo,
-        this.Images,
-        fileNames
+        this.ProjectInfo
       );
-      if(rep instanceof Array)//上传图片用的接口会返回多个结果的数组，暂时使用第一项
-         rep= rep[0];
-      if (rep.ret==0) {
-         this.toast("发布成功");
-      // 点击确定取消后返回上一级
-      this.$router.back();
-      }
-      else{
+      if (rep instanceof Array)
+        //上传图片用的接口会返回多个结果的数组，暂时使用第一项
+        rep = rep[0];
+      if (rep.ret == 0) {
+        this.toast("发布成功");
+        // 点击确定取消后返回上一级
+        this.$router.back();
+      } else {
         this.toast("发布失败");
       }
     },
@@ -128,9 +110,18 @@ export default {
         sourceType: ["album", "camera"],
         //接口调用成功的回调函数
         success(res) {
-          console.log(res);
           // 每次向图片里增加一张图片用push
           that.Images.push(res.tempFilePaths[0]);
+          let FileSystemManager = wx.getFileSystemManager();
+          var filebase64 = FileSystemManager.readFileSync(
+            res.tempFilePaths[0],
+            "base64"
+          );
+          that.ProjectInfo.Images.push({
+            FileName: `Images${that.ProjectInfo.Images.length?that.ProjectInfo.Images.length:0}`,
+            MediaType: "image/png",
+            Buffer: filebase64
+          });
         }
       });
     },
@@ -153,6 +144,7 @@ export default {
             console.log("点击确定了");
             // 删除图片
             Images.splice(index, 1);
+            this.ProjectInfo.Images.splice(index, 1)
           } else if (res.cancel) {
             console.log("点击取消了");
             return false;
@@ -164,16 +156,16 @@ export default {
   mounted() {
     // 获取引进来的当地时间
     // this.ProjectInfo.CreateTime = utils.formatTime(new Date());
-    
+
     // 获取日志ProjectId
     this.ProjectInfo.ProjectId = this.ProjectId;
     //  debugger;
     var myDate = new Date();
-    var y=myDate.getFullYear();
-    var m=myDate.getMonth()+1;
-    var d=myDate.getDate();
-    this.date=y+"-"+m+"-"+d;
-    this.ProjectInfo.CreateTime = this.date
+    var y = myDate.getFullYear();
+    var m = myDate.getMonth() + 1;
+    var d = myDate.getDate();
+    this.date = y + "-" + m + "-" + d;
+    this.ProjectInfo.CreateTime = this.date;
   }
 };
 </script>
@@ -203,12 +195,12 @@ export default {
   margin-top: 0.38rem;
   overflow: hidden;
 }
- .picker{
+.picker {
   font-size: 0.37rem;
   padding-left: 0.34rem;
 }
 .time {
-    float: left;
+  float: left;
 }
 .tubiao {
   width: 0.21rem;

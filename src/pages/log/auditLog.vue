@@ -49,7 +49,8 @@
       </div>
     </div>
     <!-- 点击取消的遮罩层 -->
-    <div :class="{layout:zhezhaoceng}" @click="lose"></div>
+    <div :class="{layout:zhezhaoceng}"></div>
+    <div :class="{layout:aaa}" @click="lose"></div>
     <!-- 不通过原因 -->
     <div class="reason" v-show="reason" @click.stop>
       <radio-group class="radio-group" bindchange="radioChange">
@@ -76,6 +77,7 @@ export default {
       conceal: false,
       zhezhaoceng: false,
       reason: false,
+      aaa:false,
       reasonContent:[
         {content:"内容不够详细，有缺漏！"},
         {content:"图片搭错了"},
@@ -132,7 +134,7 @@ export default {
     },
     lose() {
       this.reason = false
-      this.zhezhaoceng = false;
+      this.aaa = false;
     }
   },
   // 在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
