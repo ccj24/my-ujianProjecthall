@@ -16,9 +16,11 @@
       <div class="content">
         <p>{{item.LogContent}}</p>
         <div class="picture">
-          <img v-for="(items,indexs) in ProjectLog.Images" :key="indexs" :src="items" />
+          <img v-for="(items,indexs) in item.Images" :key="indexs" :src="items" />
         </div>
-        <div class="time">{{item.CreateTime}}</div>
+        <div class="time">{{item.CreateTimeFormat}}
+          <span>{{item.CreateTimeWeekFormat}}</span>
+        </div>
       </div>
     </div>
   </div>
@@ -57,6 +59,11 @@ export default {
   }
 };
 </script>
+<style>
+page {
+  background-color: #f9f9f9
+}
+</style>
 <style scoped>
 .particulars {
   padding-left: 0.28rem;
@@ -122,5 +129,6 @@ export default {
   color: #8c8c8c;
   float: right;
   padding-right: 0.28rem;
+  padding-right: 0.5rem
 }
 </style>

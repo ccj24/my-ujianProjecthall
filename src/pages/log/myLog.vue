@@ -114,6 +114,11 @@ export default {
   },
 }
 </script>
+<style>
+page {
+  background-color: #f9f9f9
+}
+</style>
 <style scoped>
 .write {
   width: 100%;
