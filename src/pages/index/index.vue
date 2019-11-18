@@ -52,7 +52,6 @@ export default {
     // 获取用户登录授权
     getUserInfoData(obj) {
       if (obj.mp.detail.errMsg.indexOf("getUserInfo:ok") != -1) {
-        debugger;
         this.userInfo.nickName = obj.mp.detail.userInfo.nickName;
         this.userInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
         this.userInfo.openid = this.UserInfo.openid;
