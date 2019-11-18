@@ -38,21 +38,37 @@ const net = {
             });
             return false;
           }
-          if (res.data && res.data.ret)
-            // 请求不成功（请求响应码 10000请求签名验证不通过 10001登录授权失败 10002用户在其他设备上登陆）
-            if (res.data.ret == 10000 || res.data.ret == 10001 || res.data.ret == 10002) {
-              // 清空票据的数据
-              store.state.User.SingleTicket = "";
-              // 跳转回到登录页面
-              wx.redirectTo({ url: "/pages/index/index" });
-            } else if (res.data.ret != 0) {
-              // 显示信息提示框
+          if(res.data&&res.data.ret)
+          {
+            if(res.data.ret==10000||res.data.ret==10001||res.data.ret==10002)
+            {
+              store.state.User.SingleTicket="";
+              var pages = getCurrentPages();    //获取加载的页面
+              var currentPage = pages[pages.length-1];    //获取当前页面的对象
+              var url = `/pages/index/index?redirect=/${currentPage.route}`;    //当前页面url
+
+              //拼接页面参数
+              var parms="";
+              for(var key in currentPage.options)
+              {
+                parms+=`${key}=${currentPage.options[key]}`;
+              }
+              if(parms.length>0)
+              {
+                //url转码
+                let encodeparms = encodeURIComponent(`?${parms}`);
+                url=url+encodeparms;
+              }
+              wx.redirectTo({url:url});
+            }else if(res.data.ret!=0)
+            {
               wx.showToast({
-                title: res.data.msg, //请求不成功的时候  ret!=0 提示返回响应码描述信息msg
-                icon: "none"         //图标
+                title: res.data.msg,
+                icon: "none"
               });
               return false;
             }
+          }
           resolve(res.data);
         },
         fail: function (error) {

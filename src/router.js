@@ -219,16 +219,6 @@ var routes = [
     },
   },
   {
-    path: 'pages/Thelog/index',
-    name: 'Thelog',
-    config: {
-      navigationBarTitleText: '日志',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-  },
-
-  {
     path: 'pages/meeting/index',
     name: 'meeting',
     config: {

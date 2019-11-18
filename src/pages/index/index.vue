@@ -20,6 +20,7 @@
 <script>
 import card from "@/components/card";
 import login from "@/components/login";
+import {mapState} from 'vuex'
 
 export default {
   data() {
@@ -35,6 +36,11 @@ export default {
       logoHide: false
     };
   },
+  computed:{
+    ...mapState({
+      UserInfo: state => state.User.UserInfo   //获取当前用户的登录信息
+    }),
+  },
   components: {
     card,
     login
@@ -46,10 +52,11 @@ export default {
     // 获取用户登录授权
     getUserInfoData(obj) {
       if (obj.mp.detail.errMsg.indexOf("getUserInfo:ok") != -1) {
-        //debugger;
+        debugger;
         this.userInfo.nickName = obj.mp.detail.userInfo.nickName;
         this.userInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
-
+        this.userInfo.openid = this.UserInfo.openid;
+        this.userInfo.unionid = this.UserInfo.unionid;
         this.logoHide = true;
       } else {
         // 提示框窗口
