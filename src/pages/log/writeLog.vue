@@ -95,19 +95,21 @@ export default {
     },
     // 点击发布触发事件
     async release() {
+
       var that = this;
       var fileNames = [];
       for (var i = 0; i < this.Images.length; i++) {
         fileNames.push("Images[" + i + "]");
       }
+      console.log()
       this.ProjectInfo.CreateTime=this.date
-      console.log(this.ProjectInfo.CreateTime)
       // ProjectInfo既是上面定义的对象
       var rep = await this.$UJAPI.ProjectLog_Add(
         this.ProjectInfo,
         this.Images,
         fileNames
       );
+      console.log(rep.data)
       if (rep.ret==0) {
          this.toast("发布成功");
       // 点击确定取消后返回上一级

@@ -30,7 +30,9 @@
         <!-- 评语 -->
         <div class="remark">
           <div class="remark_box" v-for="(itemx,indexx) in ProjectLog.CommentList" :key="indexx">
-            <span class="remark_name">{{itemx.Commentator_R}}：</span>
+            <span class="remark_name">{{itemx.Commentator_R}}
+              <span v-if="itemx.ReplyId !=null">回复 {{itemx.ReplyName}}</span>:
+            </span>
             <span class="remark_word">{{itemx.CommentContent}}</span>
             <span class="remark_time">{{itemx.CommentTime}}</span>
           </div>
