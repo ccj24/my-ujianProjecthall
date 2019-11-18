@@ -96,7 +96,6 @@ export default {
 
    mounted() {
       this.wx_login( async ()=>{
-     
       //自建项目请求
       var rep = await this.$UJAPI.Project_ProjectGetList({
         IsCreate: true,

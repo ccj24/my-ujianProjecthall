@@ -78,7 +78,7 @@ export default {
   bindDateChange(e) {
     console.log(e)
     console.log('picker发送选择改变，携带值为', e.mp.detail.value)
-     this.date = e.mp.detail.value
+     this.date = e.mp.detail.value;
   },
     returnRoom() {
       this.conceal = true;
@@ -100,20 +100,23 @@ export default {
       for (var i = 0; i < this.Images.length; i++) {
         fileNames.push("Images[" + i + "]");
       }
-      this.ProjectInfo.CreateTime=this.date
-      console.log(this.ProjectInfo.CreateTime)
+      this.ProjectInfo.CreateTime=this.date+" 00:00:00"
       // ProjectInfo既是上面定义的对象
       var rep = await this.$UJAPI.ProjectLog_Add(
         this.ProjectInfo,
         this.Images,
         fileNames
       );
+      if(rep instanceof Array)//上传图片用的接口会返回多个结果的数组，暂时使用第一项
+         rep= rep[0];
       if (rep.ret==0) {
          this.toast("发布成功");
       // 点击确定取消后返回上一级
       this.$router.back();
       }
-      else{this.toast("发布失败");}
+      else{
+        this.toast("发布失败");
+      }
     },
     // 获取本地照片上传
     chuantupian() {

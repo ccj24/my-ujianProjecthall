@@ -193,7 +193,7 @@
             <img class="hpIcon" src="/static/img/homePage_Icon2.png" alt />
             <p class="hpIconP">会议</p>
           </div>
-          <div class="hpIconDiv" @click="go({path:'/pages/log/journal'})">
+          <div class="hpIconDiv" @click="go({path:'/pages/log/journal',isTab:true})">
             <img class="hpIcon" src="/static/img/homePage_Icon3.png" alt />
             <p class="hpIconP">日志</p>
           </div>

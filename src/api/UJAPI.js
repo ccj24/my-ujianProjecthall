@@ -139,8 +139,13 @@ export default {
     },
      // 新增项目日志
      ProjectLog_Add: (param,paths,filenames)=> {
-        // return http.post(BaseHost + "api/ProjectLog/Add", param)
-        return http.upload(BaseHost + "api/ProjectLog/Add?t=json", param,paths,filenames)
+         if(paths&&paths.length>0&&filenames&&filenames.length>0)
+         {
+            return http.upload(BaseHost + "api/ProjectLog/Add?t=json", param,paths,filenames)
+         }else
+         {
+            return http.post(BaseHost + "api/ProjectLog/Add", param)
+         }
     },
     //新增日志评论
     ProjectLogComment_Add: param => {

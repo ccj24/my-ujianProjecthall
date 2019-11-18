@@ -19,7 +19,7 @@
         "text": "主页"
       },
       {
-        "pagePath": "pages/Thelog/index",
+        "pagePath": "pages/log/journal",
         "text": "日志"
       },
       {
