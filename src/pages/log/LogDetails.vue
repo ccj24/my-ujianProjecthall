@@ -9,7 +9,17 @@
             <p>{{ProjectLog.DepartmentName}}</p>
             <p>{{ProjectLog.PostName}}</p>
           </div>
+          <div v-if="ProjectLog.Audit==-1">
+          <span class="nopass">未通过</span>
+          <div class="bianji" @click="compile()">编辑</div>
+          </div>
         </div>
+      </div> 
+      <div v-if="ProjectLog.Audit==-1" class="fenge"></div>
+      <!-- 不通过理由 -->
+      <div class="liyou" v-if="ProjectLog.Audit==-1">
+        <p>备注信息</p>
+        <span>{{ProjectLog.AuditMsg}}</span>
       </div>
       <div class="particulars_bottom">
         <div class="title">
@@ -58,6 +68,14 @@ export default {
         urls: arr
       });
     },
+    compile() {
+      this.$router.push({
+        path: "/pages/log/writeLog",
+        query: {
+          LogId: this.ProjectLog.LogId,
+        }
+      });
+    }
   },
   // 在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
   async mounted() {
@@ -73,15 +91,18 @@ export default {
     //  this就是整个vue，比如下访问return下面定义的东西，不加this则访问不到
      this.ProjectLog=rep.data
    }
-   console.log( this.ProjectLog)
+   else{
+     this.toast("获取数据失败");
+   }
   }
 };
 </script>
-
 <style scoped>
 .particulars_one {
   margin-left: 0.29rem;
   margin-top: 0.46rem;
+  margin-bottom: 0.46rem;
+  overflow: hidden;
 }
 .particulars_one img {
   width: 1.06rem;
@@ -94,6 +115,7 @@ export default {
   height: 1.06rem;
   margin-left: 1.32rem;
   padding-top: 0rem;
+  position: relative;
 }
 .name {
   font-size: 0.46rem;
@@ -108,9 +130,47 @@ export default {
   color: #353535;
   padding-right: 0.5rem;
 }
+.nopass {
+  font-size: 0.37rem;
+  color: #353535;
+  position: absolute;
+  top: 0.33rem;
+  left: 6.1rem;
+}
+.bianji {
+  width: 1.34rem;
+	height: 0.87rem;
+  text-align: center;
+  line-height: 0.87rem;
+  font-size: 0.37rem;
+  color: #ffffff;
+	background-color: #12b7f5;
+	border-radius: 0.1rem;
+    position: absolute;
+  top: 0.1rem;
+  left: 7.5rem;
+}
+.fenge {
+  width: 100%;
+	height: 0.29rem;
+  background-color: #f4f3f2;
+}
+
+.liyou {
+  margin-top: 0.3rem;
+  padding: 0.37rem 0.3rem 0.5rem;
+}
+.liyou p {
+  font-size: 0.4rem;
+  color: #dd2727;
+  height: 0.8rem;
+}
+.liyou span {
+  font-size: 0.43rem;
+  color: #353535;
+}
 .particulars_bottom {
   width: 100%;
-  margin-top: 0.46rem;
   border-top: 0.01rem solid #e8e8e8;
 }
 .title {
@@ -189,9 +249,3 @@ export default {
   padding-top: 0.18rem;
 }
 </style>
-<style>
-.page {
-  background-color: #ffffff;
-}
-</style>
-

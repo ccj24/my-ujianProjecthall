@@ -53,14 +53,14 @@
     <div :class="{layout:aaa}" @click="lose"></div>
     <!-- 不通过原因 -->
     <div class="reason" v-show="reason" @click.stop>
-      <radio-group class="radio-group" bindchange="radioChange">
-        <radio class="radio" color="#12b7f5" v-for="(item,index) in reasonContent" :key="index">
-          {{item.content}}
+      <radio-group class="radio-group" @change="radioChange">
+        <radio class="radio" color="#12b7f5" v-for="(item,index) in reasonContent" :key="index" :value="item.value">
+          {{item.value}}
         </radio>
       </radio-group>
       <div class="comment_box">
         <div class="comment">
-          <textarea v-model="CommentContent" maxlength="1000" auto-focus="’true’"></textarea>
+          <textarea v-model="auditMsg" maxlength="1000" auto-focus="’true’"></textarea>
         </div>
         <div class="ture" @click="review">确定</div>
       </div>
@@ -79,11 +79,12 @@ export default {
       reason: false,
       aaa:false,
       reasonContent:[
-        {content:"内容不够详细，有缺漏！"},
-        {content:"图片搭错了"},
-        {content:"写得太凌乱，没有主题"},
-        {content:"重新细心检查过"},
-      ]
+        {index: '1',value:"内容不够详细，有缺漏！"},
+        {index: '2',value:"图片搭错了"},
+        {index: '3',value:"写得太凌乱，没有主题"},
+        {index: '4',value:"重新细心检查过"},
+      ],
+      auditMsg:""
     };
   },
   methods: {
@@ -96,7 +97,7 @@ export default {
       var that = this;
       var rep = await this.$UJAPI.ProjectLog_SetAudit({
         LogId: this.$route.query.LogId,
-        Audit: 1
+        Audit: true
       });
       if (rep.ret == 0) {
         //成功执行的代码
@@ -114,28 +115,35 @@ export default {
       this.$router.back();
     },
     // 点击不通过
-    async nopass() {
-      // var that = this;
-      // var rep = await this.$UJAPI.ProjectLog_SetAudit({
-      //   LogId: this.$route.query.LogId,
-      //   Audit: -1
-      // });
-      // if (rep.ret == 0) {
-      //   //成功执行的代码
-      //   this.toast("确认不通过");
-      //   this.$router.back();
-      // } else {
-      //   //失败执行的代码
-      //   this.toast("审核失败");
-      //   this.$router.back();
-      // }
+   nopass() {
       this.reason = true;
-      this.zhezhaoceng = true;
+      this.aaa = true;
     },
     lose() {
       this.reason = false
       this.aaa = false;
-    }
+    },
+    radioChange (e) {
+    console.log('radio发生change事件，携带value值为：', e.mp.detail.value)
+    this.auditMsg=e.mp.detail.value
+  },
+  async review() {
+      var that = this;
+      var rep = await this.$UJAPI.ProjectLog_SetAudit({
+        LogId: this.$route.query.LogId,
+        audit: false,
+        auditMsg:this.auditMsg
+      });
+      if (rep.ret == 0) {
+        //成功执行的代码
+        this.toast("确认不通过");
+        this.$router.back();
+      } else {
+        //失败执行的代码
+        this.toast("审核失败");
+        this.$router.back();
+      }
+  }
   },
   // 在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
   async mounted() {
@@ -317,7 +325,7 @@ export default {
   position: fixed;
   bottom: 0rem;
   background-color: #fff;
-  z-index: 2;
+  z-index:99;
 }
 .hang {
   display: flex;

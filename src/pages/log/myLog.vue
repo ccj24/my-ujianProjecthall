@@ -83,6 +83,14 @@ export default {
         }
       });
     },
+    // writeLog() {
+    //   this.$router.push({
+    //     path: "/pages/log/writeLog",
+    //     query: {
+    //       LogId: null
+    //     }
+    //   });
+    // },
      async checktab(index) {
       this.checkIndex = index;
       // 触发不同的事件，返回不同的数据

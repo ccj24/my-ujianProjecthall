@@ -159,5 +159,8 @@ export default {
     ProjectLog_LogStatistics: param => {
         return http.get(BaseHost + "api/ProjectLog/LogStatistics", param)
     },
-
+    //编辑项目日志
+    ProjectLog_Update: param => {
+        return http.post(BaseHost + "api/ProjectLog/Update",param)
+    },
 }
