@@ -9,7 +9,7 @@
         <span class="top_two" @click="release">发布</span>
       </div>
       <!-- 时间 -->
-      <div class="day">
+      <div class="day" v-if="LogId == null">
         <picker mode="date" :value="date" start="2015-09-01" end="date" @change="bindDateChange">
           <div class="picker time">时间: {{date}}</div>
           <img class="picker tubiao" src="/static/img/time_icon.png" alt />
@@ -35,6 +35,14 @@
       </div>
       <div class="rizhi">
         <img
+          class="rizhi_img"
+          v-for="(items,index) in ProjectLog.Images"
+          :key="index"
+          :src="items"
+          @click="yulan2(items)"
+          @longpress="deleteImage2(items,index)"
+        />
+          <img
           class="rizhi_img"
           v-for="(items,index) in Images"
           :key="index"
@@ -77,12 +85,10 @@ export default {
       LogId: "",
       RemoveImages: [],
       AddImages: [],
-      aaa: []
     };
   },
   methods: {
     bindDateChange(e) {
-      console.log(e);
       console.log("picker发送选择改变，携带值为", e.mp.detail.value);
       this.date = e.mp.detail.value;
     },
@@ -103,16 +109,17 @@ export default {
     async release() {
       // 编辑
       if (this.LogId != null) {
+        console.log("编辑")
         var that = this;
         console.log(that.LogId)
         console.log(that.ProjectLog.LogContent)
         console.log(that.RemoveImages)
-        console.log(that.AddImages)
+        console.log(that.ProjectInfo.Images)
         var rep = await this.$UJAPI.ProjectLog_Update({
           LogId: that.LogId,
           LogContent:that.ProjectLog.LogContent,
           RemoveImages:that.RemoveImages,
-          AddImages:that.AddImages
+          AddImages:that.ProjectInfo.Images,
         });
         // 当ret=0时，代表请求项目日志接口成功，然后把请求回来的数据赋值给ProjectLog。
         if (rep.ret == 0) {
@@ -125,14 +132,13 @@ export default {
       }
       // 发布
       else {
+        console.log("发布")
         var that = this;
         var fileNames = [];
         for (var i = 0; i < this.Images.length; i++) {
           fileNames.push("Images[" + i + "]");
         }
         this.ProjectInfo.CreateTime = this.date + " 00:00:00";
-
-        console.log(this.ProjectInfo);
         // ProjectInfo既是上面定义的对象
         var rep = await this.$UJAPI.ProjectLog_Add(this.ProjectInfo);
         if (rep instanceof Array)
@@ -156,39 +162,32 @@ export default {
         sourceType: ["album", "camera"],
         //接口调用成功的回调函数
         success(res) {
-          // 每次向图片里增加一张图片用push
+          // 每次向图片里增加一张图片用push    
           that.Images.push(res.tempFilePaths[0]);
           let FileSystemManager = wx.getFileSystemManager();
           var filebase64 = FileSystemManager.readFileSync(
             res.tempFilePaths[0],
             "base64"
           );
-          if (that.LogId == null) {
             that.ProjectInfo.Images.push({
-              FileName: `Images${
-                that.ProjectInfo.Images.length
-                  ? that.ProjectInfo.Images.length
-                  : 0
-              }`,
+              FileName: `Images${that.ProjectInfo.Images.length ? that.ProjectInfo.Images.length : 0}`,
               MediaType: "image/png",
               Buffer: filebase64
             });
-          } else {
-            that.AddImages.push({
-              FileName: `Images${that.Images.length ? that.Images.length : 0}`,
-              MediaType: "image/png",
-              Buffer: filebase64
-            });
-          }
-          console.log(that.AddImages);
         }
       });
     },
     // 预览图片
     yulan(items) {
-      wx.previewImage({
-        current: items,
-        urls: this.Images
+          wx.previewImage({
+          current: items,
+          urls: this.Images
+      });
+    },
+    yulan2(items) {
+          wx.previewImage({
+          current: items,
+          urls: this.ProjectLog.Images
       });
     },
     //长按删除事件
@@ -202,26 +201,26 @@ export default {
           if (res.confirm) {
             console.log("点击确定了");
             // 删除图片
-            if (that.LogId == null) {
               Images.splice(index, 1);
               that.ProjectInfo.Images.splice(index, 1);
-            } else {
-              Images.splice(index, 1);
-              that.Images.splice(index, 1);
-              // 把移除的图片表符存起来
-              console.log(index);
-              that.aaa.push(that.ProjectLog.ImageIds[index]);
-              console.log(that.aaa);
-              for (let i = 0; i < that.aaa.length; i++) {
-                if (
-                  that.RemoveImages.indexOf(that.aaa[i]) == -1 &&
-                  that.aaa[i] != undefined
-                ) {
-                  that.RemoveImages.push(that.aaa[i]);
-                  console.log(that.RemoveImages);
-                }
-              }
-            }
+          } else if (res.cancel) {
+            console.log("点击取消了");
+            return false;
+          }
+        }
+      });
+    },
+    deleteImage2(items, index) {
+      var that = this;
+      wx.showModal({
+        title: "提示",
+        content: "确定要删除此图片吗？",
+        success(res) {
+          if (res.confirm) {
+            console.log("点击确定了");
+            // 删除图片
+          that.ProjectLog.Images.splice(index, 1); 
+          that.RemoveImages.push( that.ProjectLog.ImageIds[index])
           } else if (res.cancel) {
             console.log("点击取消了");
             return false;
@@ -229,10 +228,9 @@ export default {
         }
       });
     }
+
   },
   async mounted() {
-    // 获取引进来的当地时间
-    // this.ProjectInfo.CreateTime = utils.formatTime(new Date());
     // 获取日志ProjectId
     this.ProjectInfo.ProjectId = this.ProjectId;
     //  debugger;
@@ -243,7 +241,6 @@ export default {
     this.date = y + "-" + m + "-" + d;
     this.ProjectInfo.CreateTime = this.date;
     this.LogId = this.$route.query.LogId;
-    console.log(this.LogId);
     // 编辑时候获取内容
     if (this.LogId != null) {
       var that = this;
@@ -257,10 +254,6 @@ export default {
       if (rep.ret == 0) {
         //  this就是整个vue，比如下访问return下面定义的东西，不加this则访问不到
         this.ProjectLog = rep.data;
-        console.log(this.ProjectLog);
-        for (let i = 0; i < this.ProjectLog.Images.length; i++) {
-          this.Images.push(this.ProjectLog.Images[i]);
-        }
       } else {
         this.toast("获取此项目日志详情失败");
       }
