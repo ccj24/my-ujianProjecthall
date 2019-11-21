@@ -1,6 +1,7 @@
 <template>
     <div id="app">
       <div>
+        <titletool></titletool>
         <router-view></router-view>
         <!-- <mynav v-if="Enable"></mynav> -->
       </div>
@@ -9,6 +10,7 @@
 
 <script>
 // import mynav from '@/components/mynav.vue'
+import titletool from '@/components/titletool.vue'
 
 export default {
   computed:{
@@ -20,9 +22,10 @@ export default {
       return nowRouteConfig&&nowRouteConfig.config&&nowRouteConfig.config.EnableNav;
     }
   },
-  // components: {
-  //   mynav,
-  // },
+  components: {
+    titletool
+    // mynav,
+  },
 };
 </script>
 <style>
