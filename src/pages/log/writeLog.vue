@@ -111,10 +111,6 @@ export default {
       if (this.LogId != null) {
         console.log("编辑")
         var that = this;
-        console.log(that.LogId)
-        console.log(that.ProjectLog.LogContent)
-        console.log(that.RemoveImages)
-        console.log(that.ProjectInfo.Images)
         var rep = await this.$UJAPI.ProjectLog_Update({
           LogId: that.LogId,
           LogContent:that.ProjectLog.LogContent,
