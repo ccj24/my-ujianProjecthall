@@ -163,4 +163,8 @@ export default {
     ProjectLog_Update: param => {
         return http.post(BaseHost + "api/ProjectLog/Update",param)
     },
+    //市区县三级地名
+    CommonInfo_GetKeyword: param => {
+        return http.get(BaseHost + "api/CommonInfo/GetKeyword", param)
+    },
 }

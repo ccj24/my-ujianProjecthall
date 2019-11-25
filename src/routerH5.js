@@ -17,7 +17,7 @@ import Projectmessage from './pages/Login/Projectmessage'
 import Hebuiltproject from './pages/Login/Hebuiltproject'
 import selfbuiltproject from './pages/Login/selfbuilt-project'
 import newproject from './pages/Login/newproject'
-
+import Choiceprofessional from './pages/Login/Choiceprofessional'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -209,6 +209,17 @@ var routes = [
     },
     alias: '/pages/Login/newproject',
     component: newproject
+  },
+  {
+    path: 'pages/Login/Choiceprofessional',
+    name: 'Choiceprofessional',
+    config: {
+      navigationBarTitleText: '选择职位',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/Login/Choiceprofessional',
+    component: Choiceprofessional
   },
 
 ]

@@ -3,39 +3,34 @@
     <div class="Projecthall">
       <ul>
         <li>
-          <p>*</p>
-          <input type="text" placeholder="填写项目名称(长度5~50)">
+          <span>*</span>
+          <input type="text" placeholder="填写项目名称(长度5~50)" />
         </li>
         <li>
-          <p>*</p>
-          <input @click="SelectSite" type="text" placeholder="项目所属省市县">
+          <span>*</span>
+          <input @click="SelectSite" type="text" placeholder="项目所属省市县" />
         </li>
         <li>
-          <p>*</p>
-          <input type="text" placeholder="项目详细地址">
+          <span>*</span>
+          <input type="text" placeholder="项目详细地址" />
         </li>
         <li>
-          <p>*</p>
-          <input type="text" placeholder="姓名">
+          <span>*</span>
+          <input type="text" placeholder="姓名" />
         </li>
-        <li
-          @click="go({path:'/pages/Login/Choiceprofessional'})"
-          style="overflow: hidden;"
-        >
-          <p>*</p>
+        <li @click="go({path:'/pages/Login/Choiceprofessional'})" style="overflow: hidden;">
+          <span>*</span>
           <samp>选择职业</samp>
-          <img
-            style="width: 0.7rem;height: 0.8rem;float: right;padding-right: 0.5rem;"
-            src="/static/images/details.png"
-            alt
-          >
+          <img class="zhiye" src="/static/images/details.png" alt />
         </li>
         <li style="overflow: hidden;">
-          <p>*</p>
-          <samp style=" width: 79%;">项目证明材料</samp>
-          <div class="prove" style="float: right;">
-            <img src="/static/images/Photo.png">
-            <p>上传</p>
+          <span>*</span>
+          <samp>项目证明材料</samp>
+          <div class="prove">
+           <input accept="image/*" name="img" id="upload_file" type="file">
+            
+            <img src="/static/images/Photo.png" />
+            <span>上传</span>
           </div>
         </li>
       </ul>
@@ -53,56 +48,17 @@
     <div class="message-box-wrapper" @click.stop="checktanchuceng" v-if="ShowSite">
       <div class="address" @click.stop>
         <div class="roof">
-          <p style="float: right;" @click="accomplish">完成</p>
+          <span style="float: right;" @click="accomplish">完成</span>
         </div>
         <div class="drop-down" style="display:inline;">
           <ul style=" overflow: auto;overflow-x:scroll,">
-            <li>广西</li>
-            <li>广东</li>
-            <li>云南</li>
-            <li style="border-bottom: 0.01rem solid #d7c1c1;border-top: 0.01rem solid #d7c1c1;">北京</li>
-            <li>香港</li>
-            <li>上海</li>
-            <li>深圳</li>
-            <li>浙江</li>
-            <li>江苏</li>
-            <li>广西</li>
-            <li>广东</li>
-            <li>云南</li>
-            <li>北京</li>
-            <li>香港</li>
+            <li v-for="(item,index) in city" :key="index">{{item.KeywordName}}</li>
           </ul>
           <ul style="overflow: auto;">
-            <li>广西</li>
-            <li>广东</li>
-            <li>云南</li>
-            <li style="border-bottom: 0.01rem solid #d7c1c1;border-top: 0.01rem solid #d7c1c1;">北京</li>
-            <li>香港</li>
-            <li>上海</li>
-            <li>深圳</li>
-            <li>浙江</li>
-            <li>江苏</li>
-            <li>广西</li>
-            <li>广东</li>
-            <li>云南</li>
-            <li>北京</li>
-            <li>香港</li>
+            <li v-for="(item,index) in district" :key="index">{{item.KeywordName}}</li>
           </ul>
           <ul style="overflow: auto;">
-            <li>广西</li>
-            <li>广东</li>
-            <li>云南</li>
-            <li style="border-bottom: 0.01rem solid #d7c1c1;border-top: 0.01rem solid #d7c1c1;">北京</li>
-            <li>香港</li>
-            <li>上海</li>
-            <li>深圳</li>
-            <li>浙江</li>
-            <li>江苏</li>
-            <li>广西</li>
-            <li>广东</li>
-            <li>云南</li>
-            <li>北京</li>
-            <li>香港</li>
+            <li v-for="(item,index) in county" :key="index">{{item.KeywordName}}</li>
           </ul>
         </div>
       </div>
@@ -113,7 +69,11 @@
 export default {
   data() {
     return {
-      ShowSite: false
+      ShowSite: false,
+      location: [],
+      city: [],
+      district: [],
+      county: []
     };
   },
   methods: {
@@ -128,18 +88,37 @@ export default {
     accomplish() {
       this.ShowSite = false;
     }
+  },
+  async mounted() {
+    var that = this;
+    var rep = await this.$UJAPI.CommonInfo_GetKeyword({
+      TypeId: 4
+    });
+    if (rep.ret == 0) {
+      this.location = rep.data;
+      console.log(this.location);
+      for (let i = 0; i < this.location.length; i++) {
+        if (this.location[i].Depth == 1) {
+          this.city.push(this.location[i]);
+        }
+        if (this.location[i].Depth == 2) {
+          this.district.push(this.location[i]);
+        }
+        if (this.location[i].Depth == 3) {
+          this.county.push(this.location[i]);
+        }
+      }
+    }
   }
 };
 </script>
- 
-
 <style scoped>
 .Projecthall {
   background-color: #ffffff;
   margin-top: 1rem;
   margin-left: 0.5rem;
 }
-.Projecthall p {
+.Projecthall span {
   font-size: 0.82rem;
   float: left;
   color: red;
@@ -149,17 +128,21 @@ export default {
   width: 90%;
   padding-bottom: 0.1rem;
   font-size: 0.42rem;
+  margin-left: 0.2rem;
 }
 .Projecthall li samp {
   font-size: 0.42rem;
   line-height: 0.82rem;
-  width: 90%;
   padding-bottom: 0.1rem;
+  margin-left: 0.2rem;
+  color: #353535;
   float: left;
 }
 .Projecthall li {
+  display: flex;
+  align-items: center;
   margin-top: 0.6rem;
-  border-bottom: 0.01rem solid #d7c1c1
+  border-bottom: 0.01rem solid #d7c1c1;
 }
 .infuse {
   padding-top: 1rem;
@@ -175,18 +158,30 @@ export default {
   margin-top: 1.5rem;
 }
 .btn {
+  width: 9.66rem;
+  height: 1.36rem;
+  font-size: 0.52rem;
+  text-align: center;
+  line-height: 1.36rem;
   background-color: #12b7f5;
   color: #ffffff;
-  width: 95%;
   border-radius: 0.2rem;
+}
+.zhiye {
+  width: 0.4rem;
+  height: 0.5rem;
+  margin-left: 7.2rem;
+}
+.prove {
+  margin-left: 5.3rem;
 }
 .prove img {
   width: 0.53rem;
   height: 0.38rem;
   float: left;
-  margin-top: 0.2rem
+  margin-top: 0.2rem;
 }
-.prove p {
+.prove span {
   font-size: 0.42rem;
   color: #12b7f5;
   padding-right: 0.5rem;
@@ -209,10 +204,11 @@ export default {
   vertical-align: middle; /*让行级元素垂直居中*/
 }
 .address {
+  width: 100%;
   height: 6.5rem;
   background-color: #ffffff;
-  position: relative;
-  top: 10.4rem;
+  position: fixed;
+  bottom: 0rem;
 }
 .roof {
   border-bottom: #d7c1c1 solid 0.01rem;
@@ -220,18 +216,29 @@ export default {
   padding-top: 0.2rem;
   overflow: hidden;
 }
-.roof p {
+.roof span {
   padding-right: 0.4rem;
   color: #12b7f5;
+  font-size: 0.7rem;
+}
+/* 选中样式 */
+.suoxuan {
+  border-bottom: 0.01rem solid #d7c1c1;
+  border-top: 0.01rem solid #d7c1c1
 }
 .drop-down li {
   padding-bottom: 0.2rem;
-  padding-left: 1.5rem;
+  text-align: center;
+  font-size: 0.4rem;
+  white-space: nowrap;
+   text-overflow: ellipsis;
+  backface-visibility: hidden;
 }
 .drop-down ul {
   float: left;
   height: 5rem;
   color: #d7c1c1;
   width: 33%;
+  transform-style: preserve-3d;
 }
 </style>
