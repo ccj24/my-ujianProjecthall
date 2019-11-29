@@ -99,9 +99,11 @@ export default {
     };
   },
   computed: {
+    //提供省份直辖市数据
     city() {
       return this.location1;
     },
+    //提供指定省份下的城市
     district() {
       if (this.selectedCity) {
         var _arr = this.location2.filter(item => {
@@ -111,6 +113,7 @@ export default {
       }
       return [];
     },
+    //提供指定城市下的县区
     county() {
       if (this.selectedDistrict) {
         var _arr = this.location3.filter(item => {
@@ -120,6 +123,7 @@ export default {
       }
       return [];
     },
+    //用来显示选中的省市县
     displayName() {
       return (
         (this.selectedCity ? this.selectedCity.KeywordName : "") +
@@ -171,7 +175,6 @@ export default {
         // FileReader接口中的readAsDataURL()方法可以获取API异步读取的文件数据，另存为数据URL;
         //将该URL绑定到img标签的src属性上，就可以实现图片的上传预览效果了
         reader.onload = function(e) {
-           console.log(e.target.result)
            that.ImagesSrc= e.target.result;
            var strarr = that.ImagesSrc.split(",");
            var filebase64 = strarr[1];//切割Data URI scheme。获得的图片文件的base64字符串用于上传
