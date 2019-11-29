@@ -167,4 +167,28 @@ export default {
     CommonInfo_GetKeyword: param => {
         return http.get(BaseHost + "api/CommonInfo/GetKeyword", param)
     },
+       //会议列表
+    ProjectMeeting_GetList: param => {
+        return http.get(BaseHost + "api/ProjectMeeting/GetList", param)
+    },
+       //项目成员列表
+       ProjectMember_Get: param => {
+        return http.get(BaseHost + "api/ProjectMember/Get", param)
+    },
+    //邀请用户参加项目会议
+    ProjectMeetingMember_Invite: param => {
+        return http.post(BaseHost + "api/ProjectMeetingMember/Invite?meetingid="+param.meetingid+"&userid="+param.userid)
+    },
+    //参会状态: 如缺席，确认出席等等
+    ProjectMeetingMember_SetState: param => {
+        return http.post(BaseHost + "api/ProjectMeetingMember/SetState?meetingid="+param.meetingid+"&state="+param.state)
+    },
+     //取消会议
+     ProjectMeeting_Delete: param => {
+        return http.post(BaseHost + "api/ProjectMeeting/Delete?meetingid="+param)
+    },
+    // 会议详情
+    ProjectMeeting_Get: param => {
+        return http.get(BaseHost + "api/ProjectMeeting/Get", param)
+    },
 }

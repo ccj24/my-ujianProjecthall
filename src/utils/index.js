@@ -8,13 +8,13 @@ function setCookie(c_name, value, expire) {
 
 function getCookie(c_name) {
   if (document.cookie.length > 0) {
-      let c_start = document.cookie.indexOf(c_name + "=")
-      if (c_start != -1) {
-          c_start = c_start + c_name.length + 1
-          let c_end = document.cookie.indexOf(";", c_start)
-          if (c_end == -1) c_end = document.cookie.length
-          return unescape(document.cookie.substring(c_start, c_end))
-      }
+    let c_start = document.cookie.indexOf(c_name + "=")
+    if (c_start != -1) {
+      c_start = c_start + c_name.length + 1
+      let c_end = document.cookie.indexOf(";", c_start)
+      if (c_end == -1) c_end = document.cookie.length
+      return unescape(document.cookie.substring(c_start, c_end))
+    }
   }
   return ""
 }
@@ -27,6 +27,13 @@ function delCookie(c_name) {
 function formatNumber(n) {
   const str = n.toString()
   return str[1] ? str : `0${str}`
+}
+//字符串转时间
+function convertDateFromString(dateString) {
+  if (dateString) { 
+    var date = new Date(dateString.replace(/-/,"/")) 
+    return date;
+    }
 }
 
 function formatTime(date) {
@@ -48,5 +55,6 @@ export default {
   formatTime,
   setCookie,
   getCookie,
-  delCookie
+  delCookie,
+  convertDateFromString
 }

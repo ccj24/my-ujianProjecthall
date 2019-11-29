@@ -338,5 +338,37 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+  {
+    path: 'pages/meeting/meetinghome',
+    name: 'meetinghome',
+    config: {
+      navigationBarTitleText: '会议',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/meeting/InviteMembers',
+    name: 'InviteMembers',
+    config: {
+      navigationBarTitleText: '邀请成员',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/meeting/meetingParticulars',
+    name: 'meetingParticulars',
+    config: {
+      navigationBarTitleText: '会议详情',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/meeting/startMeeting',
+    name: 'startMeeting',
+    config: {
+      navigationBarTitleText: '发起会议',
+      enablePullDownRefresh: false
+    },
+  },
 ]
 module.exports = routes

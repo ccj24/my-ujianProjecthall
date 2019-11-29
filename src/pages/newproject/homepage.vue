@@ -189,7 +189,7 @@
             <p class="hpIconP">任务</p>
             <div class="redDot"></div>
           </div>
-          <div class="hpIconDiv">
+          <div class="hpIconDiv"  @click="go({path:'/pages/meeting/meetinghome'})">
             <img class="hpIcon" src="/static/img/homePage_Icon2.png" alt />
             <p class="hpIconP">会议</p>
           </div>

@@ -18,6 +18,10 @@ import Hebuiltproject from './pages/Login/Hebuiltproject'
 import selfbuiltproject from './pages/Login/selfbuilt-project'
 import newproject from './pages/Login/newproject'
 import Choiceprofessional from './pages/Login/Choiceprofessional'
+import meetinghome from './pages/meeting/meetinghome'
+import InviteMembers from './pages/meeting/InviteMembers'
+import meetingParticulars from './pages/meeting/meetingParticulars'
+import startMeeting from './pages/meeting/startMeeting'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -220,6 +224,50 @@ var routes = [
     },
     alias: '/pages/Login/Choiceprofessional',
     component: Choiceprofessional
+  },
+  {
+    path: 'pages/meeting/meetinghome',
+    name: 'meetinghome',
+    config: {
+      navigationBarTitleText: '会议',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/meetinghome',
+    component: meetinghome
+  },
+  {
+    path: 'pages/meeting/InviteMembers',
+    name: 'InviteMembers',
+    config: {
+      navigationBarTitleText: '邀请成员',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/InviteMembers',
+    component: InviteMembers
+  },
+  {
+    path: 'pages/meeting/meetingParticulars',
+    name: 'meetingParticulars',
+    config: {
+      navigationBarTitleText: '会议详情',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/meetingParticulars',
+    component: meetingParticulars
+  },
+  {
+    path: 'pages/meeting/startMeeting',
+    name: 'startMeeting',
+    config: {
+      navigationBarTitleText: '发起会议',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/startMeeting',
+    component: startMeeting
   },
 
 ]

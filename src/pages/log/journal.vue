@@ -230,6 +230,9 @@ export default {
         // 这个ProjectLog是data自己定义的
         this.ProjectLog = rep.data;
       }
+      else {
+        this.toast("获取数据失败");
+      }
     },
     goaudit(LogId) {
       this.commentbox = false;
