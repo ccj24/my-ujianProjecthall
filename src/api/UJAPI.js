@@ -18,6 +18,18 @@ export default {
     User_Get: param => {
         return http.get(BaseHost + "api/User/Get", param)
     },
+
+    
+    //获取项目详情。用于展示项目详细信息界面。 
+    Project_Add: param => {
+        if(typeof (FormData)!='undefined' && param instanceof FormData)
+        {
+            return http.upload(BaseHost + "api/Project/Add",param)
+        }else
+        {
+            return http.post(BaseHost + "api/Project/Add",param)
+        }
+    },
     //获取项目详情。用于展示项目详细信息界面。 
     Project_GetDetailed: Projectid => {
         return http.get(BaseHost + "api/Project/GetDetailed?Projectid=" + Projectid)

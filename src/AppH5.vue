@@ -2,7 +2,10 @@
     <div id="app">
       <div>
         <titletool></titletool>
-        <router-view></router-view>
+        <keep-alive>
+          <router-view v-if="$route.meta.keepAlive"></router-view>
+        </keep-alive>
+        <router-view v-if="!$route.meta.keepAlive"></router-view>
         <!-- <mynav v-if="Enable"></mynav> -->
       </div>
     </div>

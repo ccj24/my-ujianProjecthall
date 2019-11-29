@@ -56,6 +56,7 @@ export default {
         this.userInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
         this.userInfo.openid = this.UserInfo.openid;
         this.userInfo.unionid = this.UserInfo.unionid;
+        console.log(this.userInfo)
         this.logoHide = true;
       } else {
         // 提示框窗口

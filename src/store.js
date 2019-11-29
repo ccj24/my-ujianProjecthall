@@ -38,8 +38,8 @@ export default new Vuex.Store({//store对象
       state: {
         ProjectDetailedView: null,//定义项目详情
         ProjectId: null,
-        chooseItem: null,      //选择父类的每一项
-        choosePostItem: null,  //选择子类的每一项
+        chooseItem: null,      //创建项目时 保存选中的部门
+        choosePostItem: null,  //创建项目时 保存选中的部门下的职位
         ProjectDetailed: null,  //定义一个项目详情
       },
       // 更改vuex中的store中的状态的唯一方法是提交mutations，vuex中的mutations非常类似事件，

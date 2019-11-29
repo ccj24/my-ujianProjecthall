@@ -18,10 +18,8 @@ import Hebuiltproject from './pages/Login/Hebuiltproject'
 import selfbuiltproject from './pages/Login/selfbuilt-project'
 import newproject from './pages/Login/newproject'
 import Choiceprofessional from './pages/Login/Choiceprofessional'
-import meetinghome from './pages/meeting/meetinghome'
-import InviteMembers from './pages/meeting/InviteMembers'
-import meetingParticulars from './pages/meeting/meetingParticulars'
-import startMeeting from './pages/meeting/startMeeting'
+import choicebranch from './pages/Login/choicebranch'
+import Selectposition from './pages/Login/Selectposition'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -209,8 +207,9 @@ var routes = [
     config: {
       navigationBarTitleText: '新建项目',
       enablePullDownRefresh: true,
-      onReachBottomDistance: 50
+      onReachBottomDistance: 50,
     },
+    meta: { keepAlive:true },
     alias: '/pages/Login/newproject',
     component: newproject
   },
@@ -226,48 +225,26 @@ var routes = [
     component: Choiceprofessional
   },
   {
-    path: 'pages/meeting/meetinghome',
-    name: 'meetinghome',
+    path: 'pages/Login/choicebranch',
+    name: 'Login-choicebranch',
     config: {
-      navigationBarTitleText: '会议',
+      navigationBarTitleText: '选择部门',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
-    alias: '/pages/meeting/meetinghome',
-    component: meetinghome
+    alias: '/pages/Login/choicebranch',
+    component: choicebranch
   },
   {
-    path: 'pages/meeting/InviteMembers',
-    name: 'InviteMembers',
+    path: 'pages/Login/Selectposition',
+    name: 'Login-Selectposition',
     config: {
-      navigationBarTitleText: '邀请成员',
+      navigationBarTitleText: '选择职位',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
-    alias: '/pages/meeting/InviteMembers',
-    component: InviteMembers
-  },
-  {
-    path: 'pages/meeting/meetingParticulars',
-    name: 'meetingParticulars',
-    config: {
-      navigationBarTitleText: '会议详情',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-    alias: '/pages/meeting/meetingParticulars',
-    component: meetingParticulars
-  },
-  {
-    path: 'pages/meeting/startMeeting',
-    name: 'startMeeting',
-    config: {
-      navigationBarTitleText: '发起会议',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-    alias: '/pages/meeting/startMeeting',
-    component: startMeeting
+    alias: '/pages/Login/Selectposition',
+    component: Selectposition
   },
 
 ]

@@ -41,8 +41,9 @@ export default {
   async mounted() {
     
     var that = this;
+    
     var rep = await this.$UJAPI.User_GetPostKeyword({
-      ParentId: this.$store.state.Project.chooseItem.KeywordId
+      ParentId: this.$store.state.Project.chooseItem.ParentId>0?this.$store.state.Project.chooseItem.ParentId:this.$store.state.Project.chooseItem.KeywordId
     });
     if (rep.ret == 0) {
       this.PostKeyword = rep.data;
@@ -65,6 +66,10 @@ export default {
   margin-top: 0.5rem;
   margin-left: 0.2rem;
   margin-right: 0.2rem;
+}
+
+.branchlist ul li{
+  font-size: 0.46rem;
 }
 </style>
 

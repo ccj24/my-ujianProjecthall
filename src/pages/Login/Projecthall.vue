@@ -5,11 +5,11 @@
       <button
         @click="go({path:'/pages/Login/newproject'})"
         class="btn"
-        style="background-color: #ffc539;float:left;margin-right:2rem;"
+        style="background-color: #ffc539;"
       >新建项目</button>
       <button
         @click="go({path:'/pages/Login/Addproject'})"
-        style="background-color: #12b7f5;display: block;"
+        style="background-color: #12b7f5;margin-left:0.3rem;"
         class="btn"
       >加入项目</button>
     </div>
@@ -128,22 +128,33 @@ export default {
 <style scoped>
 .halltop {
   background-color: #ffffff;
-  height: 2rem;
+  /* height: 2rem; */
   overflow: hidden;
+  text-align: center;
+  font-size: 0px;
+  padding-top: 0.3rem;
+}
+.btn::after{
+  content: " ";
+  position: absolute;
+  left: 0;
+  top: 0;
 }
 .btn {
   width: 2.96rem;
-  margin-top: 0.37rem;
-  margin-left: 1.5rem;
+  /* margin-top: 0.37rem;
+  margin-left: 1.5rem; */
   border-radius: 0.16rem;
   color: #ffffff;
   font-size: 0.48rem;
   border: none;
+  display: inline-block;
+  line-height:1rem;
 }
 .Self-built {
   color: #12b7f5;
   background-color: #ffffff;
-  margin-top: 0.2rem;
+  /* margin-top: 0.2rem; */
   padding-top: 0.62rem;
   padding-bottom: 0.29rem;
   padding-left: 0.2rem;

@@ -109,7 +109,6 @@ export default {
     async release() {
       // 编辑
       if (this.LogId != null) {
-        console.log("编辑")
         var that = this;
         var rep = await this.$UJAPI.ProjectLog_Update({
           LogId: that.LogId,
@@ -128,7 +127,6 @@ export default {
       }
       // 发布
       else {
-        console.log("发布")
         var that = this;
         var fileNames = [];
         for (var i = 0; i < this.Images.length; i++) {

@@ -60,8 +60,6 @@ var routes = [
     name: 'Login-newproject',
     config: {
       navigationBarTitleText: '新建项目',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
     },
   },
   {
@@ -77,7 +75,7 @@ var routes = [
     path: 'pages/Login/Choiceprofessional',
     name: 'Login-Choiceprofessional',
     config: {
-      navigationBarTitleText: '选择职位',
+      navigationBarTitleText: '选择部门与职位',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
@@ -188,15 +186,6 @@ var routes = [
     name: 'home-details',
     config: {
       navigationBarTitleText: '详细资料',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-  },
-  {
-    path: 'pages/home/Logdetails',
-    name: 'home-Logdetails',
-    config: {
-      navigationBarTitleText: '日志',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
@@ -335,38 +324,6 @@ var routes = [
     name: 'toAudit',
     config: {
       navigationBarTitleText: '待审核',
-      enablePullDownRefresh: false
-    },
-  },
-  {
-    path: 'pages/meeting/meetinghome',
-    name: 'meetinghome',
-    config: {
-      navigationBarTitleText: '会议',
-      enablePullDownRefresh: false
-    },
-  },
-  {
-    path: 'pages/meeting/InviteMembers',
-    name: 'InviteMembers',
-    config: {
-      navigationBarTitleText: '邀请成员',
-      enablePullDownRefresh: false
-    },
-  },
-  {
-    path: 'pages/meeting/meetingParticulars',
-    name: 'meetingParticulars',
-    config: {
-      navigationBarTitleText: '会议详情',
-      enablePullDownRefresh: false
-    },
-  },
-  {
-    path: 'pages/meeting/startMeeting',
-    name: 'startMeeting',
-    config: {
-      navigationBarTitleText: '发起会议',
       enablePullDownRefresh: false
     },
   },
