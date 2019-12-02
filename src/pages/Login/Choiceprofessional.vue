@@ -2,23 +2,23 @@
   <div class="Choicecareer">
     <!-- 选择部门 -->
     <div class="selectbranch" @click="go({path:'/pages/Login/choicebranch'})">
-      <p style="float:left;">选择部门</p>
+      <p style="float:left;">选择部门：</p>
+      <p style="float:left;color:#8c8c8c">{{chooseItem!=null?(chooseItem.ParentId==3?"施工单位分包-"+chooseItem.KeywordName:(chooseItem.KeywordId==3?"施工单位总包":chooseItem.KeywordName)):""}}</p>
       <div style="float: right;">
-        <p style="float:left;">{{chooseItem!=null?chooseItem.KeywordName:""}}</p>
-        <img src="/static/images/details.png" alt />
+          <i class="icon">&#xe601;</i>
       </div>
     </div>
     <!-- 选择职位 -->
-    <div class="selectbranch" @click="go({path:'/pages/Login/Selectposition'})">
-      <p style="float:left;padding-right:0.2rem;">选择职位:</p>
+    <div class="selectbranch" @click="selectpost">
+      <p style="float:left;">选择职位：</p>
       <p style="float:left;color:#8c8c8c">{{choosePostItem!=null?choosePostItem.KeywordName:""}}</p>
       <div style="float: right;">
-        <img src="/static/images/details.png" alt />
+          <i class="icon">&#xe601;</i>
       </div>
     </div>
     <!--选择人员 -->
     <div class="selectstaff">
-      <p style="float:left;padding-right:0.2rem;">选择人员:</p>
+      <p style="float:left;">选择人员：</p>
       <p>{{UserInfo.UserName}}</p>
     </div>
     <!-- 提交申请 -->
@@ -30,8 +30,6 @@
 export default {
   data() {
     return {
-      ModelResponse: [], //获取各部门
-      UserInfo: ""
     };
   },
   computed: {
@@ -42,40 +40,28 @@ export default {
     // 保存在state中的职位信息
     choosePostItem() {
       return this.$store.state.Project.choosePostItem; //返回值给store中的choosePostItem
+    },
+    // 获取当前用户的登录信息
+    UserInfo(){
+      return this.$store.state.User.UserInfo
     }
   },
   methods: {
     // 用户申请加入项目use_Apply
     async putin() {
       var that = this;
-      var rep = await this.$UJAPI.use_Apply({
-        //所属项目唯一标识
-        ProjectId: this.$route.query.ProjectId,
-        //参与用户在部门中的职位,数据来至tKeyword表KeywordId
-        PostId: this.$store.state.Project.choosePostItem.KeywordId,
-        //参与用户在项目中的哪个部门单位，数据来至tKeyword表KeywordId
-        DepartmentId: this.$store.state.Project.chooseItem.KeywordId
-      });
-      if (rep.ret == 0) {
-        this.toast("您的申请已经提交");
-        // 相对于当前页面向前或向后跳转多少个页面,n可为正数可为负数。正数返回上一个页面
-        this.$router.go(2);
-      }
+      this.$router.back();
+    },
+    selectpost(){
+      if(this.chooseItem)
+        this.go({path:'/pages/Login/Selectposition'});
+      else
+        this.toast("请选择部门")
     }
+
   },
   async mounted() {
     var that = this;
-    // 获取当前用户的登录信息
-    var rep = await this.$UJAPI.User_Get({});
-    if (rep.ret == 0) {
-      this.UserInfo = rep.data;
-    }
-
-    // 获取部门
-    var rep = await this.$UJAPI.Project_GetDepKeyword();
-    if (rep.ret == 0) {
-      this.ModelResponse = rep.data;
-    }
   }
 };
 </script>
@@ -94,7 +80,7 @@ export default {
 .selectbranch img {
   width: 0.43rem;
   height: 0.43rem;
-  margin-top: 0.6rem;
+  /* margin-top: 0.6rem; */
   padding-left: 0.2rem;
   padding-right: 0.2rem;
 }
@@ -113,6 +99,14 @@ export default {
   color: #ffffff;
   margin-top: 0.9rem;
   width: 10rem;
+  display: block;
+  margin: auto;
+  border: 0;
+  line-height: 1rem;
+  font-size: 0.5rem;
+}
+.icon{
+  font-size: 0.7rem;
 }
 </style>
 

@@ -3,7 +3,7 @@
   <div class="projectprint">
     <div class="showprint">
       <ul
-        @click="go({path:'/pages/home/Logdetails',query:{LogId:item.LogId}})"
+        @click="go({path:'/pages/log/LogDetails',query:{LogId:item.LogId}})"
         class="article"
         v-for="(item,index) in Projectpicture"
         :key="index"
@@ -38,7 +38,6 @@ export default {
     if (res.ret == 0) {
       this.Projectpicture = res.data;
     }
-   
   }
 };
 </script>

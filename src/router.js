@@ -60,8 +60,6 @@ var routes = [
     name: 'Login-newproject',
     config: {
       navigationBarTitleText: '新建项目',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
     },
   },
   {
@@ -77,7 +75,7 @@ var routes = [
     path: 'pages/Login/Choiceprofessional',
     name: 'Login-Choiceprofessional',
     config: {
-      navigationBarTitleText: '选择职位',
+      navigationBarTitleText: '选择部门与职位',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
@@ -188,15 +186,6 @@ var routes = [
     name: 'home-details',
     config: {
       navigationBarTitleText: '详细资料',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-  },
-  {
-    path: 'pages/home/Logdetails',
-    name: 'home-Logdetails',
-    config: {
-      navigationBarTitleText: '日志',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
@@ -338,6 +327,7 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+<<<<<<< HEAD
   {
     path: 'pages/meeting/meetinghome',
     name: 'meetinghome',
@@ -378,5 +368,7 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+=======
+>>>>>>> 5c86c1d12567b9f7cbc65e27745b273fad8ca952
 ]
 module.exports = routes

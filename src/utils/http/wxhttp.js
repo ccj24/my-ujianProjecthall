@@ -5,12 +5,19 @@ let bmobConfig = {
   applicationId: "",
   restApiKey: ""
 }
+let ret10001=0;
 const net = {
   get(url, data) {
+    if(ret10001>0)
+    {
+      ret10001=0;
+      return;
+    }
     // wx.showLoading 页面加载接口 titie加载显示的内容
     wx.showLoading({
       title: '加载中',//数据请求前loading，提高用户体验
     })
+
     // resolve 调用成功 reject调用失败
     return new Promise((resolve, reject) => {
       // 网络请求
@@ -42,6 +49,7 @@ const net = {
           {
             if(res.data.ret==10000||res.data.ret==10001||res.data.ret==10002)
             {
+              ret10001++;
               store.state.User.SingleTicket="";
               var pages = getCurrentPages();    //获取加载的页面
               var currentPage = pages[pages.length-1];    //获取当前页面的对象
@@ -67,6 +75,9 @@ const net = {
                 icon: "none"
               });
               return false;
+            }else
+            {
+              ret10001=0;
             }
           }
           resolve(res.data);

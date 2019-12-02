@@ -189,7 +189,7 @@
             <p class="hpIconP">任务</p>
             <div class="redDot"></div>
           </div>
-          <div class="hpIconDiv"  @click="go({path:'/pages/meeting/meetinghome'})">
+          <div class="hpIconDiv">
             <img class="hpIcon" src="/static/img/homePage_Icon2.png" alt />
             <p class="hpIconP">会议</p>
           </div>
@@ -210,9 +210,7 @@
               <p class="hpDemoTopTitle">项目图片</p>
             </div>
             <div
-              class="hpDemoTopRight"
-              @click="go({path:'/pages/home/Projectpicture',query:{ProjectId:ProjectDetailed.ProjectId}})"
-            >
+              class="hpDemoTopRight" @click="go({path:'/pages/home/Projectpicture',query:{ProjectId:ProjectDetailed.ProjectId}})">
               <p class="hpDemoTopRightP">查看全部</p>
               <img class="hpDemoTopNextRight" src="/static/img/homePage_nextRight.png" alt />
             </div>
@@ -221,7 +219,7 @@
             <div class="hpImgNrDemo" v-for="(item,index) in Projectpicture" :key="index">
               <div
                 class="hpImgDivs"
-                @click="go({path:'/pages/home/Logdetails',query:{LogId:item.LogId}})"
+                @click="go({path:'/pages/log/LogDetails',query:{LogId:item.LogId}})"
               >
                 <img class="hpImg" :src="item.Images[0]" />
                 <div class="hpImgDate">{{item.CreateTimeFormat}}</div>
@@ -413,7 +411,7 @@ export default {
       searchCat: 1
     });
     if (res.ret == 0) {
-      this.RedPacket = res.data;
+      this.RedPacket = res.data.slice(0,1);
     }
 
     // 获取项目打赏排名

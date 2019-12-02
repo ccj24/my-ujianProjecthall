@@ -112,7 +112,7 @@ export default {
   float: left;
 }
 .information {
-  height: 1.06rem;
+  /* height: 1.06rem; */
   margin-left: 1.32rem;
   padding-top: 0rem;
   position: relative;

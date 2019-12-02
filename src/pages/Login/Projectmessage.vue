@@ -4,19 +4,31 @@
     <div class="inform" v-for="(item,index) in MemberApplyLog" :key="index">
       <p style="color: #353535;">{{item.ProjectName}}</p>
       <div style="color:#c7c7cd;overflow: hidden;padding-top: 0.2rem;">
-        <p style="float:left;overflow: hidden;color: #12b7f5;">苏重华</p>
-        <p style="float:left;overflow: hidden;">你申请加入</p>
-        <!-- item从 0---3 一共进行三个值  -->
-        <!-- <p style="float:right;padding-right: 0.3rem;">{{['未处理', '通过', '拒绝','已过期'][item.State]}}</p> -->
-        <!-- 判断当item.State==0 状态为未处理-->
-        <p style="float:right;padding-right: 0.3rem" v-if="item.State==0">
+        <p v-if="item.Type==1">
+          <span style="float:left;overflow: hidden;color: #12b7f5;"></span>
+          <span style="float:left;overflow: hidden;">您申请加入项目</span>
+        </p>
+        <p v-else-if="item.Type==2">
+          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}·</span>
+          <span style="float:left;overflow: hidden;">邀请您加入项目</span>
+        </p>
+        <p v-else-if="item.Type==3">
+          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}·</span>
+          <span style="float:left;overflow: hidden;">申请加入项目</span>
+        </p>
+        <p v-else-if="item.Type==4">
+          <span style="float:left;overflow: hidden;">邀请·</span>
+          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}·</span>
+          <span style="float:left;overflow: hidden;">加入项目</span>
+        </p>
+        <p style="float:right;padding-right: 0.3rem" v-if="item.State==0&&(item.Type==2||item.Type==3)">
           <button class="stn pass" style="float:left;" @click="PassSetState(item)">接受</button>
           <button class="stn refuse" @click="RefuseSetState(item)">拒绝</button>
         </p>
         <!-- 判断当item.State==1 状态为通过 -->
-        <p style="float:right;padding-right: 0.3rem;" v-if="item.State==1">通过</p>
+        <p style="float:right;padding-right: 0.3rem;" v-else-if="item.State==1">已通过</p>
         <!-- 判断当item.State==2 状态为已拒绝 -->
-        <p style="float:right;padding-right: 0.3rem;" v-if="item.State==2">已拒绝</p>
+        <p style="float:right;padding-right: 0.3rem;" v-else-if="item.State==2">已拒绝</p>
       </div>
       <div style="color:#c7c7cd;padding-top: 0.2rem;">
         <p style="float:left;padding-right: 1.2rem;overflow: hidden;">部门：{{item.DepartmentName}}</p>
