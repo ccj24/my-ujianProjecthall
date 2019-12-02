@@ -13,6 +13,7 @@ import LogDetails from './pages/log/LogDetails'
 import toAudit from './pages/log/toAudit'
 import Welfarelist from './pages/home/Welfarelist'
 import Addproject from './pages/Login/Addproject'
+import Projectsituation from './pages/Login/Projectsituation'
 import Projectmessage from './pages/Login/Projectmessage'
 import Hebuiltproject from './pages/Login/Hebuiltproject'
 import selfbuiltproject from './pages/Login/selfbuilt-project'
@@ -217,6 +218,15 @@ var routes = [
     meta: { keepAlive:true },
     alias: '/pages/Login/newproject',
     component: newproject
+  },
+  {
+    path: 'pages/Login/Projectsituation',
+    name: 'Login-Projectsituation',
+    config: {
+      navigationBarTitleText: '项目概况',
+    },
+    alias: '/pages/Login/Projectsituation',
+    component: Projectsituation
   },
   {
     path: 'pages/Login/Choiceprofessional',

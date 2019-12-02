@@ -67,8 +67,6 @@ var routes = [
     name: 'Login-Projectsituation',
     config: {
       navigationBarTitleText: '项目概况',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
     },
   },
   {
