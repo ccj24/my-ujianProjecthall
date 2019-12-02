@@ -327,7 +327,6 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
-<<<<<<< HEAD
   {
     path: 'pages/meeting/meetinghome',
     name: 'meetinghome',
@@ -368,7 +367,5 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
-=======
->>>>>>> 5c86c1d12567b9f7cbc65e27745b273fad8ca952
 ]
 module.exports = routes

@@ -18,16 +18,13 @@ import Hebuiltproject from './pages/Login/Hebuiltproject'
 import selfbuiltproject from './pages/Login/selfbuilt-project'
 import newproject from './pages/Login/newproject'
 import Choiceprofessional from './pages/Login/Choiceprofessional'
-<<<<<<< HEAD
 import meetinghome from './pages/meeting/meetinghome'
 import InviteMembers from './pages/meeting/InviteMembers'
 import meetingParticulars from './pages/meeting/meetingParticulars'
 import startMeeting from './pages/meeting/startMeeting'
 import writeSummary from './pages/meeting/writeSummary'
-=======
 import choicebranch from './pages/Login/choicebranch'
 import Selectposition from './pages/Login/Selectposition'
->>>>>>> 5c86c1d12567b9f7cbc65e27745b273fad8ca952
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
