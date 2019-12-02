@@ -262,6 +262,50 @@ var routes = [
     alias: '/pages/meeting/writeSummary',
     component: writeSummary
   },
+  {
+    path: 'pages/meeting/meetinghome',
+    name: 'meetinghome',
+    config: {
+      navigationBarTitleText: '会议',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/meetinghome',
+    component: meetinghome
+  },
+  {
+    path: 'pages/meeting/meetingParticulars',
+    name: 'meetingParticulars',
+    config: {
+      navigationBarTitleText: '会议详情',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/meetingParticulars',
+    component: meetingParticulars
+  },
+  {
+    path: 'pages/meeting/InviteMembers',
+    name: 'InviteMembers',
+    config: {
+      navigationBarTitleText: '邀请成员',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/InviteMembers',
+    component: InviteMembers
+  },
+  {
+    path: 'pages/meeting/startMeeting',
+    name: 'startMeeting',
+    config: {
+      navigationBarTitleText: '发起会议',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/startMeeting',
+    component: startMeeting
+  },
 
 ]
 
