@@ -8,7 +8,6 @@
           <p class="name">{{ProjectMeeting_Get.CreatorName}}</p>
           <p class="time">{{ProjectMeeting_Get.MeetingTime}}</p>
         </div>
-        <img class="img" src="/static/images/expired.png" alt />
       </div>
       <div class="top-two">
         <p>{{ProjectMeeting_Get.Title}}</p>
@@ -140,11 +139,6 @@ export default {
 .time {
   font-size: 0.35rem;
   color: #565656;
-}
-.img {
-  width: 1.45rem;
-  height: 0.86rem;
-  margin-left: 2rem;
 }
 .top-two p {
   font-size: 0.49rem;

@@ -370,5 +370,13 @@ var routes = [
       enablePullDownRefresh: false
     },
   },
+  {
+    path: 'pages/meeting/writeSummary',
+    name: 'writeSummary',
+    config: {
+      navigationBarTitleText: '会议纪要',
+      enablePullDownRefresh: false
+    },
+  },
 ]
 module.exports = routes

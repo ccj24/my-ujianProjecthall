@@ -4,14 +4,14 @@
       <span @click="go({path:'/pages/meeting/startMeeting'})">发起会议</span>
     </div>
     <div class="top">
-      <div>
-        <span :class="{tolerant:checkIndex==0}" @click="checktab(0)">即将召开</span>
+      <div  @click="checktab(0)">
+        <span :class="{tolerant:checkIndex==0}">即将召开</span>
       </div>
-      <div>
-        <span :class="{tolerant:checkIndex==1}" @click="checktab(1)">已结束</span>
+      <div @click="checktab(1)">
+        <span :class="{tolerant:checkIndex==1}" >已结束</span>
       </div>
-      <div>
-        <span :class="{tolerant:checkIndex==2}" @click="checktab(2)">已取消</span>
+      <div  @click="checktab(2)">
+        <span :class="{tolerant:checkIndex==2}">已取消</span>
       </div>
     </div>
     <div class="meeting" v-for="(item,index) in meetingData" :key="index" @click="meetingParticulars(item.MeetingId)">
@@ -105,7 +105,8 @@
         <p>会议纪要</p>
         <div>{{item.Summary}}</div>
       </div>
-      <div v-if="State==1" class="meeting-write" @click.stop>
+      <!-- v-if="State==1"  -->
+      <div class="meeting-write" @click.stop @click="writeSummary(item.MeetingId)">
         <div class="icon">&#xe646;</div>
         填写会议纪要
       </div>
@@ -161,6 +162,14 @@ export default {
     inviteman(MeetingId) {
       this.$router.push({
         path: "/pages/meeting/InviteMembers",
+        query: {
+          meetingid: MeetingId
+        }
+      });
+    },
+    writeSummary(MeetingId) {
+      this.$router.push({
+        path: "/pages/meeting/writeSummary",
         query: {
           meetingid: MeetingId
         }

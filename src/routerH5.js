@@ -22,6 +22,7 @@ import meetinghome from './pages/meeting/meetinghome'
 import InviteMembers from './pages/meeting/InviteMembers'
 import meetingParticulars from './pages/meeting/meetingParticulars'
 import startMeeting from './pages/meeting/startMeeting'
+import writeSummary from './pages/meeting/writeSummary'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -268,6 +269,17 @@ var routes = [
     },
     alias: '/pages/meeting/startMeeting',
     component: startMeeting
+  },
+  {
+    path: 'pages/meeting/writeSummary',
+    name: 'writeSummary',
+    config: {
+      navigationBarTitleText: '会议纪要',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/meeting/writeSummary',
+    component: writeSummary
   },
 
 ]
