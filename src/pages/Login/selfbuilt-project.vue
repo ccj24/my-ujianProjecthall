@@ -68,24 +68,26 @@ export default {
 <style scoped>
 .search {
   background-color: #ffffff;
-  height: 1.5rem;
+  /* height: 1.5rem; */
   overflow: hidden;
+  position: relative;
+
 }
 .search input {
   margin-top: 0.3rem;
   margin-left: 0.2rem;
   width: 9.6rem;
-  border: solid 0.01rem #d7c1c1;
+  border: solid 0.03rem #d7c1c1;
   border-radius: 0.15rem;
   padding-left: 0.8rem;
   font-size: 0.38rem;
 }
 .searchico {
-  position: relative;
-  top: -25px;
-  left: 0.3rem;
-  height: 0.45rem;
-  width: 0.45rem;
+    position: absolute;
+    left: 0.3rem;
+    height: 0.45rem;
+    width: 0.45rem;
+    top: 0.39rem;
 }
 
 .Self-built {

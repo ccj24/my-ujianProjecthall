@@ -9,16 +9,16 @@
           <span style="float:left;overflow: hidden;">您申请加入项目</span>
         </p>
         <p v-else-if="item.Type==2">
-          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}·</span>
-          <span style="float:left;overflow: hidden;">邀请您加入项目</span>
+          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}</span>
+          <span style="float:left;overflow: hidden;">&nbsp;·&nbsp;邀请您加入项目</span>
         </p>
         <p v-else-if="item.Type==3">
-          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}·</span>
-          <span style="float:left;overflow: hidden;">申请加入项目</span>
+          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}</span>
+          <span style="float:left;overflow: hidden;">&nbsp;·&nbsp;申请加入项目</span>
         </p>
         <p v-else-if="item.Type==4">
-          <span style="float:left;overflow: hidden;">邀请·</span>
-          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}}·</span>
+          <span style="float:left;overflow: hidden;">邀请&nbsp;·&nbsp;</span>
+          <span style="float:left;overflow: hidden;color: #12b7f5;">{{item.UserName}} </span>
           <span style="float:left;overflow: hidden;">加入项目</span>
         </p>
         <p style="float:right;padding-right: 0.3rem" v-if="item.State==0&&(item.Type==2||item.Type==3)">
