@@ -22,7 +22,8 @@
       <p>{{UserInfo.UserName}}</p>
     </div>
     <!-- 提交申请 -->
-    <button class="submitapplications" @click="putin">提交</button>
+    <button v-if="PId" class="submitapplications" @click="putin">提交申请</button>
+    <button v-else @click="$router.back()">确认</button>
   </div>
 </template>
 
@@ -30,6 +31,7 @@
 export default {
   data() {
     return {
+      PId:null,
     };
   },
   computed: {
@@ -50,7 +52,24 @@ export default {
     // 用户申请加入项目use_Apply
     async putin() {
       var that = this;
-      this.$router.back();
+      var rep = await this.$UJAPI.use_Apply({
+        //所属项目唯一标识
+        ProjectId: this.PId,
+        //参与用户在部门中的职位,数据来至tKeyword表KeywordId
+        PostId: this.choosePostItem.KeywordId,
+        //参与用户在项目中的哪个部门单位，数据来至tKeyword表KeywordId
+        DepartmentId: this.chooseItem.KeywordId
+      });
+      if (rep.ret == 0) {
+        this.toast("您的申请已经提交,请等待通知");
+        this.$store.commit("setChooseItem", null);
+        this.$store.commit("setChoosePostItem", null);
+        //跳转到项目大厅
+        this.replace({path:"/pages/Login/Projecthall"});
+      }else
+      {
+        this.toast(rep.msg);
+      }
     },
     selectpost(){
       if(this.chooseItem)
@@ -62,6 +81,7 @@ export default {
   },
   async mounted() {
     var that = this;
+    this.PId = this.$route.query.ProjectId;
   }
 };
 </script>

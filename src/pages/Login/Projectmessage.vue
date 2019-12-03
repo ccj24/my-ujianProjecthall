@@ -25,10 +25,16 @@
           <button class="stn pass" style="float:left;" @click="PassSetState(item)">接受</button>
           <button class="stn refuse" @click="RefuseSetState(item)">拒绝</button>
         </p>
+        <!-- 判断当item.State==0并且item.Type==1状态为待审核 -->
+        <p style="float:right;padding-right: 0.3rem;" v-else-if="item.State==0&&item.Type==1">待审核</p>
+        <!-- 判断当item.State==0并且item.Type==4状态为待确认 -->
+        <p style="float:right;padding-right: 0.3rem;" v-else-if="item.State==0&&item.Type==4">待确认</p>
         <!-- 判断当item.State==1 状态为通过 -->
         <p style="float:right;padding-right: 0.3rem;" v-else-if="item.State==1">已通过</p>
         <!-- 判断当item.State==2 状态为已拒绝 -->
         <p style="float:right;padding-right: 0.3rem;" v-else-if="item.State==2">已拒绝</p>
+        <!-- 判断当item.State==3 状态为已失效 -->
+        <p style="float:right;padding-right: 0.3rem;" v-else-if="item.State==3">已失效</p>
       </div>
       <div style="color:#c7c7cd;padding-top: 0.2rem;">
         <p style="float:left;padding-right: 1.2rem;overflow: hidden;">部门：{{item.DepartmentName}}</p>
@@ -56,6 +62,8 @@ export default {
       // 请求接口成功，直接改变State的值，让界面显示点击按钮后执行的后果 点击接收后的按钮  界面改变State值  显示同意
       if(rep.ret==0){
         item.State=1
+      }else{
+        this.toast(rep.msg);
       }
     },
   // 项目成员申请拒绝
@@ -68,6 +76,8 @@ export default {
       // 请求接口成功，直接改变State的值，让界面显示点击按钮后执行的后果 点击拒绝后的按钮  界面改变State值  显示已拒绝
        if(rep.ret==0){
         item.State=2
+      }else{
+        this.toast(rep.msg);
       }
     },
   },

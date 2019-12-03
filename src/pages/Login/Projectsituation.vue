@@ -3,7 +3,7 @@
     <!-- 项目概括 -->
     <div class="userinfo">
       <div class="Projectcircle">
-        <img src="/static/images/bg.png" />
+        <img src="/static/images/bg.png">
 
         <div class="information">
           <div class="sinister">
@@ -11,28 +11,20 @@
             <p style="float:left;color:#858383;">{{ProjectDetailed.ProjectNo}}</p>
           </div>
           <div class="CompanyName">
-            <img src="/static/images/approve.png" />
+            <img src="/static/images/approve.png">
             <div class="address">{{ProjectDetailed.ProjectName}}</div>
           </div>
           <div class="projectphase">项目阶段：{{ProjectDetailed.StageDisplay}}</div>
-          <div class="projectmember">项目成员:{{ProjectDetailed.NumberOfPeople}}</div>
+          <div class="projectmember">项目成员：{{ProjectDetailed.NumberOfPeople}}</div>
         </div>
         <!-- 按钮 -->
         <div class="existprojectcenter">
-          <button
-            v-if="Role==0"
-            @click="goProject(ProjectDetailed.ProjectId)"
-            class="Addproject"
-          >进入项目</button>
-          <button
-            v-if="Role==-1"
-            @click="go({path:'/pages/Login/Choiceprofessional',query:{ProjectId:ProjectDetailed.ProjectId}})"
-            class="Addproject"
-          >加入项目</button>
+          <button v-if="Role>0" @click="goProject(ProjectDetailed.ProjectId)" class="Addproject">进入项目</button>
+          <button v-else @click="go({path:'/pages/Login/Choiceprofessional',query:{ProjectId:ProjectDetailed.ProjectId}})" class="Addproject">加入项目</button>
         </div>
 
         <!-- 红包榜 -->
-        <div class="welfare">
+        <!-- <div class="welfare">
           <div class="redpacket">
             <p class="redpacketOne">红包榜</p>
             <p
@@ -40,7 +32,6 @@
               style="padding-right: 0.34rem;color: #8c8c8c;"
             >我要打赏</p>
           </div>
-          <!-- 项目有打赏的时候 -->
           <div class="crewlist" v-if="RedPacket.length>0">
             <div :class="{'redenvelopes':isredenvelopes,'redenvelopes1':isredenvelopes1}">
               <ul
@@ -68,19 +59,14 @@
               <img v-if="wallet==2" @click="collectRedenve" src="/static/images/wallet-morex.png" />
             </div>
           </div>
-          <!-- 项目没有打赏的时候 -->
-          <div
-            class="Nocrewlist"
-            style="color: #8c8c8c;text-align: center;padding-bottom: 0.35rem;"
-            v-else
-          >该项目没有打赏</div>
-        </div>
+          <div v-else class="Nocrewlist" style="color: #8c8c8c;text-align: center;padding-bottom: 0.35rem;">该项目没有打赏</div>
+        </div>-->
       </div>
     </div>
-    <div class="fixed">
+    <!-- <div class="fixed">
       <p style="color:#8c8c8c;padding-top:0.5rem;padding-left: 0.2rem;float: left">您尚未对项目进行打赏</p>
-      <!-- <button class="fixedbut">全部排名</button> -->
-    </div>
+      <button class="fixedbut">全部排名</button>
+    </div> -->
   </div>
 </template>
 
@@ -123,12 +109,12 @@ export default {
     }
 
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
-    var res = await this.$UJAPI.Project_ProjectRedPacket({
-      Projectid: this.$route.query.ProjectId
-    });
-    if (res.ret == 0) {
-      this.RedPacket = res.data;
-    }
+    // var res = await this.$UJAPI.Project_ProjectRedPacket({
+    //   Projectid: this.$route.query.ProjectId
+    // });
+    // if (res.ret == 0) {
+    //   this.RedPacket = res.data;
+    // }
   }
 };
 </script>
@@ -136,6 +122,9 @@ export default {
 <style scoped>
 .userinfo {
   background-color: #ecf0f1;
+}
+.Projectcircle{
+  position: relative;
 }
 .Projectcircle img {
   width: 10.8rem;
@@ -147,7 +136,6 @@ export default {
   margin: 0.26rem 0.2rem 0 0.24rem;
   position: absolute;
   top: 0.1rem;
-  
 }
 .sinister {
   position: relative;
@@ -264,9 +252,8 @@ export default {
   right: 1.5rem;
 }
 .existprojectcenter {
-  height: 2rem;
   background-color: #ffffff;
-  overflow: hidden;
+  padding-top: 0.5rem;
 }
 .Addproject {
   height: 1.4rem;
@@ -275,8 +262,12 @@ export default {
   text-align: center;
   border-radius: 0.09rem;
   color: #ffffff;
-  margin-top: 0.3rem;
   font-size: 0.52rem;
+  display: block;
+  margin: auto;
+  margin-top: 0.3rem; 
+  border: 0;
+  
 }
 .fixed {
   position: fixed;
@@ -291,7 +282,7 @@ export default {
   height: 40px;
   width: 150px;
   margin-top: 5px;
-  border:none
+  border: none;
 }
 </style>
 <style>

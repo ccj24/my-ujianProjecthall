@@ -2,14 +2,14 @@
   <div class="Addproject">
     <!-- 获取项目列表 -->
     <div class="searchmessage">
-      <input type="number" v-model="isNullInput" @input="getInputValue" />
+      <input v-model="projectNO" type="number"/>
       <label class="marked">填写项目编号：</label>
       <img class="searchico" src="/static/images/Search.png" />
     </div>
     <!-- 输入框没输入数字的状态 灰色-->
-    <button v-if="btnOK" class="btn">搜索项目</button>
+    <button v-if="!projectNO" class="btn">搜索项目</button>
     <!-- 输入框输入数字的状态 蓝色-->
-    <button v-if="isOK" class="alterbtn" @click="searchproject">搜索项目</button>
+    <button v-else class="alterbtn" @click="searchproject">搜索项目</button>
   </div>
 </template>
 
@@ -17,32 +17,17 @@
 export default {
   data() {
     return {
-      isNullInput: null,
-      isOK: false,
-      btnOK: true,
       ProjectListView: [],
-      ProjectId: ""
+      projectNO:null
     };
   },
   methods: {
-    getInputValue() {
-      //  判断如果输入不为空的话，让按钮的颜色变为蓝色
-      if (this.isNullInput != "") {
-        this.isOK = true;
-        this.btnOK = false;
-      }
-      //  输入为空的话，让按钮的背景颜色变为灰色
-      else {
-        this.isOK = false;
-        this.btnOK = true;
-      }
-    },
     // 项目搜索
     async searchproject() {
       var that = this;
       // Project_ProjectGetList 获取项目列表
       var rep = await this.$UJAPI.Project_ProjectGetList({
-        ProjectNo: this.isNullInput
+        ProjectNo: this.projectNO
       });
       if (rep.ret == 0) {
         this.ProjectListView = rep.data;
@@ -57,7 +42,6 @@ export default {
         //数组中没有想要的项目 弹窗提示
         else {
           this.toast("找不到项目编号对应的项目信息。")
-
         }
       }
     }
@@ -72,36 +56,39 @@ export default {
 }
 .searchmessage {
   background-color: #ffffff;
+  position: relative;
+  margin-bottom: 0.72rem;
 }
 .searchmessage input {
-  padding-top: 0.6rem;
+  padding-top: 0.52rem;
   padding-left: 3.8rem;
+  font-size:0.46rem;
 }
-.btn {
-  margin-top: 0.51rem;
+.btn,.alterbtn {
   background-color: #d7d7d7;
   color: #ffffff;
   border-radius: 0.1rem;
   width: 10rem;
   border: none;
+  display: block;
+  margin: auto;
+  padding: 0.43rem 0;
+  font-size: 0.52rem;
 }
 .alterbtn {
-  margin-top: 0.51rem;
   background-color: #12b7f5;
   color: #ffffff;
-  border-radius: 0.1rem;
-  width: 10rem;
-  border: none;
 }
 .marked {
-  position: relative;
-  top: -25px;
+  position: absolute;
+  top: 0.52rem;
   padding-left: 0.2rem;
+  font-size:0.46rem;
 }
 .searchico {
-  position: relative;
-  top: -23px;
-  left: 6rem;
+  position: absolute;
+  top: 0.52rem;
+  right: 0.46rem;
   height: 0.6rem;
   width: 0.6rem;
 }
