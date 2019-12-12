@@ -203,4 +203,17 @@ export default {
     ProjectMeeting_Get: param => {
         return http.get(BaseHost + "api/ProjectMeeting/Get", param)
     },
+    //会议纪要
+    ProjectMeeting_Summary: param => {
+        return http.post(BaseHost + "api/ProjectMeetingSummary/Add", param)
+    },
+     //新增项目会议计划
+     ProjectMeeting_Add: param => {
+        return http.post(BaseHost + "api/ProjectMeeting/Add", param)
+    },
+    //会议改期
+    ChangeMeetingTime: param => {
+        return http.post(BaseHost + "api/ProjectMeeting/ChangeMeetingTime?meetingid="+param.meetingid+"&meetingtime="+param.meetingtime)
+    },
+    
 }

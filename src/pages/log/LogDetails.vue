@@ -92,7 +92,7 @@ export default {
      this.ProjectLog=rep.data
    }
    else{
-     this.toast("获取数据失败");
+     this.toast(rep.msg)
    }
   }
 };

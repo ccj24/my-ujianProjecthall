@@ -105,7 +105,7 @@ export default {
         this.$router.back();
       } else {
         //失败执行的代码
-        this.toast("审核失败");
+        this.toast(rep.msg);
         this.$router.back();
       }
     },
@@ -140,7 +140,7 @@ export default {
         this.$router.back();
       } else {
         //失败执行的代码
-        this.toast("审核失败");
+        this.toast(rep.msg)
         this.$router.back();
       }
   }

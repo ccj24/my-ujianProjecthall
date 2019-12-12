@@ -430,11 +430,6 @@ export default {
   color: #12b7f5;
   font-size: 0.5rem;
 }
-/* 选中样式 */
-.suoxuan {
-  border-bottom: 0.01rem solid #d7c1c1;
-  border-top: 0.01rem solid #d7c1c1;
-}
 .drop-down li {
   padding-bottom: 0.2rem;
   text-align: center;

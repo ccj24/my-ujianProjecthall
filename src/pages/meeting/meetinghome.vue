@@ -1,20 +1,25 @@
 <template>
   <div>
     <div class="initiate">
-      <span @click="go({path:'/pages/meeting/startMeeting'})">发起会议</span>
+      <span @click="addmeeting">发起会议</span>
     </div>
     <div class="top">
-      <div  @click="checktab(0)">
+      <div @click="checktab(0)">
         <span :class="{tolerant:checkIndex==0}">即将召开</span>
       </div>
       <div @click="checktab(1)">
-        <span :class="{tolerant:checkIndex==1}" >已结束</span>
+        <span :class="{tolerant:checkIndex==1}">已结束</span>
       </div>
-      <div  @click="checktab(2)">
+      <div @click="checktab(2)">
         <span :class="{tolerant:checkIndex==2}">已取消</span>
       </div>
     </div>
-    <div class="meeting" v-for="(item,index) in meetingData" :key="index" @click="meetingParticulars(item.MeetingId)">
+    <div
+      class="meeting"
+      v-for="(item,index) in meetingData"
+      :key="index"
+      @click="meetingParticulars(item.MeetingId)"
+    >
       <div class="meeting-top">
         <div class="faqiren">
           <span>发起人 ：</span>
@@ -24,13 +29,13 @@
       </div>
       <div class="meeting-two">
         <div class="thetime">
-          <div class="time" :class="{timeNr:NotStarted ==false||State==3}">
+          <div class="time" :class="[{timeNr:checkIndex!=0},{timeBB:checkIndex==0&&index%2==1}]">
             <span class="time-one">{{item.month}}月</span>
             <span class="time-two">{{item.day}}</span>
           </div>
           <div
             class="time-three"
-            :class="{shijian:NotStarted ==false||State==3}"
+            :class="{shijian:checkIndex!=0}"
           >{{item.hour}}:{{item.minute}}</div>
         </div>
         <div class="content">
@@ -39,61 +44,50 @@
               <p class="manmub-one">{{item.Title}}</p>
               <p class="manmub-two">本次会议共{{item.Partaker.length}}人</p>
             </div>
-            <div v-if="NotStarted ==true" @click.stop>
-              <div class="yaoqing" v-if="item.CreatorId==UserInfo.UserId" @click="inviteman(item.MeetingId)">
+            <div v-if="checkIndex==0" @click.stop>
+              <div
+                class="yaoqing"
+                v-if="item.CreatorId==UserInfo.UserId"
+                @click="inviteman(item.MeetingId)"
+              >
                 <div class="icon yaoqing-one">&#xe726;</div>
                 <div class="yaoqing-two">邀请</div>
               </div>
-              <div class="yaoqing" v-if="item.PartakeState==0" @click="attend(item.MeetingId)">
+              <div class="yaoqing" v-if="item.PartakeState==0||item.PartakeState==1" @click="attend(item.MeetingId,item,index)">
                 <div class="icon yaoqing-one">&#xe62b;</div>
                 <div class="yaoqing-two">出席</div>
               </div>
-              <div class="yaoqing chuxi" v-if="item.PartakeState==2&&item.CreatorId!=UserInfo.UserId" style="background-color: #d3d3d3;">确定出席</div>
+              <div
+                class="yaoqing chuxi"
+                v-if="item.PartakeState==2&&item.CreatorId!=UserInfo.UserId"
+                style="background-color: #d3d3d3;"
+              >确定出席</div>
             </div>
           </div>
-          <!-- <div class="personnel">
-            <span v-for="(items,indexx) in item.Partaker" :key="indexx">{{items.UserName}},</span>
-          </div> -->
           <div class="personnel">
-            <div class="personnel-one">
-              <div>
-                <p style="color: #353535;" :class="{shijian:NotStarted ==false||State==3}">
-                  出席
-                  <span style="color: #c7c7cd;">（{{item.attendantnum}}人）</span>
-                </p>
-              </div>
-              <span v-for="(items,indexx) in item.attendantname" :key="indexx">{{items}}, </span>
-            </div>
-            <div class="personnel-one">
-              <div>
-                <p style="color: #f43531;" :class="{shijian:NotStarted ==false||State==3}">
-                  缺席
-                  <span style="color: #c7c7cd;">（{{item.absentnum}}人）</span>
-                </p>
-              </div>
-              <span v-for="(items,indexx) in item.absentname" :key="indexx">{{items}}, </span>
-            </div>
-            <div class="personnel-one">
-              <div>
-                <p style="color: #ffc539;" :class="{shijian:NotStarted ==false||State==3}">
-                  未定
-                  <span style="color: #c7c7cd;">（{{item.noaffirmnum}}人）</span>
-                </p>
-              </div>
-              <span v-for="(items,indexx) in item.noaffirmname" :key="indexx">{{items}}, </span>
-            </div>
+            <themeetingman :partaket="item.Partaker" :checkIndex="checkIndex"></themeetingman>
           </div>
-          <div class="status" v-if="NotStarted==true" @click.stop>
+          <div class="status" v-if="checkIndex==0" @click.stop>
             <!-- v-if="item.CreatorId==UserInfo.UserId"  -->
-            <div v-if="item.CreatorId==UserInfo.UserId" class="icon status-one" style="color: #4bd083; float:left">
+            <div
+              v-if="item.CreatorId==UserInfo.UserId"
+              class="icon status-one"
+              style="color: #4bd083; float:left"
+              @click="changetime(item ,index)"
+            >
               &#xe62c;
               <span>改期</span>
             </div>
-            <div v-if="item.CreatorId==UserInfo.UserId" class="icon status-one" style="color: #ff6c6c;" @click="cancellationmeeting(item.MeetingId)">
+            <div
+              v-if="item.CreatorId==UserInfo.UserId"
+              class="icon status-one"
+              style="color: #ff6c6c;"
+              @click="cancellationmeeting(item.MeetingId,index)"
+            >
               &#xe630;
               <span>取消</span>
             </div>
-            <div class="icon status-one" style="color: #f43531;" @click="absence(item.MeetingId)">
+            <div v-if="item.CreatorId!=UserInfo.UserId" class="icon status-one" style="color: #f43531;" @click="absence(item.MeetingId,item,index)">
               &#xe665;
               <span>缺席申请</span>
             </div>
@@ -101,69 +95,100 @@
         </div>
       </div>
       <!-- 会议纪要 -->
-      <div v-if="State==2" class="meeting-three">
+      <div v-if="checkIndex==1&&item.State==2" class="meeting-three">
         <p>会议纪要</p>
         <div>{{item.Summary}}</div>
       </div>
-      <!-- v-if="State==1"  -->
-      <div class="meeting-write" @click.stop @click="writeSummary(item.MeetingId)">
-        <div class="icon">&#xe646;</div>
-        填写会议纪要
+      <div
+        v-if="item.State==1 && checkIndex==1"
+        class="meeting-write"
+        @click.stop
+        @click="writeSummary(item.MeetingId)"
+      >
+        <div class="icon">&#xe646;</div>填写会议纪要
       </div>
+    </div>
+    <div class="layout" v-show="shijian" @click="aaa">
+      <thetime @sendmsg="getmsg" @click.stop></thetime>
     </div>
   </div>
 </template>
 <script>
-import {mapState} from 'vuex';
+import { mapState } from "vuex";
 import utils from "@/utils/index.js";
+import thetime from "@/components/thetime";
+import themeetingman from "@/components/meetingman";
 export default {
   data() {
     return {
       ProjectMeeting_GetList: "",
       checkIndex: 0,
       NotStarted: true,
-      State: null
+      // 组件传过来的数据
+      meetingid: "",
+      shijian: false,
+      time:null,
+      chooseitem:{},
+      bb:null,
+      NotStarted:true,
+      State:null,
     };
   },
   methods: {
+    aaa() {
+      this.shijian = false;
+    },
+    // 点击子组件触发的方法
+    async getmsg(data) {
+      this.shijian = true;
+      var rep = await this.$UJAPI.ChangeMeetingTime({
+        meetingid: this.meetingid,
+        meetingtime: data
+      });
+      if (rep.ret == 0) {
+        this.toast("改期会议成功");
+        this.shijian=false;
+        // 页面数据处理
+        this.chooseitem.MeetingTime=data
+        this.ProjectMeeting_GetList.splice(this.bb, 1, this.chooseitem);
+      } else {
+        this.toast(rep.msg);
+      }
+    },
     async checktab(index) {
       this.checkIndex = index;
       if (index == 0) {
         this.NotStarted = true;
-        this.State=null
+        this.State = null;
       }
-      if (index == 1) {
+      else if (index == 1) {
         this.NotStarted = false;
-        this.State=null;
+        this.State = null;
       }
-      var rep = await this.$UJAPI.ProjectMeeting_GetList({
-        NotStarted: this.NotStarted,
-      });
-      if (rep.ret == 0) {
-        // 这个ProjectLog是data自己定义的
-        this.ProjectMeeting_GetList = rep.data;
-      } else {
-        this.toast("获取数据失败");
-      }
-      if (index == 2) {
-        this.NotStarted=false
+      else if (index == 2) {
+        this.NotStarted = null;
         this.State = 3;
-        var rep1 = await this.$UJAPI.ProjectMeeting_GetList({
-          State: this.State
+      }
+      var rep1 = await this.$UJAPI.ProjectMeeting_GetList({
+          State:this.State,
+          NotStarted:this.NotStarted,
+          ProjectId:this.ProjectId,
         });
         if (rep1.ret == 0) {
           // 这个ProjectLog是data自己定义的
           this.ProjectMeeting_GetList = rep1.data;
+          console.log(this.ProjectMeeting_GetList)
         } else {
-          this.toast("获取数据失败");
+          this.toast(rep1.msg);
         }
-      }
     },
     inviteman(MeetingId) {
       this.$router.push({
         path: "/pages/meeting/InviteMembers",
         query: {
-          meetingid: MeetingId
+          meetingid: MeetingId,
+          // invite: 用于判断是哪一个功能页面也要的邀请
+          invite: 0,
         }
       });
     },
@@ -176,43 +201,62 @@ export default {
       });
     },
     // 确定出席
-    async attend(MeetingId) {
-      var that = this;
-    var rep = await this.$UJAPI.ProjectMeetingMember_SetState({
-      meetingid:MeetingId,
-      state:2
-    });
-    // 当ret=0时，代表请求项目日志接口成功，然后把请求回来的数据赋值给ProjectLog。
-    if (rep.ret == 0) {
-      this.toast("已确认出席");
-    } else {
-      this.toast("确定失败");
-    }
-    },
-    // 改期
-    async cancellationmeeting (MeetingId) {
-      var that = this;
-    var rep = await this.$UJAPI.ProjectMeeting_Delete(MeetingId);
-    // 当ret=0时，代表请求项目日志接口成功，然后把请求回来的数据赋值给ProjectLog。
-    if (rep.ret == 0) {
-      this.toast("已经取消会议");
-    } else {
-      this.toast("取消失败");
-    }
-    },
-        // 申请缺席
-    async absence (MeetingId) {
+    async attend(MeetingId,item,index) {
       var that = this;
       var rep = await this.$UJAPI.ProjectMeetingMember_SetState({
-      meetingid:MeetingId,
-      state:1
-    });
-    // 当ret=0时，代表请求项目日志接口成功，然后把请求回来的数据赋值给ProjectLog。
-    if (rep.ret == 0) {
-      this.toast("申请缺席成功");
-    } else {
-      this.toast("申请失败");
-    }
+        meetingid: MeetingId,
+        state: 2
+      });
+      if (rep.ret == 0) {
+        this.toast("已确认出席");
+        item.PartakeState=2
+        for(let i=0;i<item.Partaker.length;i++) {
+          if (item.Partaker[i].UserId==this.UserInfo.UserId) {
+          item.Partaker[i].State=2
+        }
+        }
+        this.ProjectMeeting_GetList.splice(index,1,item)
+      } else {
+        this.toast(rep.msg);
+      }
+    },
+    // 取消
+    async cancellationmeeting(MeetingId ,index) {
+      var that = this;
+      var rep = await this.$UJAPI.ProjectMeeting_Delete(MeetingId);
+      if (rep.ret == 0) {
+        this.toast("已经取消会议");
+        // 页面数据显示处理
+        this.ProjectMeeting_GetList.splice(index,1)
+      } else {
+        this.toast(rep.msg);
+      }
+    },
+    changetime(item,index) {
+      this.shijian = true;
+      this.meetingid = item.MeetingId;
+      this.chooseitem=item;
+      this.bb=index
+    },
+    // 申请缺席
+    async absence(MeetingId,item,index) {
+      var that = this;
+      var rep = await this.$UJAPI.ProjectMeetingMember_SetState({
+        meetingid: MeetingId,
+        state: 1
+      });
+      if (rep.ret == 0) {
+        this.toast("申请缺席成功");
+        item.PartakeState=1
+        for(let i=0;i<item.Partaker.length;i++) {
+          if (item.Partaker[i].UserId==this.UserInfo.UserId) {
+          item.Partaker[i].State=1
+        }
+        }
+        this.ProjectMeeting_GetList.splice(index,1,item)
+      } else {
+        this.toast(rep.msg);
+      }
     },
     meetingParticulars(MeetingId) {
       this.$router.push({
@@ -221,6 +265,15 @@ export default {
           meetingid: MeetingId
         }
       });
+    },
+    addmeeting() {
+      // 每次会议每一项进去都清空
+      this.$store.commit("setmeetingTime", null);
+      this.$store.commit("setmeetingRemarks", null);
+      this.$store.commit("setmeetingTitle", null);
+      this.$store.commit("setthechooseitemNr", null);
+      this.$store.commit("setthechooseitem", null);
+      this.replace("/pages/meeting/startMeeting");
     }
   },
   computed: {
@@ -228,67 +281,55 @@ export default {
       var xingqi = ["星期天","星期一","星期二","星期三","星期四","星期五","星期六"];
       for (let i = 0; i < this.ProjectMeeting_GetList.length; i++) {
         var item = this.ProjectMeeting_GetList[i];
-        var time = utils.convertDateFromString(item.MeetingTime);
-        item.week = xingqi[time.getDay()];
+        this. time = utils.convertDateFromString(item.MeetingTime);
+        item.week = xingqi[this. time .getDay()];
         item.month =
-          time.getMonth() + 1 < 10
-            ? "0" + (time.getMonth() + 1)
-            : time.getMonth() + 1;
-        item.day = time.getDate() < 10 ? "0" + time.getDate() : time.getDate();
+          this. time .getMonth() + 1 < 10
+            ? "0" + (this. time .getMonth() + 1)
+            : this. time .getMonth() + 1;
+        item.day = this. time .getDate() < 10 ? "0" + this. time .getDate() : this. time .getDate();
         item.hour =
-          time.getHours() < 10 ? "0" + time.getHours() : time.getHours();
+          this. time .getHours() < 10 ? "0" + this. time .getHours() : this. time .getHours();
         item.minute =
-          time.getMinutes() < 10 ? "0" + time.getMinutes() : time.getMinutes();
-        //判断参加会议状态
-        var noaffirmnum = 0;
-        var noaffirmname = [];
-        var absentnum = 0;
-        var absentname = [];
-        var attendantnum = 0;
-        var attendantname = [];
-        for (let y = 0; y < item.Partaker.length; y++) {
-          if (item.Partaker[y].State == 0) {
-            noaffirmnum++;
-            noaffirmname.push(item.Partaker[y].UserName);
-          }
-          if (item.Partaker[y].State == 1) {
-            absentnum++;
-            absentname.push(item.Partaker[y].UserName);
-          }
-          if (item.Partaker[y].State == 2) {
-            attendantnum++;
-            attendantname.push(item.Partaker[y].UserName);
-          }
-        }
-        item.noaffirmnum = noaffirmnum;
-        item.absentnum = absentnum;
-        item.noaffirmname = noaffirmname;
-        item.attendantnum = attendantnum;
-        item.absentname = absentname;
-        item.attendantname = attendantname;
+          this. time .getMinutes() < 10 ? "0" + this. time .getMinutes() : this. time .getMinutes();
       }
       return this.ProjectMeeting_GetList;
     },
     ...mapState({
-      UserInfo: state => state.User.UserInfo   //获取当前用户的登录信息
-    }),
+      UserInfo: state => state.User.UserInfo //获取当前用户的登录信息
+    })
+  },
+  // 注册组件
+  components: {
+    thetime,
+    themeetingman
   },
   async mounted() {
     var that = this;
     var rep = await this.$UJAPI.ProjectMeeting_GetList({
-      NotStarted: this.NotStarted
+      NotStarted: this.NotStarted,
+      ProjectId:this.ProjectId,
+      State:this.State
     });
-    // 当ret=0时，代表请求项目日志接口成功，然后把请求回来的数据赋值给ProjectLog。
     if (rep.ret == 0) {
       this.ProjectMeeting_GetList = rep.data;
-      console.log(this.ProjectMeeting_GetList);
     } else {
-      this.toast("获取数据失败");
+      this.toast(rep.msg);
     }
+    console.log(this.UserInfo)
   }
 };
 </script>
 <style scoped>
+/* 点击弹出框背景 */
+.layout {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+}
 .initiate {
   width: 100%;
   height: 1.28rem;
@@ -369,6 +410,9 @@ export default {
 .timeNr {
   background-color: #999999;
 }
+.timeBB{
+  background-color: #ffc539;
+}
 .time-one {
   font-size: 0.37rem;
   color: #fff;
@@ -389,7 +433,7 @@ export default {
   margin-top: 0.28rem;
 }
 .shijian {
-  color: #999999!important;
+  color: #999999 !important;
 }
 .content {
   margin-left: 1.7rem;
@@ -449,9 +493,6 @@ export default {
   overflow: hidden;
   padding: 0.32rem;
 }
-.personnel-one {
-  padding-bottom: 0.25rem;
-}
 .status {
   font-size: 0.4rem;
   margin-top: 0.56rem;
@@ -482,13 +523,13 @@ export default {
   display: flex;
   align-items: center;
   margin-top: 0.58rem;
-  margin-left: 1.7rem
+  margin-left: 1.7rem;
 }
 .meeting-write div {
   width: 0.42rem;
   height: 0.43rem;
   border-radius: 50%;
   color: #12b7f5;
-  padding-right: 0.14rem
+  padding-right: 0.14rem;
 }
 </style>

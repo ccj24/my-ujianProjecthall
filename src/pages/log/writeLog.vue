@@ -122,7 +122,7 @@ export default {
           this.toast("编辑成功");
           this.$router.back();
         } else {
-          this.toast("获取数据失败");
+          this.toast(rep.msg)
         }
       }
       // 发布
@@ -143,7 +143,7 @@ export default {
           // 点击确定取消后返回上一级
           this.$router.back();
         } else {
-          this.toast("发布失败");
+          this.toast(rep.msg)
         }
       }
     },
@@ -249,7 +249,7 @@ export default {
         //  this就是整个vue，比如下访问return下面定义的东西，不加this则访问不到
         this.ProjectLog = rep.data;
       } else {
-        this.toast("获取此项目日志详情失败");
+        this.toast(rep.msg)
       }
     }
   }

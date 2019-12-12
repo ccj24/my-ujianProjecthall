@@ -41,6 +41,12 @@ export default new Vuex.Store({//store对象
         chooseItem: null,      //创建项目时 保存选中的部门
         choosePostItem: null,  //创建项目时 保存选中的部门下的职位
         ProjectDetailed: null,  //定义一个项目详情
+        thechooseitem: null,//创建会议时，邀请多人
+        thechooseitemNr:null,//邀请一个成员或者记录员的时候
+        meetingTitle:null,
+        meetingRemarks:null,
+        meetingTime:null,
+
       },
       // 更改vuex中的store中的状态的唯一方法是提交mutations，vuex中的mutations非常类似事件，
       // 每个mutation都有一个类似字符串的的事件和一个回调函数，这个回调函数就是我们需要更改的地方
@@ -67,7 +73,24 @@ export default new Vuex.Store({//store对象
         setProjectDetailed(state, _ProjectDetailed) {
           // 更变状态  改变原来的值
           state.ProjectDetailed = _ProjectDetailed;
-        }
+        },
+        //邀请多人更改状态的时候,从新赋值
+        setthechooseitem(state, _thechooseitem) {
+          state.thechooseitem = _thechooseitem;
+        },
+        // 邀请单人更改状态的时候,从新赋值
+        setthechooseitemNr(state, _thechooseitemNr) {
+          state.thechooseitemNr = _thechooseitemNr;
+        },
+        setmeetingTitle(state, Title) {
+          state.meetingTitle = Title;
+        },
+        setmeetingRemarks(state, Remarks) {
+          state.meetingRemarks = Remarks;
+        },
+        setmeetingTime(state, MeetingTime) {
+          state.meetingTime = MeetingTime;
+        },
       }
     }
   }, plugins: [//vuex持久化

@@ -47,9 +47,10 @@
         </div>
       </div>
     </div>
-    <div class="meeting_summary">
+    <div class="meeting_summary" v-if="ProjectMeeting_Get.State==2">
         <p style="color: #8c8c8c;">会议纪要</p>
         <div>{{ProjectMeeting_Get.Summary}}</div>
+        <img v-for="(item,index) in ProjectMeeting_Get.MeetingPhotos" :key="index" :src="item" alt="">
     </div>
   </div>
 </template>
@@ -104,7 +105,7 @@ export default {
         item.attendantname = attendantname;
         console.log(this.ProjectMeeting_Get);
     } else {
-      this.toast("获取数据失败");
+      this.toast(rep.msg);
     }
     }
 
@@ -183,5 +184,13 @@ export default {
 .meeting_summary div {
     color: #353535;
     margin-top: 0.49rem;
+}
+.meeting_summary img {
+    float: left;
+    width: 2.27rem;
+    height: 2.27rem;
+    padding-right: 0.25rem;
+    padding-top: 0.3rem;
+    display: block;
 }
 </style>

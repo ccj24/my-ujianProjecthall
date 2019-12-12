@@ -231,7 +231,7 @@ export default {
         this.ProjectLog = rep.data;
       }
       else {
-        this.toast("获取数据失败");
+        this.toast(rep.msg)
       }
     },
     goaudit(LogId) {
@@ -274,7 +274,7 @@ export default {
         this.LogComments.CommentContent=""
       } else {
         //失败执行的代码
-        this.toast("评论失败");
+        this.toast(rep.msg)
       }
     },
     //长按删除评论
@@ -293,8 +293,8 @@ export default {
               // splice操作对象的是数组
               group.splice(indexx, 1);
               this.toast("删除成功");
-            } else if (rep.ret != 0) {
-              this.toast("删除失败，请重试");
+            } else  {
+              this.toast(rep.msg)
             }
           } else if (res.cancel) {
             return false;
