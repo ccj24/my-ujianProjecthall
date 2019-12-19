@@ -1,6 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import home from './pages/newproject/homepage'
+import projectpersonnel from './pages/newproject/projectpersonnel'
+import Environmental from './pages/newproject/Environmental'
+import monitoring from './pages/newproject/monitoring'
+import ProjectBIM from './pages/newproject/ProjectBIM'
+import ProjectVR from './pages/newproject/ProjectVR'
+import Aerialphoto from './pages/newproject/Aerialphoto'
 import meeting from './pages/meeting/index'
 import Projecthall from './pages/Login/Projecthall'
 import data from './pages/data/index'
@@ -26,6 +32,9 @@ import startMeeting from './pages/meeting/startMeeting'
 import writeSummary from './pages/meeting/writeSummary'
 import choicebranch from './pages/Login/choicebranch'
 import Selectposition from './pages/Login/Selectposition'
+import Projectmember from './pages/home/Projectmember'
+import circleHome from './pages/ProjectCircle/circleHome'
+import cirleDetails from './pages/ProjectCircle/cirleDetails'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -78,6 +87,73 @@ var routes = [
     alias: '/pages/newproject/homepage',
     component: home
   },
+  {
+    path: 'pages/newproject/projectpersonnel',
+    name: 'projectpersonnel',
+    config: {
+      navigationBarTitleText: '人员',
+      enablePullDownRefresh: true,
+      EnableNav: true,
+    },
+    alias: '/pages/newproject/projectpersonnel',
+    component: projectpersonnel
+  },
+  {
+    path: 'pages/newproject/Environmental',
+    name: 'Environmental',
+    config: {
+      navigationBarTitleText: '环保',
+      enablePullDownRefresh: true,
+      EnableNav: true,
+    },
+    alias: '/pages/newproject/Environmental',
+    component: Environmental
+  },
+  {
+    path: 'pages/newproject/monitoring',
+    name: 'monitoring',
+    config: {
+      navigationBarTitleText: '监控',
+      enablePullDownRefresh: true,
+      EnableNav: true,
+    },
+    alias: '/pages/newproject/monitoring',
+    component: monitoring
+  },
+  {
+    path: 'pages/newproject/ProjectBIM',
+    name: 'ProjectBIM',
+    config: {
+      navigationBarTitleText: 'BIM',
+      enablePullDownRefresh: true,
+      EnableNav: true,
+    },
+    alias: '/pages/newproject/ProjectBIM',
+    component: ProjectBIM
+  },
+  {
+    path: 'pages/newproject/ProjectVR',
+    name: 'ProjectVR',
+    config: {
+      navigationBarTitleText: 'VR',
+      enablePullDownRefresh: true,
+      EnableNav: true,
+    },
+    alias: '/pages/newproject/ProjectVR',
+    component: ProjectVR
+  },
+  {
+    path: 'pages/newproject/Aerialphoto',
+    name: 'Aerialphoto',
+    config: {
+      navigationBarTitleText: '航拍',
+      enablePullDownRefresh: true,
+      EnableNav: true,
+    },
+    alias: '/pages/newproject/Aerialphoto',
+    component: Aerialphoto
+  },
+
   {
     path: 'pages/meeting/index',
     name: 'meeting',
@@ -140,6 +216,16 @@ var routes = [
     },
     alias: '/pages/home/Welfarelist',
     component: Welfarelist
+  },
+  {
+    path: 'pages/home/Projectmember',
+    name: 'Projectmember',
+    config: {
+      navigationBarTitleText: '项目成员',
+      enablePullDownRefresh: true,
+    },
+    alias: '/pages/home/Projectmember',
+    component: Projectmember
   },
   {
     path: 'pages/log/LogDetails',
@@ -315,6 +401,28 @@ var routes = [
     },
     alias: '/pages/meeting/startMeeting',
     component: startMeeting
+  },
+  {
+    path: 'pages/ProjectCircle/circleHome',
+    name: 'circleHome',
+    config: {
+      navigationBarTitleText: '项目圈',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/ProjectCircle/circleHome',
+    component: circleHome
+  },
+  {
+    path: 'pages/ProjectCircle/cirleDetails',
+    name: 'cirleDetails',
+    config: {
+      navigationBarTitleText: '详情',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/ProjectCircle/cirleDetails',
+    component: cirleDetails
   },
 
 ]

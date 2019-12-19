@@ -46,6 +46,8 @@ export default new Vuex.Store({//store对象
         meetingTitle:null,
         meetingRemarks:null,
         meetingTime:null,
+        cirleDetails:null,
+
 
       },
       // 更改vuex中的store中的状态的唯一方法是提交mutations，vuex中的mutations非常类似事件，
@@ -90,6 +92,9 @@ export default new Vuex.Store({//store对象
         },
         setmeetingTime(state, MeetingTime) {
           state.meetingTime = MeetingTime;
+        },
+        cirleDetails(state, CirleDetails) {
+          state.cirleDetails = CirleDetails;
         },
       }
     }

@@ -215,5 +215,29 @@ export default {
     ChangeMeetingTime: param => {
         return http.post(BaseHost + "api/ProjectMeeting/ChangeMeetingTime?meetingid="+param.meetingid+"&meetingtime="+param.meetingtime)
     },
+    // 项目记录列表（项目圈）
+    ProjectNote_GetList: param => {
+        return http.get(BaseHost + "api/ProjectNote/GetList", param)
+    },
+       //取消/点赞点赞项目现场记录
+       ProjectNotePraise_Add: param => {
+        return http.post(BaseHost + "api/ProjectNotePraise/Add?noteid="+param)
+    },
+    //新增一条项目圈记录
+    ProjectNote_Add: param => {
+    return http.post(BaseHost + "api/ProjectNote/Add", param)
+    },
+    // 删除项目记录
+    ProjectNote_Delete: param => {
+        return http.post(BaseHost + "api/ProjectNote/Delete?NoteId="+param)
+    },
+    // 新增项目圈记录评论
+    ProjectNoteComment_Add: param => {
+        return http.post(BaseHost + "api/ProjectNoteComment/Add",param)
+    },
+    // 删除项目圈记录评论
+    ProjectNoteComment_Delete: param => {
+        return http.post(BaseHost + "api/ProjectNoteComment/Delete?notecomid="+param)
+    },
     
 }

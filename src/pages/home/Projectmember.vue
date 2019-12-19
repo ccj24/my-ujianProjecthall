@@ -169,6 +169,7 @@ export default {
 .nape {
   padding-left: 0.35rem;
   line-height: 1.5rem;
+  font-size: 0.6rem;
 }
 .userMessage {
   border-top: solid 0.1rem #fafafa;

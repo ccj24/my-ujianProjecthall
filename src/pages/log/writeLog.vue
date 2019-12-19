@@ -19,14 +19,14 @@
         <div class="rich">
           <!-- maxlength设计最大字数 auto-height="ture"是高度随字数增加而增加-->
           <textarea
-            v-if="LogId==null"
+            v-if="LogId==null||LogId==2"
             v-model="ProjectInfo.LogContent"
             placeholder="不能超过2000字"
             maxlength="2000"
             auto-height="ture"
           ></textarea>
           <textarea
-            v-if="LogId!=null"
+            v-if="LogId!=null&&LogId!=2"
             v-model="ProjectLog.LogContent"
             maxlength="2000"
             auto-height="ture"
@@ -34,6 +34,7 @@
         </div>
       </div>
       <div class="rizhi">
+        <div v-if="isMP">
         <img
           class="rizhi_img"
           v-for="(items,index) in ProjectLog.Images"
@@ -51,6 +52,26 @@
           @longpress="deleteImage(items,index)"
         />
         <img @click="chuantupian" src="/static/images/组30@3x.png" />
+      </div>
+      <!-- web -->
+      <div class="tupian" v-else>
+      <input
+        accept="image/*"
+        @change="AddImage($event)"
+        ref="ImageInput"
+        name="img"
+        id="upload_file"
+        type="file"
+        style="display:none;"
+      />
+      <img
+        class="rizhi_img"
+        v-for="(items,index) in Images"
+        :key="index"
+        :src="items"
+      />
+      <img src="/static/images/组30@3x.png" @click="$refs.ImageInput.click()" />
+    </div>
       </div>
     </div>
     <div class="frame" v-show="conceal">
@@ -85,6 +106,7 @@ export default {
       LogId: "",
       RemoveImages: [],
       AddImages: [],
+      // Photos:[]
     };
   },
   methods: {
@@ -108,7 +130,7 @@ export default {
     // 点击发布触发事件
     async release() {
       // 编辑
-      if (this.LogId != null) {
+      if (this.LogId != null&&this.LogId!=2) {
         var that = this;
         var rep = await this.$UJAPI.ProjectLog_Update({
           LogId: that.LogId,
@@ -126,7 +148,7 @@ export default {
         }
       }
       // 发布
-      else {
+      else if (this.LogId==null){
         var that = this;
         var fileNames = [];
         for (var i = 0; i < this.Images.length; i++) {
@@ -145,6 +167,21 @@ export default {
         } else {
           this.toast(rep.msg)
         }
+      }
+      // 项目圈
+      else{
+         var that = this;
+        var rep = await this.$UJAPI.ProjectNote_Add({
+          ProjectId:this.ProjectId,
+          NoteContent:this.ProjectInfo.LogContent,
+          Photos:this.ProjectInfo.Images
+        });
+         if (rep.ret == 0) {
+         this.toast("发布成功")
+         this.$router.back();
+      } else {
+        this.toast(rep.msg)
+      }
       }
     },
     // 获取本地照片上传
@@ -171,6 +208,37 @@ export default {
         }
       });
     },
+    // web
+    AddImage(e) {
+      let that = this;
+      // //e.target指本身 ,e.dataTransfer.files拖拽上传图片
+      var files = e.target.files || e.dataTransfer.files;
+      console.log(files)
+      if (!files.length) return; //if(!false) return 条件成立的时候返回
+      // 使用HTML5的FileReader接口，即可完全在页面里读取文件了
+      // FileReader专门用于读取文件 判断你的浏览器是否支持FileReader接口
+      if (typeof FileReader === "undefined") {
+        alert("您的浏览器不支持图片上传，请升级您的浏览器");
+        return false;
+      }
+      var reader = new FileReader();
+      for (var i = 0; i < files.length; i++) {
+        // FileReader接口中的readAsDataURL()方法可以获取API异步读取的文件数据，另存为数据URL;
+        //将该URL绑定到img标签的src属性上，就可以实现图片的上传预览效果了
+        reader.onload = function(e) {
+           that.Images.push (e.target.result);
+           var strarr = e.target.result.split(",");
+           var filebase64 = strarr[1];//切割Data URI scheme。获得的图片文件的base64字符串用于上传
+           that.ProjectInfo.Images.push({
+             FileName: `Images`,
+              MediaType: "image/png",
+              Buffer: filebase64
+           })
+        };
+        reader.readAsDataURL(files[i]);
+      }
+    },
+
     // 预览图片
     yulan(items) {
           wx.previewImage({
@@ -236,7 +304,7 @@ export default {
     this.ProjectInfo.CreateTime = this.date;
     this.LogId = this.$route.query.LogId;
     // 编辑时候获取内容
-    if (this.LogId != null) {
+    if (this.LogId != null&&this.LogId!=2) {
       var that = this;
       //rep代表请求获取项目日志详情接口数据
       var rep = await this.$UJAPI.Project_ProjectLog({

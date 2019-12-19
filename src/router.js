@@ -117,17 +117,8 @@ var routes = [
     },
   },
   {
-    path: 'pages/home/ProjectBIM',
-    name: 'home-ProjectBIM',
-    config: {
-      navigationBarTitleText: 'BIM',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-  },
-  {
-    path: 'pages/home/ProjectVR',
-    name: 'home-ProjectVR',
+    path: 'pages/newproject/ProjectVR',
+    name: 'ProjectVR',
     config: {
       navigationBarTitleText: '全景预览',
       enablePullDownRefresh: true,
@@ -139,24 +130,6 @@ var routes = [
     name: 'home-firmmanage',
     config: {
       navigationBarTitleText: '企业管理',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-  },
-  {
-    path: 'pages/home/Projectmonitoring',
-    name: 'home-monitoring',
-    config: {
-      navigationBarTitleText: '监控',
-      enablePullDownRefresh: true,
-      onReachBottomDistance: 50
-    },
-  },
-  {
-    path: 'pages/home/Aerialphoto',
-    name: 'home-Aerialphoto',
-    config: {
-      navigationBarTitleText: '航拍',
       enablePullDownRefresh: true,
       onReachBottomDistance: 50
     },
@@ -362,6 +335,22 @@ var routes = [
     name: 'writeSummary',
     config: {
       navigationBarTitleText: '会议纪要',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/ProjectCircle/circleHome',
+    name: 'circleHome',
+    config: {
+      navigationBarTitleText: '项目圈',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/ProjectCircle/cirleDetails',
+    name: 'cirleDetails',
+    config: {
+      navigationBarTitleText: '详情',
       enablePullDownRefresh: false
     },
   },

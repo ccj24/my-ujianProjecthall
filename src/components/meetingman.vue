@@ -4,37 +4,37 @@
       <div>
         <p style="color: #353535;" :class="{shijian:checkIndex!=0}">
           出席
-          <span style="color: #c7c7cd;">（{{chuxi.length}}人）</span>
+          <span style="color: #c7c7cd;">（{{chuxi.length}} 人）</span>
         </p>
       </div>
       <span
         v-for="(items,indexx) in chuxi"
         :key="indexx"
-      >{{items.UserName}},</span>
+      >{{items.UserName}}, </span>
     </div>
     <div class="personnel-one">
       <div>
         <p style="color: #f43531;" :class="{shijian:checkIndex!=0}">
           缺席
-          <span style="color: #c7c7cd;">（{{quexi.length}}人）</span>
+          <span style="color: #c7c7cd;">（{{quexi.length}} 人）</span>
         </p>
       </div>
       <span
         v-for="(items,indexx) in quexi"
         :key="indexx"
-      >{{items.UserName}},</span>
+      >{{items.UserName}}, </span>
     </div>
     <div class="personnel-one">
       <div>
         <p style="color: #ffc539;" :class="{shijian:checkIndex!=0}">
           未定
-          <span style="color: #c7c7cd;">（{{weiding.length}}人）</span>
+          <span style="color: #c7c7cd;">（{{weiding.length}} 人）</span>
         </p>
       </div>
       <span
         v-for="(items,indexx) in weiding"
         :key="indexx"
-      >{{items.UserName}},</span>
+      >{{items.UserName}}, </span>
     </div>
   </div>
 </template>
@@ -68,6 +68,7 @@ export default {
             return queximan
         }, 
         chuxi() {
+
             var chuximan=[]
             for(let i=0;i<this.partaket.length;i++){
                 if (this.partaket[i].State==2) {

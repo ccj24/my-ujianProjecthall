@@ -1003,7 +1003,7 @@ body {
   color: #666666;
   font-size: 0.31rem;
   margin-bottom: 0.12rem;
-  display: inline-block;
+  display: block;
   width: 100%;
   overflow: hidden;
   white-space: nowrap;

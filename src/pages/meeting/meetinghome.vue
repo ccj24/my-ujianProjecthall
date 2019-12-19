@@ -87,7 +87,7 @@
               &#xe630;
               <span>取消</span>
             </div>
-            <div v-if="item.CreatorId!=UserInfo.UserId" class="icon status-one" style="color: #f43531;" @click="absence(item.MeetingId,item,index)">
+            <div v-if="item.PartakeState!=1" class="icon status-one" style="color: #f43531;" @click="absence(item.MeetingId,item,index)">
               &#xe665;
               <span>缺席申请</span>
             </div>
@@ -316,7 +316,6 @@ export default {
     } else {
       this.toast(rep.msg);
     }
-    console.log(this.UserInfo)
   }
 };
 </script>

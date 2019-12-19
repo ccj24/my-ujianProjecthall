@@ -62,7 +62,7 @@
                   <b>{{ProjectDetailed.NumberOfPeople}}人</b>
                 </div>
 
-                <div class="hpPersonBtn2">
+                <div class="hpPersonBtn2" @click="xiangmuquan">
                   <img class="hpPersonBtnicon" src="/static/img/homePage_personIcon.png" alt />
                   <p class="hpPersonBtn2p">项目圈</p>
                 </div>
@@ -343,6 +343,7 @@ export default {
   },
   methods: {
     liveDataLinkUrl(item) {
+      // debugger
       //  人员页面跳转
       if (item.liveDataType == 1) {
         this.$router.push({
@@ -373,6 +374,13 @@ export default {
           query: { ProjectId: this.ProjectDetailed.ProjectId }
         });
       }
+            //  VR页面跳转liveDataType==7
+      else if (item.liveDataType == 7) {
+        this.$router.push({
+          path: "/pages/newproject/ProjectVR",
+          query: { ProjectId: this.ProjectDetailed.ProjectId }
+        });
+      }
       //  航拍页面跳转liveDataType==8
       else if (item.liveDataType == 8) {
         this.$router.push({
@@ -388,6 +396,15 @@ export default {
       });
       //store用Mutation定义修改 ,然后用store.commit('xx') 触发 setProjectDetailed保存的方法
       this.$store.commit("setProjectDetailed", ProjectDetailed);
+    },
+    xiangmuquan() {
+      this.$router.push({
+          path: "/pages/ProjectCircle/circleHome",
+          query: {
+            Projectname: this.ProjectDetailed.ProjectName,
+            ProjectId:this.ProjectDetailed.ProjectId
+            }
+        });
     }
   },
   async mounted() {
@@ -396,6 +413,7 @@ export default {
     var rep = await this.$UJAPI.Project_GetDetailed(this.ProjectId);
     if (rep.ret == 0) {
       this.ProjectDetailed = rep.data;
+      console.log(this.ProjectDetailed)
       if(this.ProjectDetailed.Photos&&this.ProjectDetailed.Photos.length>0)
       {
          this.ProjectDetailed.Photos=this.ProjectDetailed.Photos[0];
@@ -404,7 +422,9 @@ export default {
          this.ProjectDetailed.Photos="/static/images/bg.png";
       }
     }
-
+    else{
+      this.toast(rep.msg)
+    }
     //获取项目红包 石凤叶f2c9bb9a-3749-47f2-ad8e-ea11e3645011
     var res = await this.$UJAPI.Project_ProjectRedPacket({
       Projectid: this.ProjectId,
@@ -413,22 +433,29 @@ export default {
     if (res.ret == 0) {
       this.RedPacket = res.data.slice(0,1);
     }
-
+    else{
+      this.toast(res.msg)
+    }
     // 获取项目打赏排名
-    var rep = await this.$UJAPI.ProjectRedPacketRank({
+    var rep1 = await this.$UJAPI.ProjectRedPacketRank({
       Projectid: this.ProjectId
     });
-    if (rep.ret == 0) {
-      this.Exceptionalranking = rep.data;
+    if (rep1.ret == 0) {
+      this.Exceptionalranking = rep1.data;
     }
-
+    else{
+      this.toast(rep1.msg)
+    }
     //获取项目图片 获取项目日志列表
-    var res = await this.$UJAPI.Project_GetList({
+    var res1 = await this.$UJAPI.Project_GetList({
       Projectid: this.ProjectId,
       QueryType: 4
     });
-    if (res.ret == 0) {
-      this.Projectpicture = res.data;
+    if (res1.ret == 0) {
+      this.Projectpicture = res1.data;
+    }
+    else{
+      this.toast(res1.msg)
     }
     // 获取当前登录人的信息
     // var rep = await this.$UJAPI.User_Get();
@@ -437,27 +464,33 @@ export default {
     // }
 
     // 获取项目成员列表
-    var rep = await this.$UJAPI.Project_ProjectMember({
+    var rep2 = await this.$UJAPI.Project_ProjectMember({
       Projectid: this.ProjectId,
       UserId:this.UserInfo.UserId
     });
-    if (rep.ret == 0) {
-      this.ProjectMemberList = rep.data;
+    if (rep2.ret == 0) {
+      this.ProjectMemberList = rep2.data;
     }
-
+    else{
+      this.toast(rep2.msg)
+    }
     // 获取项目首页店铺(广告)
-    var rep = await this.$UJAPI.Advert_ShopList();
-    if (rep.ret == 0) {
-      this.AdvertProjectHome = rep.data;
+    var rep3 = await this.$UJAPI.Advert_ShopList();
+    if (rep3.ret == 0) {
+      this.AdvertProjectHome = rep3.data;
     }
-
+    else{
+      this.toast(rep3.msg)
+    }
     // 获取项目首页需求推荐(广告)
-    var rep = await this.$UJAPI.Advert_DemandValList();
-    if (rep.ret == 0) {
-      this.AdvertProjectDemand = rep.data;
+    var rep4 = await this.$UJAPI.Advert_DemandValList();
+    if (rep4.ret == 0) {
+      this.AdvertProjectDemand = rep4.data;
+    }
+    else{
+      this.toast(rep4.msg)
     }
   }
 };
 </script>
-
 

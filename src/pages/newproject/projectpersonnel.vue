@@ -61,6 +61,7 @@ export default {
   },
   async mounted() {
     //this.$route.query.ProjectId //这样接收
+    // debugger
     var that = this;
     // 获取项目人员进出记录
     var rep = await this.$UJAPI.GetDoorPeopleList({
@@ -68,6 +69,10 @@ export default {
     });
     if (rep.ret == 0) {
       this.ProjectDoor = rep.data;
+      console.log( this.ProjectDoor)
+    }
+    else{
+      this.toast(rep.msg)
     }
   }
 };
@@ -78,5 +83,8 @@ export default {
   font-size: 0.47rem;
   padding: 0.4rem;
   color: #999;
+}
+.index{
+  background-color: #f8f9fd;
 }
 </style>

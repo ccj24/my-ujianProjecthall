@@ -105,7 +105,7 @@ export default {
     if (rep1.ret == 0) {
       nub = rep1.data;
     } else {
-      this.toast(rep.msg);
+      this.toast(rep1.msg);
     }
     // 成员
 

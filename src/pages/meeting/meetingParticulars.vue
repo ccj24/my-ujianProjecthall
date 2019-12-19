@@ -16,35 +16,15 @@
       <div class="top-three">会议记录员：{{ProjectMeeting_Get.RecorderName}}</div>
     </div>
     <div class="personnelmub">
-      <div class="munber">本次会议共：{{ProjectMeeting_Get.attendantnum+ProjectMeeting_Get.attendantnum}}人</div>
+      <div class="munber">
+         <div class="munber-one" style="float:left;color: #999999;">本次会议共：{{mannub}}人</div>
+         <div class="anniu">
+           <span class="zhuangtai" :class="{zhuangtai_one:ProjectMeeting_Get.PartakeState==2}" @click="goMat">出席</span>
+           <span class="zhuangtai" :class="{zhuangtai_one:ProjectMeeting_Get.PartakeState==1}" @click="absent">缺席</span>
+         </div>
+      </div>
       <div class="personnel">
-        <div>
-          <div class="personnel-one">
-            <p style="color: #353535;">
-              出席
-              <span style="color: #c7c7cd;">（{{ProjectMeeting_Get.attendantnum}} 人）</span>
-            </p>
-          </div>
-          <span v-for="(item,index) in ProjectMeeting_Get.attendantname" :key="index">{{item}}, </span>
-        </div>
-        <div>
-          <div class="personnel-one">
-            <p style="color: #f43531;">
-              缺席
-              <span style="color: #c7c7cd;">（{{ProjectMeeting_Get.absentnum}} 人）</span>
-            </p>
-          </div>
-          <span v-for="(item,index) in ProjectMeeting_Get.absentname" :key="index">{{item}}, </span>
-        </div>
-        <div>
-          <div class="personnel-one">
-            <p style="color: #ffc539;">
-              未定
-              <span style="color: #c7c7cd;">（{{ProjectMeeting_Get.noaffirmnum}} 人）</span>
-            </p>
-          </div>
-          <span v-for="(item,index) in ProjectMeeting_Get.noaffirmname" :key="index">{{item}}, </span>
-        </div>
+        <themeetingman :partaket="Partaker" :checkIndex=0></themeetingman>
       </div>
     </div>
     <div class="meeting_summary" v-if="ProjectMeeting_Get.State==2">
@@ -55,60 +35,66 @@
   </div>
 </template>
 <script>
+import themeetingman from "@/components/meetingman";
 export default {
     data() {
         return {
-            ProjectMeeting_Get:""
+            ProjectMeeting_Get:"",
+            mannub:"",
+            Partaker:[]
         }
     },
     methods: {
-
+      async goMat() {
+        var that = this;
+        var rep = await this.$UJAPI.ProjectMeetingMember_SetState({
+        meetingid: this.ProjectMeeting_Get.MeetingId,
+        state: 2
+      });
+      if (rep.ret == 0) {
+        this.toast("已确认出席");
+        this.ProjectMeeting_Get.PartakeState=2
+      } else {
+        this.toast(rep.msg);
+      }
+      },
+      async absent() {
+        var that = this;
+      var rep = await this.$UJAPI.ProjectMeetingMember_SetState({
+        meetingid: this.ProjectMeeting_Get.MeetingId,
+        state: 1
+      });
+      if (rep.ret == 0) {
+        this.toast("申请缺席成功");
+        this.ProjectMeeting_Get.PartakeState=1
+      } else {
+        this.toast(rep.msg);
+      }
+      }
     },
+      // 注册组件
+  components: {
+    themeetingman
+  },
     computed : {
 
     },
     async mounted() {
         var that = this;
+        var meetingid=this.$route.query.meetingid
     var rep = await this.$UJAPI.ProjectMeeting_Get({
-      Id:this.$route.query.meetingid,
-      ProjectId:this.ProjectId
+      Id:meetingid,
+      ProjectId:this.ProjectId,
     });
     if (rep.ret == 0) {
+      this.toast("获取会议详情成功");
       this.ProjectMeeting_Get = rep.data;
-
-      var noaffirmnum = 0;
-        var noaffirmname = [];
-        var absentnum = 0;
-        var absentname = [];
-        var attendantnum = 0;
-        var attendantname = [];
-        var item = that.ProjectMeeting_Get
-      for (let y = 0; y < item.Partaker.length; y++) {
-          if (item.Partaker[y].State == 0) {
-            noaffirmnum++;
-            noaffirmname.push(item.Partaker[y].UserName);
-          }
-          if (item.Partaker[y].State == 1) {
-            absentnum++;
-            absentname.push(item.Partaker[y].UserName);
-          }
-          if (item.Partaker[y].State == 2) {
-            attendantnum++;
-            attendantname.push(item.Partaker[y].UserName);
-          }
-        }
-        item.noaffirmnum = noaffirmnum;
-        item.absentnum = absentnum;
-        item.noaffirmname = noaffirmname;
-        item.attendantnum = attendantnum;
-        item.absentname = absentname;
-        item.attendantname = attendantname;
-        console.log(this.ProjectMeeting_Get);
-    } else {
+      this.mannub=this.ProjectMeeting_Get.Partaker.length
+      this.Partaker=this.ProjectMeeting_Get.Partaker
+     } else {
       this.toast(rep.msg);
     }
     }
-
 }
 </script>
 <style scoped>
@@ -162,19 +148,32 @@ export default {
 }
 .munber {
   height: 1.3rem;
-  line-height: 1.3rem;
   font-size: 0.4rem;
-  color: #999999;
   border-bottom: 0.02rem solid #e8e8e8;
+  overflow: hidden;
+  display: flex;
+  align-items: center
+}
+.anniu {
+  margin-left: 3rem;
+}
+.zhuangtai {
+  padding: 0.1rem 0.4rem;
+  color: #12b7f5;
+  border: 0.02rem solid #12b7f5;
+  border-radius: 0.2rem;
+  margin-left: 0.1rem
+}
+.zhuangtai_one {
+  color: #fff;
+  border: 0.02rem solid #999999;
+  background-color: #999999;
 }
 .personnel {
   font-size: 0.37rem;
   color: #999999;
   overflow: hidden;
   padding: 0.59rem 0.1rem;
-}
-.personnel-one {
-  padding:0.23rem 0;
 }
 .meeting_summary {
     padding: 0.4rem 0.36rem;
