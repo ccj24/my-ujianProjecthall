@@ -50,7 +50,7 @@
                 style="color: #495f8c;"
                 v-for="(items,indexs) in item.PraiseList"
                 :key="indexs"
-              >{{items.Value}}, </span>
+              >{{items.Value}}<span v-if="indexs+1<item.PraiseList.length">，</span></span>
             </div>
             <div class="talk_two">
               <div
@@ -111,13 +111,14 @@ export default {
         var rep = await this.$UJAPI.ProjectNotePraise_Add(NoteId);
         if (rep.ret == 0) {
             item.dianzan = !item.dianzan;
-            this.ProjectNote_GetList.splice(index, 1, item);
+            // this.ProjectNote_GetList.splice(index, 1, item);
+            this.ProjectNote_GetList[index].dianzan=item.dianzan
             var that = this;
             var rep = await this.$UJAPI.ProjectNote_GetList({
             ProjectId: this.ProjectId
             });
             if (rep.ret == 0) {
-              this.ProjectNote_GetList = rep.data;
+              this.ProjectNote_GetList[index].PraiseList = rep.data[index].PraiseList;
             } else {
               this.toast(rep.msg);
             }
@@ -213,14 +214,14 @@ export default {
           if (this.ProjectNote_GetList[i].PraiseList[y].Key ==this.UserInfo.UserId) {
             this.ProjectNote_GetList[i].dianzan = true;
           }
-           else{this.ProjectNote_GetList[i].dianzan = false;}
+          //  else{this.ProjectNote_GetList[i].dianzan = false;}
         }
         // 相差分钟
         this.ProjectNote_GetList[i].fenzhongcha = Math.floor((this.thetime - new Date(this.ProjectNote_GetList[i].Createtime)) /1000 /60);
         // 小时
         this.ProjectNote_GetList[i].xiaoshicha=Math.floor((this.ProjectNote_GetList[i].fenzhongcha)/60)
      }
-      console.log( this.ProjectNote_GetList)
+      // console.log( this.ProjectNote_GetList)
       return this.ProjectNote_GetList;
     },
         ...mapState({
@@ -237,7 +238,6 @@ export default {
     } else {
       this.toast(rep.msg);
     }
-    console.log(this.UserInfo);
   }
 };
 </script>
