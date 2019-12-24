@@ -28,7 +28,7 @@ Vue.mixin({
       goProject(ProjectId) {
         // 这个方法是从项目大厅跳转到主页里面的方法 commit方法将参数发给vuex保存
                 this.$store.commit("setProjectId", ProjectId)
-                this.go({ path: '/pages/newproject/homepage',isTab: true})
+                this.go({ path: '/pages/newproject/homepage'})
       },
       replace: function (path) {
         this.$router.replace(path);

@@ -419,7 +419,7 @@ export default {
          this.ProjectDetailed.Photos=this.ProjectDetailed.Photos[0];
       }else
       {
-         this.ProjectDetailed.Photos="/static/images/bg.png";
+         this.ProjectDetailed.Photos="https://image.ujianchina.net/ProjectPhotoConfig/default/bg.png";
       }
     }
     else{

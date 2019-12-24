@@ -7,29 +7,8 @@
     }
   },
   "window": {
-    "backgroundColor":"#eee"
-  },
-  "tabBar": {
-    "color":"#000",
-    "selectedColor":"#c77b2d",
-    "list": [
-      {
-        "pagePath": "pages/newproject/homepage",
-       
-        "text": "主页"
-      },
-      {
-        "pagePath": "pages/log/journal",
-        "text": "日志"
-      },
-      {
-        "pagePath": "pages/meeting/index",
-        "text": "会议"
-      },
-      {
-        "pagePath": "pages/data/index",
-        "text": "资料"
-      }
-    ]
+    "backgroundColor":"#eee",
+    "navigationBarTextStyle":"white",
+    "navigationBarBackgroundColor":"#12b7f5"
   }
 }

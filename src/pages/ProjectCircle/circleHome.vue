@@ -10,7 +10,7 @@
     </div>
     <!-- 背景图 -->
     <div class="Img">
-      <img class="Imgone" src="/static/images/头部图片.png" alt />
+      <img class="Imgone" src="https://image.ujianchina.net//ProjectNoteAtta//default/bg.png" alt />
       <img class="Imgtwo" :src="UserInfo.Portrait" alt />
     </div>
     <!-- 内容 -->

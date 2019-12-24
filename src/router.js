@@ -1,5 +1,4 @@
 var routes = [
-
   {
     path: 'pages/Login/Projecthall',
     name: 'Login',

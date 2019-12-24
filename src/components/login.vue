@@ -155,7 +155,7 @@ export default {
         // }
         // // 切换至首页页面
         // else
-         this.$router.push({ path: "/pages/Login/Projecthall" });
+         this.$router.replace({ path: "/pages/Login/Projecthall" });
       } else {
         this.toast("登录失败");
       }
