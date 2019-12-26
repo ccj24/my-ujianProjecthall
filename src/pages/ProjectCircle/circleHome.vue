@@ -43,7 +43,7 @@
             <div class="icon" @click="dianping(item,index)">&#xe61a; 评论</div>
           </div>
           <!-- 点赞和评论 -->
-          <div class="talk">
+          <div class="talk" @click.stop>
             <div class="talk_one" v-if="item.PraiseList.length>0">
               <span class="icon">&#xe619; </span>
               <span
@@ -53,8 +53,7 @@
               >{{items.Value}}<span v-if="indexs+1<item.PraiseList.length">，</span></span>
             </div>
             <div class="talk_two">
-              <div
-                 @click.stop
+              <div              
                 style="overflow: hidden;"
                 v-for="(itemx,kk) in item.CommentList"
                 :key="kk"
@@ -91,6 +90,7 @@ export default {
   data() {
     return {
       ProjectNote_GetList: "",
+      theProject:"",
       thetime: new Date(),
       // 评论框
       commentbox: false,
@@ -129,7 +129,6 @@ export default {
     Details(item,index) {
       // 这样接收this.$store.state.Project.cirleDetails;
       this.$store.commit("cirleDetails", item);
-      console.log(index)
       this.$router.push({
         path: "/pages/ProjectCircle/cirleDetails",
         query: {
@@ -221,7 +220,6 @@ export default {
         // 小时
         this.ProjectNote_GetList[i].xiaoshicha=Math.floor((this.ProjectNote_GetList[i].fenzhongcha)/60)
      }
-      // console.log( this.ProjectNote_GetList)
       return this.ProjectNote_GetList;
     },
         ...mapState({

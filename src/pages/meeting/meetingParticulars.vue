@@ -87,7 +87,6 @@ export default {
       ProjectId:this.ProjectId,
     });
     if (rep.ret == 0) {
-      this.toast("获取会议详情成功");
       this.ProjectMeeting_Get = rep.data;
       this.mannub=this.ProjectMeeting_Get.Partaker.length
       this.Partaker=this.ProjectMeeting_Get.Partaker

@@ -16,7 +16,7 @@
 <script>
 export default {
   props: {
-    ProjectMemberList: [],
+    ProjectMemberList: {},
     ModelResponse: {}
   }, //接收父组件传过来的值
   data() {

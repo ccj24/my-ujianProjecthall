@@ -21,7 +21,7 @@
 <script>
 export default {
   props: {
-    ProjectMemberList: [],
+    ProjectMemberList: {},
     spell: ""
   }, //接收父组件传过来的值
   data() {

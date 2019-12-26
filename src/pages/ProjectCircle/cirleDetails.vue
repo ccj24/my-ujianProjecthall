@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="top">
-      <img :src="cirleDetails.Portrait" alt />
+      <img class="top_img" :src="cirleDetails.Portrait" alt />
       <div class="top_one">
         <span>{{cirleDetails.CreatorName}}</span>
         <span class="shijian" v-if="cirleDetails.fenzhongcha<=1">刚刚</span>
@@ -20,11 +20,25 @@
             v-for="(items,indexx) in (cirleDetails.ThumbnailList==null? cirleDetails.AttaList: cirleDetails.ThumbnailList)"
             :key="indexx"
             :src="items"
+            @click="magnifyImg(items,indexx)"
             alt
           />
         </div>
+        <!-- 预览图片，切换图片 -->
+        <div v-if="fangda" class="fangda" @click="recover">
+          <div v-if="indexx!=0" class="icon zuoyou left" @click="Left" @click.stop>&#xe602;</div>
+          <div class="img_ul" :style="styleObj"  @touchstart="start($event)" @touchmove="move($event)" @touchend="end($event)">
+              <img v-for="(item,index) in tupian" :key="index" :src="item" class="theimg" alt />
+          </div>
+          <div v-if="indexx<tupian.length-1" class="icon zuoyou right" @click="Right" @click.stop>&#xe601;</div>
+        </div>
+
         <div class="caozuo" @click.stop>
-          <span style="color:#495f8c" v-if="cirleDetails.CreatorId==UserInfo.UserId" @click="deleter()">删除</span>
+          <span
+            style="color:#495f8c"
+            v-if="cirleDetails.CreatorId==UserInfo.UserId"
+            @click="deleter()"
+          >删除</span>
           <div class="thedianzan" @click="Dianzan(cirleDetails.NoteId)">
             <span class="icon" :class="{dianzan:cirleDetails.dianzan==true}">&#xe619;</span>
             点赞
@@ -34,12 +48,15 @@
         <!-- 点赞和评论 -->
         <div class="talk">
           <div class="talk_one" v-if="kk>0">
-            <span class="icon">&#xe619; </span>
+            <span class="icon">&#xe619;</span>
             <span
               style="color: #495f8c;"
               v-for="(items,indexs) in cirleDetails.PraiseList"
               :key="indexs"
-            >{{items.Value}}, </span>
+            >
+              {{items.Value}}
+              <span v-if="indexs+1<kk">，</span>
+            </span>
           </div>
           <div class="talk_two">
             <div
@@ -51,7 +68,7 @@
             >
               <span>{{itemx.Commentator_R}}</span>
               <span v-if="itemx.ReplyId !=null">
-                <span style="color: #353535;"> 回复</span>
+                <span style="color: #353535;">回复</span>
                 {{itemx.ReplyName}}
               </span>
               <span style="color: #353535;">: {{itemx.CommentContent}}</span>
@@ -67,25 +84,26 @@
       </div>
     </div>
     <!-- 评论框 -->
-      <div class="commentBr" v-if="commentbox" @click="theoutside()"  >
-        <div class="comment_box" @click.stop>
-            <div class="comment">
-            <textarea
-              maxlength="1000"
-              v-model="comment.CommentContent"
-              auto-focus="’true’"
-            ></textarea>
-          </div> 
-          <div class="pinglun" @click.stop :class="{pinglunNr:comment.CommentContent.length>0}" @click="talking">评论</div>
+    <div class="commentBr" v-if="commentbox" @click="theoutside()">
+      <div class="comment_box" @click.stop>
+        <div class="comment">
+          <textarea maxlength="1000" v-model="comment.CommentContent" auto-focus="’true’"></textarea>
         </div>
+        <div
+          class="pinglun"
+          @click.stop
+          :class="{pinglunNr:comment.CommentContent.length>0}"
+          @click="talking"
+        >评论</div>
+      </div>
     </div>
     <div class="pinglunBB" v-if="commentbox==false" @click.stop>
       <div class="aa" @click="dianping()">
-        <span class="icon">&#xe61a; </span>
+        <span class="icon">&#xe61a;</span>
         评论
       </div>
       <div class="aa" @click="Dianzan(cirleDetails.NoteId)">
-        <span class="icon" :class="{dianzan:cirleDetails.dianzan==true}">&#xe619; </span>
+        <span class="icon" :class="{dianzan:cirleDetails.dianzan==true}">&#xe619;</span>
         点赞
       </div>
     </div>
@@ -108,6 +126,18 @@ export default {
       NoteComId:"",
       thetime: new Date(),
       ReplyName:null,
+      fangda:false,
+      items:"",
+      indexx:"",
+      tupian:[],
+      start_x:0,
+      move_x:0,
+      deviation:0,
+      clientWidth:0,
+      // 样式对象
+      styleObj:{
+        left:""
+      }
     };
   },
   methods: {
@@ -189,18 +219,93 @@ export default {
       } else {
         this.toast(rep.msg);
       }
+      },
+      //  样式方法
+    left() {
+       this.styleObj.left=((this.deviation/this.clientWidth)*100-(this.indexx*100))+'%'
+    },
+     // 放大图片
+     magnifyImg(items,indexx) {
+       this.fangda=true;
+       this.indexx=indexx
+       console.log(this.indexx)
+       this.items=this.tupian[this.indexx];
+       this.left()
+     },
+    //  恢复图片
+    recover(e) {
+      this.fangda=false;
+    },
+    Left() {
+      this.indexx--
+       this.left()
+    },
+    Right() {
+      this.indexx++
+       this.left()
+    },
+    start(e) {
+      this.start_x=e.touches[0].pageX
+    },
+    move(e) {
+      this.move_x=e.changedTouches[0].pageX
+      this.deviation=this.move_x-this.start_x
+      // 屏幕宽
+      this.clientWidth=document.documentElement.clientWidth
+      console.log("差"+this.deviation)
+      this.left()
+    },
+    end(e) {
+      if (this.indexx==0&&this.deviation>0) {
+        this.toast("已经是第一张图片啦");
+        this.deviation=0
+        this.left()
       }
+      else if (this.indexx==this.tupian.length-1&&this.deviation<0) {
+         this.toast("已经是最后一张图片啦");
+         this.deviation=0
+         this.left()
+      }
+      else{
+         // Math.abs求绝对值 this.deviation>0右滑
+          if (Math.abs(this.deviation)>100) {
+            if (this.deviation>=0) {
+              this.deviation=0
+               this.indexx--
+               this.left()
+            }
+          // 左滑
+          else{
+            this.deviation=0
+               this.indexx++
+               this.left()
+          }
+        }
+        else{
+          this.deviation=0
+          this.left()
+        }
+      }
+    },
+
   },
   computed: {
     ...mapState({
       UserInfo: state => state.User.UserInfo //获取当前用户的登录信息
-    })
+    }),
+  //   containerStyle() {
+  //  return {
+  //   // transform:`translate3d(${this.distance*this.indexx}rem, 0, 0)`
+  //   left:'(this.indexx*this.distance-this.distance)%'
+  //  }
+  //   }
   },
   async mounted() {
     this.index=this.$route.query.index;
     this.cirleDetails=this.$store.state.Project.cirleDetails;
     this.kk=this.cirleDetails.PraiseList.length
     console.log(this.cirleDetails)
+    this.tupian=this.cirleDetails.ThumbnailList
   }
 };
 </script>
@@ -209,7 +314,7 @@ export default {
   padding: 0.3rem;
   overflow: hidden;
 }
-.top img {
+.top_img {
   height: 1.2rem;
   width: 1.2rem;
   display: block;
@@ -287,10 +392,10 @@ export default {
 .aa {
   overflow: hidden;
   display: table-cell;
-  text-align: center
+  text-align: center;
 }
 .commentBr {
-  position:absolute;
+  position: absolute;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -309,7 +414,7 @@ export default {
   opacity: 1;
   display: flex;
   align-items: center;
-  z-index: 99
+  z-index: 99;
 }
 .comment {
   float: left;
@@ -342,5 +447,64 @@ export default {
 }
 .pinglunNr {
   background-color: #29bef6;
+}
+.fangda {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 1);
+  z-index: 999;
+  overflow: hidden;
+}
+.theimg {
+  /* position: relative; */
+  float: left;
+  width: 100%;
+  /* position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0; */
+}
+.img_ul {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;/* 垂直居中 */
+  flex-direction: row;  /* 子元素横向排列 */
+  /* justify-content: center; */
+  position: absolute
+}
+/* .nub {
+  font-size: 0.5rem;
+  color: #fff;
+  position: relative;
+  bottom: 0.3rem;
+} */
+.zuoyou {
+  color: #fff;
+  height: 1.5rem;
+  width: 0.8rem;
+  text-align: center;
+  line-height: 1.5rem;
+  font-size: 0.8rem;
+  background-color: #4c4c4c;
+  z-index: 1001;
+}
+.left {
+  position: absolute;
+  top: 50%;
+  left: 0.5rem;
+}
+.right {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
 }
 </style>

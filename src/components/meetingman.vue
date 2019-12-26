@@ -10,7 +10,7 @@
       <span
         v-for="(items,indexx) in chuxi"
         :key="indexx"
-      >{{items.UserName}}, </span>
+      >{{items.UserName}}<span v-if="indexx+1<chuxi.length">，</span></span>
     </div>
     <div class="personnel-one">
       <div>
@@ -22,7 +22,7 @@
       <span
         v-for="(items,indexx) in quexi"
         :key="indexx"
-      >{{items.UserName}}, </span>
+      >{{items.UserName}}<span v-if="indexx+1<quexi.length">，</span></span>
     </div>
     <div class="personnel-one">
       <div>
@@ -34,7 +34,7 @@
       <span
         v-for="(items,indexx) in weiding"
         :key="indexx"
-      >{{items.UserName}}, </span>
+      >{{items.UserName}}<span v-if="indexx+1<weiding.length">，</span></span>
     </div>
   </div>
 </template>
