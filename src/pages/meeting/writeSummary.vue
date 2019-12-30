@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="overflow: hidden;">
     <div class="topNr">
       <span class="top_one" @click="quxiao">取消</span>
       <span class="top_two" @click="tijiao">提交</span>
@@ -18,7 +18,7 @@
         v-for="(items,index) in Photos"
         :key="index"
         :src="items"
-        @click="yulan(items)"
+        @click="yulan(items,index)"
         @longpress="deleteImage(items,index)"
       />
       <img @click="chuantupian" src="/static/images/组30@3x.png" />
@@ -38,12 +38,16 @@
         v-for="(items,index) in Photos"
         :key="index"
         :src="items"
+        @click="yulan(items,index)"
       />
       <img src="/static/images/组30@3x.png" @click="$refs.ImageInput.click()" />
     </div>
+    <!-- 预览图片 -->
+      <BigImg v-if="chufa" :indexx="index" :tupian="Photos" @sendmsg="getmsg"></BigImg>
   </div>
 </template>
 <script>
+import BigImg from "@/components/BigImg";
 export default {
   data() {
     return {
@@ -52,7 +56,9 @@ export default {
         Photos: [],
         MeetingId: "",
         Summary: ""
-      }
+      },
+      index:"",
+      chufa:false
     };
   },
   methods: {
@@ -112,11 +118,16 @@ export default {
       }
     },
     // 预览图片
-    yulan(items) {
-      wx.previewImage({
-        current: items,
-        urls: this.Photos
-      });
+    yulan(items,index) {
+      // wx.previewImage({
+      //   current: items,
+      //   urls: this.Photos
+      // });
+      this.index=index;
+      this.chufa=true
+    },
+    getmsg() {
+      this.chufa=false
     },
     async tijiao() {
     var that = this;
@@ -136,6 +147,10 @@ export default {
     this.$router.back();
   },
 
+  },
+    // 注册组件
+  components: {
+    BigImg
   },
 };
 </script>

@@ -25,14 +25,7 @@
           />
         </div>
         <!-- 预览图片，切换图片 -->
-        <div v-if="fangda" class="fangda" @click="recover">
-          <div v-if="indexx!=0" class="icon zuoyou left" @click="Left" @click.stop>&#xe602;</div>
-          <div class="img_ul" :style="styleObj"  @touchstart="start($event)" @touchmove="move($event)" @touchend="end($event)">
-              <img v-for="(item,index) in tupian" :key="index" :src="item" class="theimg" alt />
-          </div>
-          <div v-if="indexx<tupian.length-1" class="icon zuoyou right" @click="Right" @click.stop>&#xe601;</div>
-        </div>
-
+        <BigImg v-if="chufa" :indexx="index" :tupian="tupian" @sendmsg="getmsg"></BigImg>
         <div class="caozuo" @click.stop>
           <span
             style="color:#495f8c"
@@ -110,6 +103,7 @@
   </div>
 </template>
 <script>
+import BigImg from "@/components/BigImg";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -126,18 +120,9 @@ export default {
       NoteComId:"",
       thetime: new Date(),
       ReplyName:null,
-      fangda:false,
-      items:"",
       indexx:"",
       tupian:[],
-      start_x:0,
-      move_x:0,
-      deviation:0,
-      clientWidth:0,
-      // 样式对象
-      styleObj:{
-        left:""
-      }
+      chufa:false
     };
   },
   methods: {
@@ -220,92 +205,35 @@ export default {
         this.toast(rep.msg);
       }
       },
-      //  样式方法
-    left() {
-       this.styleObj.left=((this.deviation/this.clientWidth)*100-(this.indexx*100))+'%'
-    },
      // 放大图片
      magnifyImg(items,indexx) {
-       this.fangda=true;
-       this.indexx=indexx
        console.log(this.indexx)
-       this.items=this.tupian[this.indexx];
-       this.left()
+       this.index=indexx;
+       this.chufa=true
+       console.log(this.chufa)
+       console.log("99")
      },
-    //  恢复图片
-    recover(e) {
-      this.fangda=false;
+    getmsg() {
+      this.chufa=false
+      console.log("55")
     },
-    Left() {
-      this.indexx--
-       this.left()
-    },
-    Right() {
-      this.indexx++
-       this.left()
-    },
-    start(e) {
-      this.start_x=e.touches[0].pageX
-    },
-    move(e) {
-      this.move_x=e.changedTouches[0].pageX
-      this.deviation=this.move_x-this.start_x
-      // 屏幕宽
-      this.clientWidth=document.documentElement.clientWidth
-      console.log("差"+this.deviation)
-      this.left()
-    },
-    end(e) {
-      if (this.indexx==0&&this.deviation>0) {
-        this.toast("已经是第一张图片啦");
-        this.deviation=0
-        this.left()
-      }
-      else if (this.indexx==this.tupian.length-1&&this.deviation<0) {
-         this.toast("已经是最后一张图片啦");
-         this.deviation=0
-         this.left()
-      }
-      else{
-         // Math.abs求绝对值 this.deviation>0右滑
-          if (Math.abs(this.deviation)>100) {
-            if (this.deviation>=0) {
-              this.deviation=0
-               this.indexx--
-               this.left()
-            }
-          // 左滑
-          else{
-            this.deviation=0
-               this.indexx++
-               this.left()
-          }
-        }
-        else{
-          this.deviation=0
-          this.left()
-        }
-      }
-    },
-
   },
   computed: {
     ...mapState({
       UserInfo: state => state.User.UserInfo //获取当前用户的登录信息
     }),
-  //   containerStyle() {
-  //  return {
-  //   // transform:`translate3d(${this.distance*this.indexx}rem, 0, 0)`
-  //   left:'(this.indexx*this.distance-this.distance)%'
-  //  }
-  //   }
+  },
+     // 注册组件
+  components: {
+    BigImg
   },
   async mounted() {
     this.index=this.$route.query.index;
     this.cirleDetails=this.$store.state.Project.cirleDetails;
     this.kk=this.cirleDetails.PraiseList.length
     console.log(this.cirleDetails)
-    this.tupian=this.cirleDetails.ThumbnailList
+    this.tupian=(this.cirleDetails.ThumbnailList==null? this.cirleDetails.AttaList: this.cirleDetails.ThumbnailList)
+
   }
 };
 </script>
@@ -447,64 +375,5 @@ export default {
 }
 .pinglunNr {
   background-color: #29bef6;
-}
-.fangda {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: rgba(0, 0, 0, 1);
-  z-index: 999;
-  overflow: hidden;
-}
-.theimg {
-  /* position: relative; */
-  float: left;
-  width: 100%;
-  /* position: absolute;
-  margin: auto;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0; */
-}
-.img_ul {
-  height: 100%;
-  width: 100%;
-  display: flex;
-  align-items: center;/* 垂直居中 */
-  flex-direction: row;  /* 子元素横向排列 */
-  /* justify-content: center; */
-  position: absolute
-}
-/* .nub {
-  font-size: 0.5rem;
-  color: #fff;
-  position: relative;
-  bottom: 0.3rem;
-} */
-.zuoyou {
-  color: #fff;
-  height: 1.5rem;
-  width: 0.8rem;
-  text-align: center;
-  line-height: 1.5rem;
-  font-size: 0.8rem;
-  background-color: #4c4c4c;
-  z-index: 1001;
-}
-.left {
-  position: absolute;
-  top: 50%;
-  left: 0.5rem;
-}
-.right {
-  position: absolute;
-  top: 50%;
-  right: 0.5rem;
 }
 </style>
