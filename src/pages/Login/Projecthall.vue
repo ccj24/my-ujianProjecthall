@@ -86,7 +86,7 @@ export default {
   },
   methods:{
     show(item){
-      this.$router.push({path:'/pages/home/index',isTab: true});
+      this.$router.push({path:'/pages/home/index'});
     }
   },
 
