@@ -103,7 +103,7 @@ export default {
         this.$store.commit("GetUserInfo", userinfo.data);
         if (this.$route.query.redirect)
           // 切换至 tabBar页面
-          this.$router.push({ path: this.$route.query.redirect, isTab: true });
+          this.$router.push({ path: this.$route.query.redirect});
         // 切换至 tabBar页面
         else this.$router.push({ path: "/pages/Login/Projecthall" });
       } else {
