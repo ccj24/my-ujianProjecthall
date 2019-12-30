@@ -25,7 +25,7 @@
           />
         </div>
         <!-- 预览图片，切换图片 -->
-        <BigImg v-if="chufa" :indexx="index" :tupian="tupian" @sendmsg="getmsg"></BigImg>
+        <BigImg :clickhit="clickhit" :indexx="index" :tupian="tupian"></BigImg>
         <div class="caozuo" @click.stop>
           <span
             style="color:#495f8c"
@@ -109,7 +109,7 @@ export default {
   data() {
     return {
       cirleDetails: {},
-      index:"",
+      itemindex:0,
       kk:"",
       commentbox:false,
       comment:{
@@ -120,9 +120,9 @@ export default {
       NoteComId:"",
       thetime: new Date(),
       ReplyName:null,
-      indexx:"",
       tupian:[],
-      chufa:false
+      index:0,
+      clickhit:0
     };
   },
   methods: {
@@ -139,7 +139,7 @@ export default {
               ProjectId: this.ProjectId
             });
             if (rep.ret == 0) {
-              this.cirleDetails.PraiseList = rep.data[this.index].PraiseList;
+              this.cirleDetails.PraiseList = rep.data[this.itemindex].PraiseList;
               this.kk=this.cirleDetails.PraiseList.length
             } else {
               this.toast(rep.msg);
@@ -207,16 +207,9 @@ export default {
       },
      // 放大图片
      magnifyImg(items,indexx) {
-       console.log(this.indexx)
        this.index=indexx;
-       this.chufa=true
-       console.log(this.chufa)
-       console.log("99")
-     },
-    getmsg() {
-      this.chufa=false
-      console.log("55")
-    },
+       this.clickhit++;
+     }
   },
   computed: {
     ...mapState({
@@ -228,7 +221,7 @@ export default {
     BigImg
   },
   async mounted() {
-    this.index=this.$route.query.index;
+    this.itemindex=this.$route.query.index;
     this.cirleDetails=this.$store.state.Project.cirleDetails;
     this.kk=this.cirleDetails.PraiseList.length
     console.log(this.cirleDetails)
