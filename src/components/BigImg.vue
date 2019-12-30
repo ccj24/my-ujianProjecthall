@@ -1,131 +1,135 @@
 <template>
-    <div>     
-        <!-- 小程序  v-if="isMP"-->
-        <!-- 预览图片，切换图片 web-->
-        <div v-if="!isMP" class="fangda" @click="recover">
-          <div v-if="index!=0" class="icon zuoyou left" @click="Left" @click.stop>&#xe602;</div>
-          <ul class="img_ul" :style="styleObj"  @touchstart="start($event)" @touchmove="move($event)" @touchend="end($event)">
-              <li class="lii" v-for="(item,indexs) in tupian" :key="indexs">
-                <img  :src="item" class="theimg" alt />
-                <div>
-                  {{index+1}}/{{tupian.length}}
-                </div>
-              </li>
-          </ul>
-          <div v-if="index!=tupian.length-1" class="icon zuoyou right" @click="Right" @click.stop>&#xe601;</div>
-        </div>
+  <div v-if="isshow">
+    <!-- 小程序  v-if="isMP"-->
+    <!-- 预览图片，切换图片 web-->
+    <div v-if="!isMP" class="fangda" @click="recover">
+      <div v-if="index!=0" class="icon zuoyou left" @click="Left" @click.stop>&#xe602;</div>
+      <ul class="img_ul" :style="styleObj" @touchstart="start($event)" @touchmove="move($event)" @touchend="end($event)">
+        <li class="lii" v-for="(item,indexs) in tupian" :key="indexs">
+          <img :src="item" class="theimg" alt>
+          <div>{{index+1}}/{{tupian.length}}</div>
+        </li>
+      </ul>
+      <div v-if="index!=tupian.length-1" class="icon zuoyou right" @click="Right" @click.stop>&#xe601;</div>
     </div>
+  </div>
 </template>
 <script>
 export default {
   // 父组件接收的值
-    props:{
-      indexx:Number,
-      tupian:Array,
+  props: {
+    indexx: Number,
+    tupian: Array,
+    clickhit:Number,
+  },
+  data() {
+    return {
+      isshow:false,
+      index: "",
+      fangda: false,
+      start_x: 0,
+      move_x: 0,
+      deviation: 0,
+      clientWidth: 0,
+      // 样式对象
+      styleObj: {
+        left: ""
+      }
+    };
+  },
+  methods: {
+    recover() {
+      // 隐藏时候的调用方法
+      this.isshow=false;
+      // this.$emit("sendmsg");
     },
-    data() {
-        return {
-           index:"",
-            fangda:false,
-            start_x:0,
-            move_x:0,
-            deviation:0,
-            clientWidth:0,
-            // 样式对象
-            styleObj:{
-                left:""
-            }
-        }
-    },
-    methods:{
-      recover() {
-        // 隐藏时候的调用方法
-        this.$emit("sendmsg")
-      },
     // web
-     //  样式方法
+    //  样式方法
     left() {
-      
-       this.styleObj.left=((this.deviation/this.clientWidth)*100-(this.index*100))+'%'
-       this.index=this.index
-       console.log(this.index)
+      this.styleObj.left =
+        this.deviation / this.clientWidth * 100 - this.index * 100 + "%";
+      this.index = this.index;
+      console.log(this.index);
     },
-      Left() {
-          console.log(this.index)
-          this.index--
-          this.left()
+    Left() {
+      console.log(this.index);
+      this.index--;
+      this.left();
     },
     Right() {
-      console.log(this.index)
-      this.index++
-       this.left()
+      console.log(this.index);
+      this.index++;
+      this.left();
     },
     start(e) {
-      this.start_x=e.touches[0].pageX
+      this.start_x = e.touches[0].pageX;
     },
     move(e) {
-      this.move_x=e.changedTouches[0].pageX
+      this.move_x = e.changedTouches[0].pageX;
       // 滑动的差
-      this.deviation=this.move_x-this.start_x
-      this.left()
+      this.deviation = this.move_x - this.start_x;
+      this.left();
     },
     end(e) {
-      if (this.index==0&&this.deviation>0) {
+      if (this.index == 0 && this.deviation > 0) {
         this.toast("已经是第一张图片啦");
-        this.deviation=0
-        this.left()
-      }
-      else if (this.index==this.tupian.length-1&&this.deviation<0) {
-         this.toast("已经是最后一张图片啦");
-         this.deviation=0
-         this.left()
-      }
-      else{
-         // Math.abs求绝对值 this.deviation>0右滑
-          if (Math.abs(this.deviation)>100) {
-            if (this.deviation>=0) {
-              this.deviation=0
-               this.index--
-               this.left()
-            }
-          // 左滑
-          else{
-            this.deviation=0
-               this.index++
-               this.left()
+        this.deviation = 0;
+        this.left();
+      } else if (this.index == this.tupian.length - 1 && this.deviation < 0) {
+        this.toast("已经是最后一张图片啦");
+        this.deviation = 0;
+        this.left();
+      } else {
+        // Math.abs求绝对值 this.deviation>0右滑
+        if (Math.abs(this.deviation) > 100) {
+          if (this.deviation >= 0) {
+            this.deviation = 0;
+            this.index--;
+            this.left();
           }
+          // 左滑
+          else {
+            this.deviation = 0;
+            this.index++;
+            this.left();
+          }
+        } else {
+          this.deviation = 0;
+          this.left();
         }
-        else{
-          this.deviation=0
-          this.left()
-        }
-      }
-    },
-    },   
-    watch: {
-      // 小程序,indexx改变执行
-      indexx() {
-        console.log("进来了吗")
-        wx.previewImage({
-            current: this.tupian[this.indexx],
-            urls: this.tupian
-        });
-      }
-    },
-    mounted(){
-      if(!this.isMP){
-      console.log("web端大图")
-      this.index=this.indexx
-        // 屏幕宽
-      this.clientWidth=document.documentElement.clientWidth
-        // 从新赋值到新定义的index，避免直接操作修改props的值
-        
-        console.log(this.index)
-        console.log(this.tupian)
-        this.styleObj.left=((this.deviation/this.clientWidth)*100-(this.index*100))+'%'
       }
     }
-}
+  },
+  watch:{
+    clickhit(newval,oldval){
+      let that = this;
+        if(this.clickhit>0)
+        {
+          this.isshow=true;
+          if(this.isMP)
+          {
+            wx.previewImage({
+              current: this.tupian[this.indexx],
+              urls: this.tupian,
+              complete(){
+                that.isshow=false;
+              }
+            });
+          }
+        }
+    }
+  },
+  mounted() {
+    if (!this.isMP) {
+      // 屏幕宽
+      this.clientWidth = document.documentElement.clientWidth;
+      // 从新赋值到新定义的index，避免直接操作修改props的值
+
+      this.styleObj.left =
+        this.deviation / this.clientWidth * 100 - this.index * 100 + "%";
+    }
+  }
+};
 </script>
 <style scoped>
 /* 点击图片放大的背景样式 */
@@ -146,7 +150,7 @@ export default {
   /* position: relative; */
   float: left;
   width: 100%;
-  min-width: 100%
+  min-width: 100%;
   /* position: absolute;
   margin: auto;
   top: 0;
@@ -157,7 +161,7 @@ export default {
 .lii {
   overflow: hidden;
   float: left;
-  min-width: 100%
+  min-width: 100%;
 }
 .lii div {
   position: fixed;
@@ -171,10 +175,10 @@ export default {
   height: 100%;
   width: 100%;
   display: flex;
-  align-items: center;/* 垂直居中 */
-  flex-direction: row;  /* 子元素横向排列 */
+  align-items: center; /* 垂直居中 */
+  flex-direction: row; /* 子元素横向排列 */
   /* justify-content: center; */
-  position: absolute
+  position: absolute;
 }
 /* .nub {
   font-size: 0.5rem;
