@@ -27,12 +27,12 @@
           </div>
           <p class="neirong">{{item.NoteContent}}</p>
           <div class="tupian">
-            <img @click.stop
+            <img
               v-for="(items,indexx) in (item.ThumbnailList==null? item.AttaList: item.ThumbnailList)"
               :key="indexx"
               :src="items"
               alt
-              @click="yulan(item,indexx)"
+              @click.stop="yulan(item,indexx)"
             />
           </div>
           <div class="caozuo" @click.stop>
@@ -53,7 +53,7 @@
                 :key="indexs"
               >{{items.Value}}<span v-if="indexs+1<item.PraiseList.length">，</span></span>
             </div>
-            <div class="talk_two">
+            <div class="talk_two" v-if="item.CommentList.length>0" >
               <div              
                 style="overflow: hidden;"
                 v-for="(itemx,kk) in item.CommentList"
@@ -303,7 +303,7 @@ export default {
   width: 2.2rem;
   height: 2.19rem;
   position: absolute;
-  background-color: #00aef6;
+  /* background-color: #00aef6; */
   bottom: -0.6rem;
   right: 0.28rem;
 }
@@ -349,7 +349,7 @@ export default {
 .tupian img {
   width: 2.25rem;
   height: 2.25rem;
-  background-color: #00aef6;
+  /* background-color: #00aef6; */
   float: left;
   margin-left: 0.12rem;
   margin-top: 0.12rem;
