@@ -87,7 +87,8 @@
             v-for="(items,indexs) in item.Images"
             :key="indexs"
             :src="items"
-            @click.stop="yulan(items)"
+            @click="yulan(item,items,indexs)"
+            @click.stop
           />
         </div>
         <!-- 事件estimate(item)附带每一项日志的参数,点击只显示当前的评论框 -->
@@ -132,6 +133,8 @@
           >评论</div>
         </div>
       </div>
+       <!-- 预览图片，切换图片 -->
+        <BigImg :clickhit="clickhit" :indexx="theindex" :tupian="tupian"></BigImg>
       <div class="bottom">加载完毕</div>
     </div>
   </div>
@@ -139,6 +142,7 @@
 
 <script>
 import {mapState} from 'vuex'
+import BigImg from "@/components/BigImg";
 export default {
   data() {
     return {
@@ -172,6 +176,9 @@ export default {
       list: [], //存放每个页面的时间
       logtime: [],
       Project_ProjectMember:null,
+      clickhit:0,
+      theindex:0,
+      tupian:[],
     };
   },
   methods: {
@@ -203,12 +210,10 @@ export default {
       this.yincang = false;
     },
     // 预览图片
-    yulan(items) {
-      var arr = Array(items);
-      wx.previewImage({
-        current: items,
-        urls: arr
-      });
+    yulan(item,items,indexs) {
+      this.theindex=indexs;
+       this.clickhit++;
+       this.tupian=item.Images
     },
 
     async checktab(index) {
@@ -442,6 +447,10 @@ export default {
         return null;
       }
     },
+  },
+       // 注册组件
+  components: {
+    BigImg
   },
   async mounted() {
     var that = this;

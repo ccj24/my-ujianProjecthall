@@ -224,7 +224,6 @@ export default {
     this.itemindex=this.$route.query.index;
     this.cirleDetails=this.$store.state.Project.cirleDetails;
     this.kk=this.cirleDetails.PraiseList.length
-    console.log(this.cirleDetails)
     this.tupian=(this.cirleDetails.ThumbnailList==null? this.cirleDetails.AttaList: this.cirleDetails.ThumbnailList)
 
   }

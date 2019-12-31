@@ -32,6 +32,7 @@
               :key="indexx"
               :src="items"
               alt
+              @click="yulan(item,indexx)"
             />
           </div>
           <div class="caozuo" @click.stop>
@@ -81,10 +82,13 @@
           </div> 
           <div class="pinglun" :class="{pinglunNr:comment.CommentContent.length>0}" @click="talking">评论</div>
         </div>
-    </div>   
+    </div> 
+    <!-- 预览图片，切换图片 -->
+      <BigImg :clickhit="clickhit" :indexx="theindex" :tupian="tupian"></BigImg>  
   </div>
 </template>
 <script>
+import BigImg from "@/components/BigImg";
 import { mapState } from "vuex";
 export default {
   data() {
@@ -101,7 +105,10 @@ export default {
       },
       index:"",
       ReplyName:null,
-      NoteComId:""
+      NoteComId:"",
+      clickhit:0,
+      theindex:0,
+      tupian:[],
     };
   },
   methods: {
@@ -204,6 +211,11 @@ export default {
       } else {
         this.toast(rep.msg);
       }
+      },
+      yulan(item,indexx) {
+        this.theindex=indexx;
+        this.clickhit++;
+       this.tupian=(item.ThumbnailList==null? item.AttaList: item.ThumbnailList)
       }
   },
   computed: {
@@ -225,6 +237,10 @@ export default {
         ...mapState({
       UserInfo: state => state.User.UserInfo //获取当前用户的登录信息
     }),
+  },
+         // 注册组件
+  components: {
+    BigImg
   },
   async mounted() {
     var that = this;

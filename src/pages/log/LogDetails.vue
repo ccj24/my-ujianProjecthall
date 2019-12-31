@@ -32,7 +32,9 @@
         </div>
         <div class="photo">
           <!-- index是一个索引 -->
-          <img v-for="(item,index) in  ProjectLog.Images "  :key="index"  :src="item" @click="yulan(item)" />     
+          <img v-for="(item,index) in  ProjectLog.Images "  :key="index"  :src="item" @click="yulan(item,index)" />
+          <!-- 预览图片，切换图片 -->
+        <BigImg :clickhit="clickhit" :indexx="index" :tupian="tupian"></BigImg>
         </div>
         <div class="input">
           {{ProjectLog.LogContent}}
@@ -53,20 +55,21 @@
 </template>
 
 <script>
+import BigImg from "@/components/BigImg";
 export default {
   data() {
     return {
       ProjectLog :{},//项目日志（名字自己命名）
+      tupian:[],
+      index:0,
+      clickhit:0
     };
   },
   methods: {
      // 预览图片
-    yulan(items) {
-      var arr = Array(items);
-      wx.previewImage({
-        current: items,
-        urls: arr
-      });
+    yulan(item,index) {
+      this.index=index;
+      this.clickhit++;
     },
     compile() {
       this.$router.push({
@@ -76,6 +79,10 @@ export default {
         }
       });
     }
+  },
+       // 注册组件
+  components: {
+    BigImg
   },
   // 在模板渲染成html后调用，通常是初始化页面完成后，再对html的dom节点进行一些需要的操作。
   async mounted() {
@@ -90,6 +97,7 @@ export default {
    if (rep.ret==0) {
     //  this就是整个vue，比如下访问return下面定义的东西，不加this则访问不到
      this.ProjectLog=rep.data
+     this.tupian=this.ProjectLog.Images
    }
    else{
      this.toast(rep.msg)

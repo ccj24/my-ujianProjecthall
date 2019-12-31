@@ -1,8 +1,8 @@
 <template>
-  <div v-if="isshow">
+  <div>
     <!-- 小程序  v-if="isMP"-->
     <!-- 预览图片，切换图片 web-->
-    <div v-if="!isMP" class="fangda" @click="recover">
+    <div v-if="!isMP&&isshow" class="fangda" @click="recover">
       <div v-if="index!=0" class="icon zuoyou left" @click="Left" @click.stop>&#xe602;</div>
       <ul class="img_ul" :style="styleObj" @touchstart="start($event)" @touchmove="move($event)" @touchend="end($event)">
         <li class="lii" v-for="(item,indexs) in tupian" :key="indexs">
@@ -26,7 +26,6 @@ export default {
     return {
       isshow:false,
       index: "",
-      fangda: false,
       start_x: 0,
       move_x: 0,
       deviation: 0,
@@ -49,15 +48,12 @@ export default {
       this.styleObj.left =
         this.deviation / this.clientWidth * 100 - this.index * 100 + "%";
       this.index = this.index;
-      console.log(this.index);
     },
     Left() {
-      console.log(this.index);
       this.index--;
       this.left();
     },
     Right() {
-      console.log(this.index);
       this.index++;
       this.left();
     },
@@ -105,7 +101,7 @@ export default {
       let that = this;
         if(this.clickhit>0)
         {
-          this.isshow=true;
+          that.isshow=true;
           if(this.isMP)
           {
             wx.previewImage({
@@ -116,18 +112,21 @@ export default {
               }
             });
           }
+          else{
+            that.clientWidth = document.documentElement.clientWidth;
+           // 从新赋值到新定义的index，避免直接操作修改props的值
+           that.index=that.indexx
+           that.styleObj.left =that.deviation / that.clientWidth * 100 - that.index * 100 + "%";
+          }
         }
     }
   },
   mounted() {
-    if (!this.isMP) {
-      // 屏幕宽
-      this.clientWidth = document.documentElement.clientWidth;
-      // 从新赋值到新定义的index，避免直接操作修改props的值
-
-      this.styleObj.left =
-        this.deviation / this.clientWidth * 100 - this.index * 100 + "%";
-    }
+    // console.log(this.tupian)
+    // if (!this.isMP) {
+    //   // 屏幕宽
+      
+    // }
   }
 };
 </script>
@@ -136,7 +135,7 @@ export default {
 .fangda {
   width: 100%;
   height: 100%;
-  position: absolute;
+  /* position: absolute; */
   position: fixed;
   top: 0;
   bottom: 0;

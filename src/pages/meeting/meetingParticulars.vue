@@ -30,21 +30,33 @@
     <div class="meeting_summary" v-if="ProjectMeeting_Get.State==2">
         <p style="color: #8c8c8c;">会议纪要</p>
         <div>{{ProjectMeeting_Get.Summary}}</div>
-        <img v-for="(item,index) in ProjectMeeting_Get.MeetingPhotos" :key="index" :src="item" alt="">
+        <img @click="yulan(index)" v-for="(item,index) in ProjectMeeting_Get.MeetingPhotos" :key="index" :src="item" alt="">
+        <!-- 预览图片，切换图片 -->
+        <BigImg @click.stop :clickhit="clickhit" :indexx="theindex" :tupian="tupian"></BigImg>
     </div>
   </div>
 </template>
 <script>
+import BigImg from "@/components/BigImg";
 import themeetingman from "@/components/meetingman";
 export default {
     data() {
         return {
             ProjectMeeting_Get:"",
             mannub:"",
-            Partaker:[]
+            Partaker:[],
+            clickhit:0,
+            theindex:0,
+            tupian:[]
         }
     },
     methods: {
+      yulan(index){
+        this.theindex=index;
+       this.clickhit++;
+       this.tupian=this.ProjectMeeting_Get.MeetingPhotos
+       console.log(this.tupian)
+      },
       async goMat() {
         var that = this;
         var rep = await this.$UJAPI.ProjectMeetingMember_SetState({
@@ -74,7 +86,8 @@ export default {
     },
       // 注册组件
   components: {
-    themeetingman
+    themeetingman,
+    BigImg
   },
     computed : {
 
