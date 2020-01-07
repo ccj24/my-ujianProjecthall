@@ -3,16 +3,10 @@
     <div class="initiate">
       <span @click="invite">确认邀请</span>
     </div>
-    <div
-      class="user"
-      v-for="(item,index) in ProjectMember_Get"
-      :key="index"
-      :class="{xuanzhong:item.xuanze==true}"
-      @click="checked(item,index)"
-    >
+    <div class="user" v-for="(item,index) in ProjectMember_Get" :key="index" :class="{xuanzhong:item.xuanze==true}" @click="checked(item,index)">
       <div v-if="item.xuanze" class="icon fuxuankuang" style="color:#12b7f5">&#xe618;</div>
       <div v-else class="icon fuxuankuang">&#xe62d;</div>
-      <img :src="item.Portrait" alt />
+      <img :src="item.Portrait" alt>
       <p>{{item.UserName}}</p>
     </div>
   </div>
@@ -96,39 +90,41 @@ export default {
     var that = this;
     var meetingid = this.$route.query.meetingid;
     var invite = this.$route.query.invite;
-    // 会议详情
-    var nub={}
-    var rep1 = await this.$UJAPI.ProjectMeeting_Get({
-      ProjectId: this.ProjectId,
-      Id: meetingid
-    });
-    if (rep1.ret == 0) {
-      nub = rep1.data;
-    } else {
-      this.toast(rep1.msg);
-    }
-    // 成员
 
+    // 成员
     var rep = await this.$UJAPI.ProjectMember_Get({
       ProjectId: this.ProjectId
     });
     if (rep.ret == 0) {
-      if (invite==0) {
-        for(let i=0;i<rep.data.length;i++) {
-          for(let y=0;y<nub.Partaker.length;y++) {
-          if (rep.data[i].UserId==nub.Partaker[y].UserId) {
-            rep.data.splice(i,1)
+      if (invite == 0) {
+        if (meetingid) {
+          // 会议详情
+          var nub = {};
+          var rep1 = await this.$UJAPI.ProjectMeeting_Get({
+            ProjectId: this.ProjectId,
+            Id: meetingid
+          });
+          if (rep1.ret == 0) {
+            nub = rep1.data;
+          } else {
+            this.toast(rep1.msg);
           }
         }
+        for (let i = 0; i < rep.data.length; i++) {
+          for (let y = 0; y < nub.Partaker.length; y++) {
+            if (rep.data[i].UserId == nub.Partaker[y].UserId) {
+              rep.data.splice(i, 1);
+            }
+          }
         }
-        this.ProjectMember_Get=rep.data
+        this.ProjectMember_Get = rep.data;
+      } else {
+        this.ProjectMember_Get = rep.data;
       }
-      else{this.ProjectMember_Get=rep.data}
-    } 
-    else {
+    } else {
       this.toast(rep.msg);
     }
-    console.log(this.ProjectMember_Get)
+    console.log(this.ProjectMember_Get);
   }
 };
 </script>

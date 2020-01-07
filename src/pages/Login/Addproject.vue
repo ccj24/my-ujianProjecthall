@@ -63,6 +63,7 @@ export default {
   padding-top: 0.52rem;
   padding-left: 3.8rem;
   font-size:0.46rem;
+  width: 50%;
 }
 .btn,.alterbtn {
   background-color: #d7d7d7;
@@ -99,5 +100,10 @@ export default {
 <style>
 page {
   background-color: #ecf0f1;
+}
+body{
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 </style>
