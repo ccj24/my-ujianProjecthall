@@ -1,13 +1,13 @@
 <template>
   <div style="overflow: hidden;">
     <div class="topNr">
-      <span class="top_one" @click="quxiao">取消</span>
-      <span class="top_two" @click="tijiao">提交</span>
+      <span class="top_one" @click="go({path:'/pages/task/taskindex'})">取消</span>
+      <span class="top_two" @click="tijiao">完成</span>
     </div>
     <div class="neirong">
       <textarea
-        placeholder="不能超过2000字..."
-        v-model="abstract.Summary"
+        placeholder="请输入回复内容..."
+        v-model="abstract.ReplyContent"
         maxlength="2000"
         auto-height="ture"
       ></textarea>
@@ -42,27 +42,44 @@
       />
       <img src="/static/images/组30@3x.png" @click="$refs.ImageInput.click()" />
     </div>
-    <!-- 预览图片 -->
-      <BigImg v-if="chufa" :indexx="index" :tupian="Photos" @sendmsg="getmsg"></BigImg>
+    <!-- 预览图片，切换图片 -->
+      <BigImg :clickhit="clickhit" :indexx="theindex" :tupian="Photos"></BigImg>  
   </div>
 </template>
 <script>
 import BigImg from "@/components/BigImg";
 export default {
-  data() {
-    return {
-      Photos: [],
-      abstract: {
-        Photos: [],
-        MeetingId: "",
-        Summary: ""
-      },
-      index:"",
-      chufa:false
-    };
+    data() {
+        return{
+            Photos: [],
+            abstract: {
+            Images: [],
+            TaskId: "",
+            ReplyContent: "",
+            },
+            clickhit:0,
+            theindex:0,
+        }
+    },
+       // 注册组件
+  components: {
+    BigImg,
   },
-  methods: {
-      // 获取本地照片上传
+    methods: {
+        async tijiao() {
+            var that =this
+            var rep2 = await this.$UJAPI.task_Reply(
+          this.abstract
+        );
+        if (rep2.ret == 0) {
+          this.toast("已经回复");
+          this.replace("/pages/task/taskindex");
+        }
+        else {
+          this.toast(rep2.msg);
+        }
+    },
+        // 获取本地照片上传
     chuantupian() {
       var that = this;
       wx.chooseImage({
@@ -78,9 +95,9 @@ export default {
             res.tempFilePaths[0],
             "base64"
           );
-          that.abstract.Photos.push({
+          that.abstract.Images.push({
             FileName: `Photos${
-              that.abstract.Photos.length ? that.abstract.Photos.length : 0
+              that.abstract.Images.length ? that.abstract.Images.length : 0
             }`,
             MediaType: "image/png",
             Buffer: filebase64
@@ -92,7 +109,6 @@ export default {
       let that = this;
       // //e.target指本身 ,e.dataTransfer.files拖拽上传图片
       var files = e.target.files || e.dataTransfer.files;
-      console.log(files)
       if (!files.length) return; //if(!false) return 条件成立的时候返回
       // 使用HTML5的FileReader接口，即可完全在页面里读取文件了
       // FileReader专门用于读取文件 判断你的浏览器是否支持FileReader接口
@@ -108,7 +124,7 @@ export default {
            that.Photos.push (e.target.result);
            var strarr = e.target.result.split(",");
            var filebase64 = strarr[1];//切割Data URI scheme。获得的图片文件的base64字符串用于上传
-           that.abstract.Photos.push({
+           that.abstract.Images.push({
              FileName: `Photos`,
               MediaType: "image/png",
               Buffer: filebase64
@@ -119,40 +135,14 @@ export default {
     },
     // 预览图片
     yulan(items,index) {
-      // wx.previewImage({
-      //   current: items,
-      //   urls: this.Photos
-      // });
-      this.index=index;
-      this.chufa=true
+      this.theindex=index;
+      this.clickhit++;
     },
-    getmsg() {
-      this.chufa=false
     },
-    async tijiao() {
-    var that = this;
-    that.abstract.MeetingId = this.$route.query.meetingid;
-    console.log(that.abstract.MeetingId)
-    console.log(that.abstract)
-    var rep = await this.$UJAPI.ProjectMeeting_Summary(that.abstract);
-    if (rep.ret == 0) {
-      this.toast("发布成功");
-      // 点击确定取消后返回上一级
-      this.$router.back();
-    } else {
-      this.toast(rep.msg)
+    async mounted() {
+        this.abstract.TaskId=this.$route.query.TaskId;
     }
-  },
-  quxiao() {
-    this.$router.back();
-  },
-
-  },
-    // 注册组件
-  components: {
-    BigImg
-  },
-};
+}
 </script>
 <style scoped>
 .topNr {

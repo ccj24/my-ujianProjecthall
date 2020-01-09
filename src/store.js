@@ -47,6 +47,17 @@ export default new Vuex.Store({//store对象
         meetingRemarks:null,
         meetingTime:null,
         cirleDetails:null,
+        // 任务
+        addrenwu:{
+          thetaskman:null,
+          TaskTypeId:null,
+          PlanReplyTime:{},
+          Images:[],
+          TaskContent:null
+        }
+        
+
+
 
 
       },
@@ -95,6 +106,26 @@ export default new Vuex.Store({//store对象
         },
         cirleDetails(state, CirleDetails) {
           state.cirleDetails = CirleDetails;
+        },
+        // 任务人员
+        taskman(state, taskman) {
+          state.addrenwu.thetaskman = taskman;
+        },
+        // 任务类型
+        theTaskTypeId(state, TaskTypeId) {
+          state.addrenwu.TaskTypeId = TaskTypeId;
+        },
+        // 任务时间
+        thetime(state, PlanReplyTime) {
+          state.addrenwu.PlanReplyTime = PlanReplyTime;
+        },
+        // 任务内容
+        TaskContent(state, TaskContent) {
+          state.addrenwu.TaskContent = TaskContent;
+        },
+        // 任务图片
+        theImages(state, Images) {
+          state.addrenwu.Images = Images;
         },
       }
     }

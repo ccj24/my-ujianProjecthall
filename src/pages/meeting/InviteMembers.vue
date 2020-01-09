@@ -107,7 +107,6 @@ export default {
     } else {
       this.toast(rep1.msg);
     }
-    // 成员
 
     var rep = await this.$UJAPI.ProjectMember_Get({
       ProjectId: this.ProjectId

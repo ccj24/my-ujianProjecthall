@@ -239,5 +239,21 @@ export default {
     ProjectNoteComment_Delete: param => {
         return http.post(BaseHost + "api/ProjectNoteComment/Delete?notecomid="+param)
     },
+    // 获取任务类型,例如:签证单、联系单、任务单等
+    GetTaskTypeKeyword: param => {
+        return http.get(BaseHost + "api/CommonInfo/GetTaskTypeKeyword",param)
+    },
+     // 批量发送任务
+     Addbatch: param => {
+        return http.post(BaseHost + "api/Task/Addbatch",param)
+    },
+    // 根据TaskId获取任务详情
+   task_Get: param => {
+        return http.get(BaseHost + "api/Task/Get", param)
+    },
+    // 答复任务表单
+    task_Reply: param => {
+        return http.post(BaseHost + "api/Task/Reply",param)
+    },
     
 }

@@ -26,6 +26,15 @@ var routes = [
     },
   },
   {
+    path: 'pages/task/addTask',
+    name: 'addTask',
+    config: {
+      navigationBarTitleText: '任务单',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+  },
+  {
     path: 'pages/Login/Projectmessage',
     name: 'Login-Projectmessage',
     config: {
@@ -350,6 +359,30 @@ var routes = [
     name: 'cirleDetails',
     config: {
       navigationBarTitleText: '详情',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/task/staff',
+    name: 'staff',
+    config: {
+      navigationBarTitleText: '选择人员',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/task/taskdetails',
+    name: 'taskdetails',
+    config: {
+      navigationBarTitleText: '会议详情',
+      enablePullDownRefresh: false
+    },
+  },
+  {
+    path: 'pages/task/answer',
+    name: 'answer',
+    config: {
+      navigationBarTitleText: '答复',
       enablePullDownRefresh: false
     },
   },

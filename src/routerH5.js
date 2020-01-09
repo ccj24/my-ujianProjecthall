@@ -35,6 +35,11 @@ import Selectposition from './pages/Login/Selectposition'
 import Projectmember from './pages/home/Projectmember'
 import circleHome from './pages/ProjectCircle/circleHome'
 import cirleDetails from './pages/ProjectCircle/cirleDetails'
+import taskindex from './pages/task/taskindex'
+import addTask from './pages/task/addTask'
+import staff from './pages/task/staff'
+import taskdetails from './pages/task/taskdetails'
+import answer from './pages/task/answer'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -423,6 +428,61 @@ var routes = [
     },
     alias: '/pages/ProjectCircle/cirleDetails',
     component: cirleDetails
+  },
+  {
+    path: 'pages/task/taskindex',
+    name: 'taskindex',
+    config: {
+      navigationBarTitleText: '任务',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/task/taskindex',
+    component: taskindex
+  },
+  {
+    path: 'pages/task/addTask',
+    name: 'addTask',
+    config: {
+      navigationBarTitleText: '任务单',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/task/addTask',
+    component: addTask
+  },
+  {
+    path: 'pages/task/staff',
+    name: 'staff',
+    config: {
+      navigationBarTitleText: '选择人员',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/task/staff',
+    component: staff
+  },
+  {
+    path: 'pages/task/taskdetails',
+    name: 'taskdetails',
+    config: {
+      navigationBarTitleText: '会议详情',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/task/taskdetails',
+    component: taskdetails
+  },
+  {
+    path: 'pages/task/answer',
+    name: 'answer',
+    config: {
+      navigationBarTitleText: '答复',
+      enablePullDownRefresh: true,
+      onReachBottomDistance: 50
+    },
+    alias: '/pages/task/answer',
+    component: answer
   },
 
 ]
