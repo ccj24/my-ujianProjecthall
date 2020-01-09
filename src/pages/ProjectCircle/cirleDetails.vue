@@ -1,37 +1,21 @@
 <template>
   <div>
     <div class="top">
-      <img class="top_img" :src="cirleDetails.Portrait" alt />
+      <img class="top_img" :src="cirleDetails.Portrait" alt>
       <div class="top_one">
         <span>{{cirleDetails.CreatorName}}</span>
         <span class="shijian" v-if="cirleDetails.fenzhongcha<=1">刚刚</span>
-        <span
-          class="shijian"
-          v-else-if="1 <cirleDetails.fenzhongcha&& cirleDetails.fenzhongcha<60"
-        >{{cirleDetails.fenzhongcha}}分钟前</span>
-        <span
-          class="shijian"
-          v-else-if="60<=cirleDetails.fenzhongcha&&cirleDetails.fenzhongcha<1440"
-        >{{cirleDetails.xiaoshicha}}小时前</span>
+        <span class="shijian" v-else-if="1 <cirleDetails.fenzhongcha&& cirleDetails.fenzhongcha<60">{{cirleDetails.fenzhongcha}}分钟前</span>
+        <span class="shijian" v-else-if="60<=cirleDetails.fenzhongcha&&cirleDetails.fenzhongcha<1440">{{cirleDetails.xiaoshicha}}小时前</span>
         <span class="shijian" v-else>{{cirleDetails.Createtime}}</span>
         <p>{{cirleDetails.NoteContent}}</p>
         <div class="tupian">
-          <img
-            v-for="(items,indexx) in (cirleDetails.ThumbnailList==null? cirleDetails.AttaList: cirleDetails.ThumbnailList)"
-            :key="indexx"
-            :src="items"
-            @click="magnifyImg(items,indexx)"
-            alt
-          />
+          <img v-for="(items,indexx) in (cirleDetails.ThumbnailList==null? cirleDetails.AttaList: cirleDetails.ThumbnailList)" :key="indexx" :src="items" @click="magnifyImg(items,indexx)" alt>
         </div>
         <!-- 预览图片，切换图片 -->
         <BigImg :clickhit="clickhit" :indexx="index" :tupian="tupian"></BigImg>
         <div class="caozuo" @click.stop>
-          <span
-            style="color:#495f8c"
-            v-if="cirleDetails.CreatorId==UserInfo.UserId"
-            @click="deleter()"
-          >删除</span>
+          <span style="color:#495f8c" v-if="cirleDetails.CreatorId==UserInfo.UserId" @click="deleter()">删除</span>
           <div class="thedianzan" @click="Dianzan(cirleDetails.NoteId)">
             <span class="icon" :class="{dianzan:cirleDetails.dianzan==true}">&#xe619;</span>
             点赞
@@ -40,37 +24,21 @@
         </div>
         <!-- 点赞和评论 -->
         <div class="talk">
-          <div class="talk_one" v-if="kk>0">
+          <div class="talk_one" v-if="cirleDetails.PraiseList.length>0">
             <span class="icon">&#xe619;</span>
-            <span
-              style="color: #495f8c;"
-              v-for="(items,indexs) in cirleDetails.PraiseList"
-              :key="indexs"
-            >
-              {{items.Value}}
-              <span v-if="indexs+1<kk">，</span>
+            <span style="color: #495f8c;" v-for="(items,indexs) in cirleDetails.PraiseList" :key="indexs">
+              {{items.Value + (indexs==cirleDetails.PraiseList.length-1?"":"，")}}
             </span>
           </div>
-          <div class="talk_two">
-            <div
-              @click.stop
-              style="overflow: hidden;"
-              v-for="(itemx,kk) in cirleDetails.CommentList"
-              :key="kk"
-              @click="dianpingBr(kk,itemx)"
-            >
+          <div class="talk_two" v-if="cirleDetails.CommentList.length>0">
+            <div @click.stop style="overflow: hidden;" v-for="(itemx,kk) in cirleDetails.CommentList" :key="kk" @click="dianpingBr(kk,itemx)">
               <span>{{itemx.Commentator_R}}</span>
               <span v-if="itemx.ReplyId !=null">
                 <span style="color: #353535;">回复</span>
                 {{itemx.ReplyName}}
               </span>
               <span style="color: #353535;">: {{itemx.CommentContent}}</span>
-              <span
-                @click.stop
-                class="shanchu"
-                v-if="itemx.CommentatorId==UserInfo.UserId"
-                @click="shanchu(itemx.NoteComId,kk)"
-              >删除</span>
+              <span @click.stop class="shanchu" v-if="itemx.CommentatorId==UserInfo.UserId" @click="shanchu(itemx.NoteComId,kk)">删除</span>
             </div>
           </div>
         </div>
@@ -82,12 +50,7 @@
         <div class="comment">
           <textarea maxlength="1000" v-model="comment.CommentContent" auto-focus="’true’"></textarea>
         </div>
-        <div
-          class="pinglun"
-          @click.stop
-          :class="{pinglunNr:comment.CommentContent.length>0}"
-          @click="talking"
-        >评论</div>
+        <div class="pinglun" @click.stop :class="{pinglunNr:comment.CommentContent.length>0}" @click="talking">评论</div>
       </div>
     </div>
     <div class="pinglunBB" v-if="commentbox==false" @click.stop>
@@ -108,63 +71,63 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      cirleDetails: {},
-      itemindex:0,
-      kk:"",
-      commentbox:false,
-      comment:{
-         NoteId:"",
-         ReplyId:null,
-        CommentContent:"",
+      // cirleDetails: {},
+      itemindex: 0,
+      // kk:"",
+      commentbox: false,
+      comment: {
+        NoteId: "",
+        ReplyId: null,
+        CommentContent: ""
       },
-      NoteComId:"",
+      NoteComId: "",
       thetime: new Date(),
-      ReplyName:null,
-      tupian:[],
-      index:0,
-      clickhit:0
+      ReplyName: null,
+      tupian: [],
+      index: 0,
+      clickhit: 0
     };
   },
   methods: {
     // 点赞
     async Dianzan(NoteId) {
+      var that = this;
+      var rep = await this.$UJAPI.ProjectNotePraise_Add(NoteId);
+      if (rep.ret == 0) {
+        this.cirleDetails.dianzan = !this.cirleDetails.dianzan;
+        this.$store.commit("cirleDetails", this.cirleDetails);
+        this.cirleDetails = this.$store.state.Project.cirleDetails;
         var that = this;
-        var rep = await this.$UJAPI.ProjectNotePraise_Add(NoteId);
+        var rep = await this.$UJAPI.ProjectNote_GetList({
+          ProjectId: this.ProjectId
+        });
         if (rep.ret == 0) {
-            this.cirleDetails.dianzan = !this.cirleDetails.dianzan;
-            this.$store.commit("cirleDetails", this.cirleDetails);
-            this.cirleDetails=this.$store.state.Project.cirleDetails;
-            var that = this;
-            var rep = await this.$UJAPI.ProjectNote_GetList({
-              ProjectId: this.ProjectId
-            });
-            if (rep.ret == 0) {
-              this.cirleDetails.PraiseList = rep.data[this.itemindex].PraiseList;
-              this.kk=this.cirleDetails.PraiseList.length
-            } else {
-              this.toast(rep.msg);
-            }
+          this.cirleDetails.PraiseList = rep.data[this.itemindex].PraiseList;
+          this.kk = this.cirleDetails.PraiseList.length;
         } else {
           this.toast(rep.msg);
         }
+      } else {
+        this.toast(rep.msg);
+      }
     },
     theoutside() {
       this.commentbox = false;
     },
-     dianping() {
+    dianping() {
       this.commentbox = true;
     },
-    dianpingBr(kk,itemx) {
+    dianpingBr(kk, itemx) {
       this.commentbox = true;
-      this.comment.ReplyId=itemx.CommentatorId;
-      this.ReplyName=itemx.Commentator_R;
+      this.comment.ReplyId = itemx.CommentatorId;
+      this.ReplyName = itemx.Commentator_R;
     },
     async talking() {
       var that = this;
-      this.comment.NoteId=this.cirleDetails.NoteId
+      this.comment.NoteId = this.cirleDetails.NoteId;
       var rep = await this.$UJAPI.ProjectNoteComment_Add(that.comment);
       if (rep.ret == 0) {
-        this.NoteComId= rep.data
+        this.NoteComId = rep.data;
         this.cirleDetails.CommentList.push({
           CommentContent: this.comment.CommentContent,
           CommentTime: this.thetime,
@@ -174,58 +137,59 @@ export default {
           NoteId: this.comment.NoteId,
           ReplyId: this.comment.ReplyId,
           ReplyName: this.ReplyName
-        })
+        });
         this.toast("评论成功");
         this.commentbox = false;
-        this.comment.CommentContent=""
+        this.comment.CommentContent = "";
       } else {
         this.toast(rep.msg);
       }
     },
-    async shanchu(NoteComId,kk) {
-       var that = this;
+    async shanchu(NoteComId, kk) {
+      var that = this;
       var rep = await this.$UJAPI.ProjectNoteComment_Delete(NoteComId);
       if (rep.ret == 0) {
         this.toast("已经删除");
-        this.cirleDetails.CommentList.splice(kk,1)
+        this.cirleDetails.CommentList.splice(kk, 1);
       } else {
         this.toast(rep.msg);
       }
     },
-    // 删除项目记录 
+    // 删除项目记录
     async deleter() {
-        var that = this;
-      var rep = await this.$UJAPI.ProjectNote_Delete(
-        this.cirleDetails.NoteId
-      );
+      var that = this;
+      var rep = await this.$UJAPI.ProjectNote_Delete(this.cirleDetails.NoteId);
       if (rep.ret == 0) {
         this.toast("已经删除");
         this.$router.back();
       } else {
         this.toast(rep.msg);
       }
-      },
-     // 放大图片
-     magnifyImg(items,indexx) {
-       this.index=indexx;
-       this.clickhit++;
-     }
+    },
+    // 放大图片
+    magnifyImg(items, indexx) {
+      this.index = indexx;
+      this.clickhit++;
+    }
   },
   computed: {
     ...mapState({
-      UserInfo: state => state.User.UserInfo //获取当前用户的登录信息
-    }),
+      UserInfo: state => state.User.UserInfo, //获取当前用户的登录信息
+      cirleDetails: state => state.Project.cirleDetails
+    })
   },
-     // 注册组件
+  // 注册组件
   components: {
     BigImg
   },
   async mounted() {
-    this.itemindex=this.$route.query.index;
-    this.cirleDetails=this.$store.state.Project.cirleDetails;
-    this.kk=this.cirleDetails.PraiseList.length
-    this.tupian=(this.cirleDetails.ThumbnailList==null? this.cirleDetails.AttaList: this.cirleDetails.ThumbnailList)
-
+    this.itemindex = this.$route.query.index;
+    // this.cirleDetails=this.$store.state.Project.cirleDetails;
+    // this.kk=this.cirleDetails.PraiseList.length
+    this.tupian =
+      this.cirleDetails.ThumbnailList == null
+        ? this.cirleDetails.AttaList
+        : this.cirleDetails.ThumbnailList;
   }
 };
 </script>
@@ -262,7 +226,7 @@ export default {
 .tupian img {
   width: 2.49rem;
   height: 2.49rem;
-  background-color: #00aef6;
+  /* background-color: #00aef6; */
   float: left;
   margin-left: 0.12rem;
   margin-top: 0.12rem;

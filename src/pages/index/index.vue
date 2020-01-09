@@ -51,6 +51,7 @@ export default {
     },
     // 获取用户登录授权
     getUserInfoData(obj) {
+      
       if (obj.mp.detail.errMsg.indexOf("getUserInfo:ok") != -1) {
         this.userInfo.nickName = obj.mp.detail.userInfo.nickName;
         this.userInfo.avatarUrl = obj.mp.detail.userInfo.avatarUrl;
@@ -59,18 +60,19 @@ export default {
         this.logoHide = true;
       } else {
         // 提示框窗口
-        wx.showModal({
-          title: "警告", //提示的标题
-          content: "您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!", //提示的内容
-          showCancel: false, //是否取消按钮
-          confirmText: "返回授权", //取消按钮的文字
-          success(res) {
-            //接口成功回调的函数
-            if (res.confirm) {
-              console.log("点击了“返回授权”");
-            }
-          }
-        });
+        // wx.showModal({
+        //   title: "警告", //提示的标题
+        //   content: "您点击了拒绝授权，将无法进入小程序，请授权之后再进入!!!", //提示的内容
+        //   showCancel: false, //是否取消按钮
+        //   confirmText: "返回授权", //取消按钮的文字
+        //   success(res) {
+        //     //接口成功回调的函数
+        //     if (res.confirm) {
+        //       console.log("点击了“返回授权”");
+        //     }
+        //   }
+        // });
+        this.$router.back();
       }
     }
   },

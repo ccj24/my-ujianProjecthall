@@ -3,7 +3,7 @@
     <!-- 项目概括 -->
     <div class="userinfo">
       <div class="Projectcircle">
-        <img src="/static/images/bg.png">
+        <img src="https://image.ujianchina.net/ProjectPhotoConfig/default/bg.png">
 
         <div class="information">
           <div class="sinister">
