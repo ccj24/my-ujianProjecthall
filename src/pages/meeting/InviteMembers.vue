@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="margin-bottom: 2rem;">
     <div class="initiate">
       <span @click="invite">确认邀请</span>
     </div>
