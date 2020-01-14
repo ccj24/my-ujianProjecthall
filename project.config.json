@@ -51,6 +51,13 @@
 					"id": -1,
 					"name": "pages/ProjectCircle/circleHome",
 					"pathName": "pages/ProjectCircle/circleHome",
+					"query": "",
+					"scene": null
+				},
+				{
+					"id": -1,
+					"name": "pages/task/addTask",
+					"pathName": "pages/task/addTask",
 					"scene": null
 				}
 			]

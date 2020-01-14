@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 .Addproject {
-  margin-top: 0.3rem;
+  padding-top: 0.3rem;
 }
 .searchmessage {
   background-color: #ffffff;
@@ -85,6 +85,7 @@ export default {
   top: 0.52rem;
   padding-left: 0.2rem;
   font-size:0.46rem;
+  font-size: 0.5rem;
 }
 .searchico {
   position: absolute;
@@ -101,9 +102,9 @@ export default {
 page {
   background-color: #ecf0f1;
 }
-body{
+/* body{
   position: fixed;
   top: 0;
   left: 0;
-}
+} */
 </style>

@@ -57,7 +57,7 @@
           <div class="kuang" v-show="theshuoming">
             <div>
               <span>权限说明</span>
-              <span @click="shuoming" style="margin-left: 7.5rem;" class="icon">&#xe647;</span>
+              <span @click="shuoming" class="icon thex">&#xe647;</span>
               <p>&#12288;&#12288;任务单只能本方人员内从级别高往级别低发送和接收，如出现筛选后无人员显示，则说明您现在权限范围内无可发送人员</p>
             </div>
           </div>
@@ -306,17 +306,17 @@ export default {
     },
     thewidth() {
       // widtn 用于头像滑动距离
-      this.styleObj.width =(2.16*(this.chooseman.length))+"rem"
+      if(this.chooseman!=null) {
+        this.styleObj.width =(2.16*(this.chooseman.length))+"rem"
+      }
       return this.styleObj
     }
   },
   async mounted() {
     this.TaskRequest.TaskTypeId=this.$store.state.Project.addrenwu.TaskTypeId;
     this.Images=this.$store.state.Project.addrenwu.Images;
-    console.log(this.Images)
     this.TaskRequest.TaskContent=this.$store.state.Project.addrenwu.TaskContent;
     this.shijian=this.$store.state.Project.addrenwu.PlanReplyTime;
-    // this.TaskRequest.PlanReplyTime=this.shijian.Time
     this.chooseman=this.$store.state.Project.addrenwu.thetaskman;
     this.TaskRequest.ProjectId=this.$route.query.ProjectId
     if (this.chooseman!=null) {
@@ -448,6 +448,9 @@ export default {
 .kuang p {
   color: #8c8c8c;
   font-size: 0.35rem;
+}
+.thex {
+  margin-left: 7.5rem;
 }
 .fabu {
   width: 100%;
