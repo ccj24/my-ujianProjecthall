@@ -151,18 +151,17 @@ export default {
        query.selectViewport().scrollOffset()
       query.exec(function (res) {
      //res就是 所有该标签的元素的信息的数组
-     console.log(res[1].scrollTop)
-     console.log(res[0].id)
+    //  console.log(res[1].scrollTop)
+    //  console.log(res[0].id)
      console.log(res);
      //取距离顶部高度
-     var heigao=res[0].top
-     console.log(heigao);
+     var heigao=res[0].top+res[1].scrollTop-55-48;
     //  控制屏幕滑动距离
-     wx.pageScrollTo({
-     scrollTop: res[1].scrollTop,
-    //  duration是画面滚动时长单位ms
-     duration: 300
-    });
+        wx.pageScrollTo({
+        scrollTop: heigao,
+        //  duration是画面滚动时长单位ms
+        duration: 300
+        });
       })
       }
       else {
