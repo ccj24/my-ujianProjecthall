@@ -106,10 +106,9 @@ export default {
     // 红包列表排行
     SetGet() {
       this.receive = false;
-    }
-  },
-  async mounted() {
-    var that = this;
+    },
+    async init() {
+      var that = this;
 
     //获取项目红包
     var res = await this.$UJAPI.Project_ProjectRedPacket({
@@ -118,6 +117,16 @@ export default {
     if (res.ret == 0) {
       this.RedPacket = res.data;
     }
+    }
+  },
+    // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
+  async mounted() {
+    this.init()
   }
 };
 </script>

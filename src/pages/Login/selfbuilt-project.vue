@@ -48,11 +48,9 @@ export default {
           }
         }
       }
-    }
-  },
-
-  async mounted() {
-    //自建项目请求
+    },
+    async init() {
+      //自建项目请求
     var rep = await this.$UJAPI.Project_ProjectGetList({
       IsCreate: true,
       PageSize: 4
@@ -61,6 +59,17 @@ export default {
       this.ProjectList = rep.data;
       this.filtrate = this.ProjectList; //把项目信息列表赋值给筛选后的项目信息数组
     }
+    }
+  },
+
+   // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
+  async mounted() {
+    this.init()
   }
 };
 </script>

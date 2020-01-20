@@ -26,9 +26,9 @@ export default {
       Projectpicture: []
     };
   },
-
-  async mounted() {
-    //获取项目图片
+  methods:{
+  async init() {
+   //获取项目图片
     var that = this;
     // this.$route.query.ProjectId接收项目id传过来的参数
     var res = await this.$UJAPI.Project_GetList({
@@ -38,6 +38,16 @@ export default {
     if (res.ret == 0) {
       this.Projectpicture = res.data;
     }
+}
+  },
+   // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
+  async mounted() {
+    this.init()
   }
 };
 </script>

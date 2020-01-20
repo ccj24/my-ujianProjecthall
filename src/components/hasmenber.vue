@@ -13,7 +13,8 @@
 export default {
     props:{
         haseman:Array,
-        choosezimu:String
+        choosezimu:String,
+        Specialman:Array
     },
     data() {
         return {
@@ -37,8 +38,11 @@ export default {
         for(let i=0;i<this.haseman.length;i++) {
           var firstname=this.haseman[i].Spelling.substring(0,1)
           // 首字母与排列字母相同判断
-          if(firstname==this.choosezimu) {
+          if(firstname==this.choosezimu&&this.choosezimu!="#") {
             this.themanber.push(this.haseman[i])
+          }
+          else if(this.choosezimu=="#") {
+            this.themanber=this.Specialman
           }
         }
         return this.themanber

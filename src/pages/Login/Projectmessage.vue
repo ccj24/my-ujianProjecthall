@@ -52,6 +52,15 @@ export default {
     };
   },
   methods:{
+    async init() {
+      // 获取与用户有关的申请记录。包括他人申请加入你管理的项目，你申请加入别人的项目
+    var rep = await this.$UJAPI.Project_MemberApply({
+      PageIndex: 1,
+    });
+    if (rep.ret == 0) {
+      this.MemberApplyLog = rep.data;
+    }
+    },
     // 项目成员申请通过
    async PassSetState(item){
       var that=this;
@@ -81,14 +90,14 @@ export default {
       }
     },
   },
+   // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
   async mounted() {
-    // 获取与用户有关的申请记录。包括他人申请加入你管理的项目，你申请加入别人的项目
-    var rep = await this.$UJAPI.Project_MemberApply({
-      PageIndex: 1,
-    });
-    if (rep.ret == 0) {
-      this.MemberApplyLog = rep.data;
-    }
+    this.init()
   }
 };
 </script>

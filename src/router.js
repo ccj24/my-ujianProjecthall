@@ -21,7 +21,7 @@ var routes = [
     name: 'Login-Addproject',
     config: {
       navigationBarTitleText: '加入项目',
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       onReachBottomDistance: 50
     },
   },
@@ -30,7 +30,7 @@ var routes = [
     name: 'addTask',
     config: {
       navigationBarTitleText: '任务单',
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       onReachBottomDistance: 50
     },
   },
@@ -91,7 +91,7 @@ var routes = [
     name: 'Login-choicebranch',
     config: {
       navigationBarTitleText: '选择部门',
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       onReachBottomDistance: 50
     },
   },
@@ -100,7 +100,7 @@ var routes = [
     name: 'Login-Selectposition',
     config: {
       navigationBarTitleText: '选择职位',
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       onReachBottomDistance: 50
     },
   },
@@ -129,7 +129,7 @@ var routes = [
     name: 'ProjectVR',
     config: {
       navigationBarTitleText: '全景预览',
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       onReachBottomDistance: 50
     },
   },
@@ -138,7 +138,7 @@ var routes = [
     name: 'home-firmmanage',
     config: {
       navigationBarTitleText: '企业管理',
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       onReachBottomDistance: 50
     },
   },
@@ -174,7 +174,7 @@ var routes = [
     name: 'home-Remark',
     config: {
       navigationBarTitleText: '备注',
-      enablePullDownRefresh: true,
+      enablePullDownRefresh: false,
       onReachBottomDistance: 50
     },
   },
@@ -311,7 +311,7 @@ var routes = [
     name: 'meetinghome',
     config: {
       navigationBarTitleText: '会议',
-      enablePullDownRefresh: false
+      enablePullDownRefresh: true
     },
   },
   {

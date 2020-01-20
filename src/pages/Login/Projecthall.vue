@@ -79,18 +79,9 @@ export default {
   methods: {
     show(item) {
       this.$router.push({ path: "/pages/home/index" });
-    }
-  },
-  computed:{
-    ...mapState({
-      SingleTicket: state => state.User.SingleTicket//获取当前用户的登录信息
-    }),
-  },
-  // 把请求放在onShow 事件 这样让回退也会触发改变值
-  async onShow() {},
-
-  mounted() {
-    if (this.SingleTicket) {
+    },
+    init(){
+          if (this.SingleTicket) {
       this.wx_login(async () => {
         //自建项目请求
         var rep = await this.$UJAPI.Project_ProjectGetList({
@@ -118,6 +109,21 @@ export default {
         }
       });
     }
+    }
+  },
+  computed:{
+    ...mapState({
+      SingleTicket: state => state.User.SingleTicket//获取当前用户的登录信息
+    }),
+  },
+  // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
+  mounted() {
+    this.init();
   }
 };
 </script>

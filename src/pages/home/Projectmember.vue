@@ -1,6 +1,6 @@
 <template>
   <div class="Projectmember">
-    <div class="chooseway">
+    <div class="chooseway" id="top">
       <button class="btn post" :class="{post1:postsort,spell:spellsort}" @click="Cutpostsort">岗位排序</button>
       <button class="btn" :class="{post1:spellsort,spell:postsort}" @click="Cutspellsort">拼音排序</button>
     </div>
@@ -13,12 +13,10 @@
     </div>
 
     <!-- 拼音排序 -->
-    <div v-if="spellsort">
+    <div v-if="spellsort" class="pinyin">
       <!-- 右侧字母 -->
-      <div class="LetterFixation">
-        <p v-for="(item,index) in filtrate" :key="index">{{item}}</p>
-      </div>
-      <div v-for="(item1,index1) in filtrate" :key="index1">
+      <rightletter :haszimu="filtrate" @change="valuation"></rightletter>
+      <div v-for="(item1,index1) in filtrate" :key="index1" ref="thezimu" :id="item1=='#'?'_':item1 ">
         <p class="letter">{{item1}}</p>
         <!-- ProjectMemberList和item1为传给子组件的参数 -->
         <!-- 使用组件spellChild 列表组件-->
@@ -32,6 +30,7 @@
 // 引入组件
 import spellChild from "@/components/spellChild";
 import Child from "@/components/MemberChild";
+import rightletter from "@/components/rightletter";
 export default {
   data() {
     return {
@@ -66,10 +65,32 @@ export default {
       spellsort: false,
       postsort: true,
       ModelResponse: [], //获取各部门
-      ProjectMemberList: [] //项目成员
+      ProjectMemberList: [] ,//项目成员
+      oneletter:""
     };
   },
   methods: {
+     // 选中字母赋值
+    valuation(k,e) {
+      this.chooseindex=k
+      this.oneletter=e
+    },
+   async init() {
+        var that = this;
+    // 获取项目成员列表
+    // this.$route.query.ProjectId
+    var res = await this.$UJAPI.Project_ProjectMember({
+      Projectid: this.$route.query.ProjectId
+    });
+    if (res.ret == 0) {
+      this.ProjectMemberList = res.data;
+    }
+    // 获取部门
+    var rep = await this.$UJAPI.Project_GetDepKeyword();
+    if (rep.ret == 0) {
+      this.ModelResponse = rep.data;
+    }
+    },
     Cutspellsort() {
       this.spellsort = true;
       this.postsort = false;
@@ -77,6 +98,47 @@ export default {
     Cutpostsort() {
       this.spellsort = false;
       this.postsort = true;
+    }
+  },
+    // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
+  watch: {
+      // 监听字母变化
+  oneletter() {
+      if(this.oneletter) {
+        console.log("watch")
+        if(this.isMP) {
+          // debugger
+          console.log(this.oneletter)
+            var query = wx.createSelectorQuery(); 
+            // 因为#特殊字符绑定的iD会冲突
+            query.select('#'+(this.oneletter=='#'?'_':this.oneletter)).boundingClientRect()
+            query.select('#top').boundingClientRect()
+            query.selectViewport().scrollOffset()
+            query.exec(function (res) {
+          //res就是 所有该标签的元素的信息的数组
+          //取距离顶部高度
+          console.log(res)
+          var Sliding=res[0].top+res[2].scrollTop
+          //  控制屏幕滑动距离
+          wx.pageScrollTo({
+          scrollTop:Sliding,
+          // //  duration是画面滚动时长单位ms
+          // duration: 20
+          });
+      })
+        }
+        else{
+          const elment = this.$refs.thezimu[this.chooseindex].offsetTop
+           window.pageYOffset =elment
+           document.documentElement.scrollTop =elment
+           document.body.scrollTop =elment
+        }
+      }
     }
   },
   computed: {
@@ -116,26 +178,14 @@ export default {
     coefficient() {}
   },
   async mounted() {
-    var that = this;
-    // 获取项目成员列表
-    // this.$route.query.ProjectId
-    var res = await this.$UJAPI.Project_ProjectMember({
-      Projectid: this.$route.query.ProjectId
-    });
-    if (res.ret == 0) {
-      this.ProjectMemberList = res.data;
-    }
-    // 获取部门
-    var rep = await this.$UJAPI.Project_GetDepKeyword();
-    if (rep.ret == 0) {
-      this.ModelResponse = rep.data;
-    }
+  this.init()
   },
 
   // 注册组件
   components: {
     Child,
-    spellChild
+    spellChild,
+    rightletter
   }
 };
 </script>
@@ -193,6 +243,9 @@ export default {
   padding-top: 0.3rem;
   padding-right: 0.2rem;
   overflow: hidden;
+}
+.pinyin{
+  padding-bottom: 5rem
 }
 .letter {
   font-size: 0.37rem;

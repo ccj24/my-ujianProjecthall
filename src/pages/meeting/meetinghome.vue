@@ -274,7 +274,26 @@ export default {
       this.$store.commit("setthechooseitemNr", null);
       this.$store.commit("setthechooseitem", null);
       this.replace("/pages/meeting/startMeeting");
+    },
+    async init () {
+      var that = this;
+    var rep = await this.$UJAPI.ProjectMeeting_GetList({
+      NotStarted: this.NotStarted,
+      ProjectId:this.ProjectId,
+      State:this.State
+    });
+    if (rep.ret == 0) {
+      this.ProjectMeeting_GetList = rep.data;
+    } else {
+      this.toast(rep.msg);
     }
+    }
+  },
+      // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
   },
   computed: {
     meetingData() {
@@ -305,17 +324,7 @@ export default {
     themeetingman
   },
   async mounted() {
-    var that = this;
-    var rep = await this.$UJAPI.ProjectMeeting_GetList({
-      NotStarted: this.NotStarted,
-      ProjectId:this.ProjectId,
-      State:this.State
-    });
-    if (rep.ret == 0) {
-      this.ProjectMeeting_GetList = rep.data;
-    } else {
-      this.toast(rep.msg);
-    }
+    this.init()
   }
 };
 </script>

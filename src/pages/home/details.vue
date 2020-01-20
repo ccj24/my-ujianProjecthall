@@ -80,11 +80,9 @@ export default {
      if(rep.ret==0){
        this.UserInfoViewModel.IsFriend=false;
      }
-    }
-  },
-
-  async mounted() {
-    var that = this;
+    },
+    async init() {
+      var that = this;
     // 1、根据户唯一标识查询用户
     var rep = await this.$UJAPI.User_Get({
       UserId: this.$route.query.UserId
@@ -102,6 +100,16 @@ export default {
       this.EnterpriseViewModel = rep.data;
     }
     // console.log(this.EnterpriseViewModel);
+    }
+  }, 
+    // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
+  async mounted() {
+    this.init()
   }
 };
 </script>

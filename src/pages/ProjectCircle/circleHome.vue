@@ -215,7 +215,7 @@ export default {
       yulan(item,indexx) {
         this.theindex=indexx;
         this.clickhit++;
-       this.tupian=(item.ThumbnailList==null? item.AttaList: item.ThumbnailList)
+       this.tupian=item.AttaList
       }
   },
   computed: {
@@ -232,6 +232,7 @@ export default {
         // 小时
         this.ProjectNote_GetList[i].xiaoshicha=Math.floor((this.ProjectNote_GetList[i].fenzhongcha)/60)
      }
+     console.log(this.ProjectNote_GetList)
       return this.ProjectNote_GetList;
     },
         ...mapState({

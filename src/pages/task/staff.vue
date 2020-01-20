@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="topall">
+    <div class="topall" id="top">
         <div class="top">
         <span style="margin-left:0.3rem" class="icon" @click="huitui">&#xe645;</span>
         <span class="theright" @click="invite">确认</span>
@@ -14,24 +14,18 @@
     
     <!-- 成员排序 -->
     <div class="allmeb">
-      <div v-for="(itemx,index) in haszimu" :key="index" ref="thezimu" :id="itemx">
+      <div v-for="(itemx,index) in haszimu" :key="index" ref="thezimu" :id="itemx=='#'?'_':itemx ">
         <p class="thezimu ">{{itemx}}</p>
-        <hasmenber :haseman="chooseman" :choosezimu="itemx"></hasmenber>
+        <hasmenber :haseman="chooseman" :Specialman="Specialman" :choosezimu="itemx"></hasmenber>
       </div>
     </div>
-    <!-- 右侧字母 -->
-    <ul class="rightzimu" v-if="haszimu.length!=0">
-      <li v-for="(itemx,index) in haszimu" :key="index" ref="right"
-       @click="chooseletter($event,itemx,index)" 
-       @touchstart="handleTouchStart(index,$event)"
-       @touchmove="handleTouchMove(index,$event)"
-       @touchend="handleTouchEnd(index,$event)">{{itemx}}</li>
-    </ul>
+    <rightletter :haszimu="haszimu" @change="valuation"></rightletter>
   </div>
 </template>
 <script>
 import drop from "@/components/drop_down";
 import hasmenber from "@/components/hasmenber";
+import rightletter from "@/components/rightletter";
 export default {
   data() {
     return {
@@ -48,19 +42,21 @@ export default {
       choose:0,
       thechooser:0,
       zimu:["A","B","C","D","E","F","G","H","I","J","K","L","M",
-      "N","O","P","Q","R","S","T","U","V","W","X","Y","Z",],
+      "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"],
       chooseman:[],
+      Specialman:[],
       haszimu:[],
       inviteman:[],
-      zong_length:0,
-      onedistance:0,
+      oneletter:"",
+      chooseindex:0,
+      onelettershow:false,
     };
   },
   methods: {
     async oneshow() {
-      this.thechooser++
+      // this.thechooser++
       //   项目
-      this.project_name=[]
+      var theproject_name=[]
       var that = this;
       var rep = await this.$UJAPI.Project_ProjectGetList({
         IsCreate: null
@@ -68,26 +64,28 @@ export default {
       if (rep.ret == 0) {
         this.Project_ProjectGetList = rep.data;
         for (let i = 0; i < this.Project_ProjectGetList.length; i++) {
-          this.project_name.push(this.Project_ProjectGetList[i].ProjectName);
+          theproject_name.push(this.Project_ProjectGetList[i].ProjectName);
         }
+        this.project_name=theproject_name
       } else {
         this.toast(rep.msg);
       }
     },
     async twoshow() {
       if (this.oneindex!=null) {
-        this.thechooser++
-        this.Project_section=[]
+        // this.thechooser++
+        var theProject_section=[]
       //   部门
       if (this.project_name.length!=0) {
         var rep1 = await this.$UJAPI.Project_GetDepKeyword({
-        ParentId: null
+        ParentId: 0
       });
       if (rep1.ret == 0) {
         this.Project_GetDepKeyword = rep1.data;
         for (let i = 0; i < this.Project_GetDepKeyword.length; i++) {
-          this.Project_section.push(this.Project_GetDepKeyword[i].KeywordName);
+          theProject_section.push(this.Project_GetDepKeyword[i].KeywordName);
         }
+        this.Project_section=theProject_section
       } else {
         this.toast(rep.msg);
       }
@@ -97,8 +95,8 @@ export default {
     async threeshow() {
        //   职位
        if (this.twoindex!=null) {
-         this.thechooser++
-         this.position=[]
+        //  this.thechooser++
+        var theposition=[]
       var that = this;
       var rep1 = await this.$UJAPI.User_GetPostKeyword({
         ParentId: this.Project_GetDepKeyword[this.twoindex].KeywordId
@@ -106,8 +104,9 @@ export default {
       if (rep1.ret == 0) {
         this.User_GetPostKeyword = rep1.data;
         for (let i = 0; i < this.User_GetPostKeyword.length; i++) {
-          this.position.push(this.User_GetPostKeyword[i].KeywordName);
+          theposition.push(this.User_GetPostKeyword[i].KeywordName);
         }
+        this.position=theposition
       } else {
         this.toast(rep.msg);
       }
@@ -128,6 +127,7 @@ export default {
       }
       //每次清空部门
        this.Project_section = [];
+       this.position=[]
     },
     async getmsgtwo(date) {
       this.thechooser++
@@ -144,65 +144,17 @@ export default {
     huitui() {
       this.replace("/pages/task/addTask");
     },
-    chooseletter(e,itemx,index) {
-      if(this.isMP) {
-        var query = wx.createSelectorQuery(); 
-      query.select('#'+itemx).boundingClientRect()
-       query.selectViewport().scrollOffset()
-      query.exec(function (res) {
-     //res就是 所有该标签的元素的信息的数组
-    //  console.log(res[1].scrollTop)
-    //  console.log(res[0].id)
-     console.log(res);
-     //取距离顶部高度
-     var heigao=res[0].top+res[1].scrollTop-55-48;
-    //  控制屏幕滑动距离
-        wx.pageScrollTo({
-        scrollTop: heigao,
-        //  duration是画面滚动时长单位ms
-        duration: 300
-        });
-      })
-      }
-      else {
-      // this.$refs是获取所有节点操作的元素，加上.thezimu就是获取当前的元素
-      var juli=this.$refs.thezimu
-      // document.documentElement.scrollTop是屏幕滑动距离
-      // offsetTop是当前元素距离定位父级的距离
-      console.log(juli)
-      console.log(juli[index].offsetTop)
-      document.documentElement.scrollTop=juli[index].offsetTop
-      }
-    },
-    // 字母滑动效果,人员跟着滑动
-    handleTouchStart(index,e) {
-    // 小程序获取滑动事件的信息是e.touches[0].clientY
-      // this.onedistance =e.changedTouches[0].clientY
-      // var thezimu=this.$refs.thezimu
-      // this.zong_length=0
-      // // 计算出人员所占的高度
-      // for(let i=0;i<this.haszimu.length;i++) {
-      //   this.zong_length=this.zong_length+thezimu[i].clientHeight
-      // }
-    },
-    handleTouchMove(index,e) {
-      var right=this.$refs.right
-      // 右侧字母总高度 23是每个字母所占据的高度，因为每一项的高度相同，取其中一项就好
-      var right_length=(right[0].clientHeight)*(this.haszimu.length)
-      var huadong=e.changedTouches[0].clientY
-      var theclientY=huadong-this.onedistance 
-      document.documentElement.scrollTop=this.zong_length*(theclientY/right_length)
-    },
-    handleTouchEnd(index,e) {
+    // 选中字母赋值
+    valuation(k,e) {
+      this.chooseindex=k
+      this.oneletter=e
     },
     invite() {
       var invitee=[]
-      console.log(this.allmember)
       for(let i=0;i<this.allmember.length;i++) {
         if(this.allmember[i].xuanze==true)
         invitee.push(this.allmember[i]);
       }
-      console.log(invitee)
       if (invitee.length==0) {
         this.toast("还没邀请人员喔");
       }
@@ -216,6 +168,32 @@ export default {
         }
       });
       }
+    },
+    // 同样代码优化
+    chooseletter(personnel) {
+      var otherman=[]
+      for(let y=0;y<this.zimu.length;y++) {
+         for(let i =0; i<personnel.length;i++) {
+        // 截取名字的第一个字母
+        var firstname=personnel[i].Spelling.substring(0,1)
+        
+        if(firstname==this.zimu[y]) {
+          this.haszimu.push(this.zimu[y])
+          // 只要符合这个条件的  就结束它
+          break;  
+        } 
+      }
+      }
+      for(let i =0; i<personnel.length;i++) {
+        var nameASCII=(personnel[i].Spelling.substring(0,1)).charCodeAt()
+        if(nameASCII<65||nameASCII>90) {
+         otherman.push (personnel[i])
+        }
+      }
+      if(otherman.length>0) {
+        this.haszimu.push("#")
+      }
+      this.Specialman=otherman
     }
   },
   watch: {
@@ -223,7 +201,6 @@ export default {
           // 部门人员
      if (this.choose==1) {
         this.haszimu= [];
-        var thell=[]
         var theman=[]
       for (let y = 0; y < this.allmember.length; y++) {
         if (
@@ -231,18 +208,9 @@ export default {
         ) {
           theman.push(this.allmember[y]);
         }
-      }
-      for(let y=0;y<this.zimu.length;y++) {
-         for(let i =0; i<theman.length;i++) {
-        // 截取名字的第一个字母
-        var firstname=theman[i].Spelling.substring(0,1)
-        if(firstname==this.zimu[y]) {
-          this.haszimu.push(this.zimu[y])
-              // 只要符合这个条件的  就结束它
-          break;
-        } 
-      }
-      }
+      } 
+      // 调用方法
+      this.chooseletter(theman) 
       this.chooseman=theman
      }
 // 职位人员
@@ -254,43 +222,72 @@ export default {
            othertheman.push(this.allmember[i]);
          }
        }
-       for(let y=0;y<this.zimu.length;y++) {
-         for(let i =0; i<othertheman.length;i++) {
-        // 截取名字的第一个字母
-        var firstname=othertheman[i].Spelling.substring(0,1)
-        if(firstname==this.zimu[y]) {
-          this.haszimu.push(this.zimu[y])
-              // 只要符合这个条件的  就结束它
-          break;
-        } 
-      }
-      }
+      // 调用方法
+      this.chooseletter(othertheman) 
       this.chooseman= othertheman
      }
     //  项目人员
      else{
+       this.chooseman= this.allmember
        this.haszimu=[]
-       for(let y=0;y<this.zimu.length;y++) {
-         for(let i =0; i<this.allmember.length;i++) {
-        // 截取名字的第一个字母
-        var firstname=this.allmember[i].Spelling.substring(0,1)
-        if(firstname==this.zimu[y]) {
-          this.haszimu.push(this.zimu[y])
-          // 只要符合这个条件的  就结束它
-          break;
-        } 
-      }
-      }
-      this.chooseman= this.allmember
+       // 调用方法
+      this.chooseletter(this.allmember) 
      }
+    },
+    // 监听字母变化
+  oneletter() {
+      if(this.oneletter) {
+        console.log("watch")
+        if(this.isMP) {
+          // debugger
+          console.log(this.oneletter)
+            var query = wx.createSelectorQuery(); 
+            // 因为#特殊字符绑定的iD会冲突
+            query.select('#'+(this.oneletter=='#'?'_':this.oneletter)).boundingClientRect()
+            query.select('#top').boundingClientRect()
+            query.selectViewport().scrollOffset()
+            query.exec(function (res) {
+          //res就是 所有该标签的元素的信息的数组
+          //取距离顶部高度
+          console.log(res)
+          var Sliding=res[0].top+res[2].scrollTop-res[1].height
+          //  控制屏幕滑动距离
+          wx.pageScrollTo({
+          scrollTop:Sliding,
+          // //  duration是画面滚动时长单位ms
+          // duration: 20
+          });
+      })
+        }
+        else{
+          const elment = this.$refs.thezimu[this.chooseindex].offsetTop
+           window.pageYOffset =elment
+           document.documentElement.scrollTop =elment
+           
+           document.body.scrollTop =elment
+        }
+      }
     }
   },
   // 注册组件
   components: {
     drop,
     hasmenber,
+    rightletter,
   },
-  async mounted() {}
+  computed:{
+    // aa() {
+    //   var otherman=this.allmember.slice()
+    //   for (let i=0;i<this.allmember.length;i++) {
+    //      for (let i=0;y<otherman.length;i++) {
+        
+    //   }
+    //   }
+    // }
+  },
+  async mounted() {
+
+  }
 };
 </script>
 <style scoped>
@@ -340,15 +337,28 @@ export default {
   flex-direction :column;
   justify-content :center;
   position: fixed;
-  top:3.7rem;
+  top:40%;
   right: 0rem;
   width :0.6rem;
-  min-height: 7.5rem;
+  /* min-height: 7.5rem; */
   /* background-color: #f4f3f2; */
 }
 .rightzimu li{
   line-height :0.8rem;
   text-align :center;
   color:aqua;
+}
+.oneletter {
+  height: 1.5rem;
+  width: 1.5rem;
+  line-height: 1.5rem;
+  text-align: center;
+  font-size: 0.7rem;
+  border-radius: 50%;
+  background-color: #ff6c6c;
+  color:#fff;
+  position: fixed;
+  top: 4rem;
+  right: 2rem;
 }
 </style>

@@ -48,10 +48,8 @@ export default {
         }
       }
     },
-  },
-  
-  async mounted() {
-    // 加入他建项目
+    async init () {
+      // 加入他建项目
     var res = await this.$UJAPI.Project_ProjectGetList({
       IsCreate: false,
       PageSize: 4
@@ -60,6 +58,16 @@ export default {
       this.othersProjectList = res.data;
       this.filtrate=this.othersProjectList;//把项目信息列表赋值给筛选后的项目信息数组
     }
+    }
+  },
+  // 把请求放在onShow 事件 这样让回退也会触发改变值
+  async onShow() {},
+  onPullDownRefresh(){
+    this.init();
+    wx.stopPullDownRefresh();
+  },
+  async mounted() {
+    this.init()
   }
 };
 </script>

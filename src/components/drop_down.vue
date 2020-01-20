@@ -1,17 +1,19 @@
 <template>
     <div class="top_name" @click="show">
-         <p v-if="chooseindex==null ||name.length==0" class="top_name_p" :class="{namecolor:allname}">{{othername}}</p>
-        <p v-else class="top_name_p" :class="{namecolor:allname}">{{name[chooseindex]}}</p>
-        
+        <div :class="{namecolor:allname}">
+            <p v-if="chooseindex==null ||name.length==0" class="top_name_p" >{{othername}}</p>
+            <p v-else class="top_name_p" >{{name[chooseindex]}}</p>
+            <span v-if="!allname" class="icon">&#xe632;</span>
+            <span v-if="allname" class="icon" :class="{namecolor:allname}">&#xe6b0;</span>
+        </div>
         <div class="thename" v-show="allname">
             <div class="rongqi">
-                <div style="background-color: #fff;" @click.stop v-for="(item,index) in name" :key="index" @click="choose(index)" :class="{choosecolor:index==chooseindex}" >
+                <div style="background-color: #fff;" v-for="(item,index) in name" :key="index" @click.stop="choose(index)" :class="{choosecolor:index==chooseindex}" >
                    <p class="name_p">{{item}}</p>
                 </div>
             </div>
         </div>
-        <span v-if="!allname" class="icon">&#xe632;</span>
-        <span v-if="allname" class="icon" :class="{namecolor:allname}">&#xe6b0;</span>
+       
     </div>
 </template>
 <script>
@@ -32,9 +34,11 @@ export default {
             this.$emit("theshow")
         },
         choose(index) {
+            this.allname=false
+            console.log( this.allname)
             this.chooseindex=index
             this.$emit("sendmsg",index)
-            this.allname=false
+            
         }
     }
 }
@@ -61,10 +65,6 @@ export default {
         right: 0;
         background-color: rgba(0, 0, 0, 0.1);
 }
-/* .thename div {
-    
-    overflow: hidden;
-} */
 .name_p {
     font-size: 0.4rem;
     height: 1.43rem;

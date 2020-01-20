@@ -308,8 +308,11 @@ export default {
       // widtn 用于头像滑动距离
       if(this.chooseman!=null) {
         this.styleObj.width =(2.16*(this.chooseman.length))+"rem"
+        return this.styleObj
       }
-      return this.styleObj
+      else{
+        return this.styleObj.width=0
+      }
     }
   },
   async mounted() {
