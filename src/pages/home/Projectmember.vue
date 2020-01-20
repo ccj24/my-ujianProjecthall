@@ -110,10 +110,10 @@ export default {
       // 监听字母变化
   oneletter() {
       if(this.oneletter) {
-        console.log("watch")
+        // console.log("watch")
         if(this.isMP) {
           // debugger
-          console.log(this.oneletter)
+          // console.log(this.oneletter)
             var query = wx.createSelectorQuery(); 
             // 因为#特殊字符绑定的iD会冲突
             query.select('#'+(this.oneletter=='#'?'_':this.oneletter)).boundingClientRect()
@@ -122,7 +122,7 @@ export default {
             query.exec(function (res) {
           //res就是 所有该标签的元素的信息的数组
           //取距离顶部高度
-          console.log(res)
+          // console.log(res)
           var Sliding=res[0].top+res[2].scrollTop
           //  控制屏幕滑动距离
           wx.pageScrollTo({

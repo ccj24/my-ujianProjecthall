@@ -1,30 +1,22 @@
 <template>
-  <div>
+  <div v-if="haszimu.length!=0" @touchstart.stop @touchmove.stop @touchend.stop> 
     <!-- 右侧字母 -->
-    <ul
-      class="rightzimu"
-      v-if="haszimu.length!=0"
-      id="box"
-      @touchstart="handleTouchStart($event)"
-      @touchmove="handleTouchMove($event)"
-      @touchend="handleTouchEnd($event)"
-    >
-      <li
-        v-for="(itemx,index) in haszimu"
-        :key="index"
-        @click="chooseletter($event,itemx,index)"
-        id="theitemx"
-        ref="theitemx"
-      >{{itemx}}</li>
-    </ul>
-    <div v-show="onelettershow" class="oneletter">{{oneletter}}</div>
+    <scroll-view v-if="isMP" scroll-y class="rightzimu">
+      <ul v-if="haszimu.length!=0" id="box" @touchstart="handleTouchStart($event)" @touchmove.stop.prevent="handleTouchMove($event)" @touchend="handleTouchEnd($event)">
+        <li v-for="(itemx,index) in haszimu" :key="index" @click.stop="chooseletter($event,itemx,index)" id="theitemx" ref="theitemx">{{itemx}}</li>
+      </ul>
+    </scroll-view>
+      <ul v-else  id="box" class="rightzimu" @touchstart="handleTouchStart($event)" @touchmove.stop.prevent="handleTouchMove($event)" @touchend="handleTouchEnd($event)">
+        <li v-for="(itemx,index) in haszimu" :key="index" @click.stop="chooseletter($event,itemx,index)" id="theitemx" ref="theitemx">{{itemx}}</li>
+      </ul>
     <!-- 提示字母 -->
+    <div v-show="onelettershow" class="oneletter">{{oneletter}}</div>
   </div>
 </template>
 <script>
 export default {
   props: {
-    haszimu: Array,
+    haszimu: Array
   },
   data() {
     return {
@@ -66,7 +58,9 @@ export default {
         // 元素高度
         this.leterheight = this.$refs.theitemx[0].clientHeight;
         //   距离顶部距离
-        this.boxtop = document.getElementById("box").getBoundingClientRect().top;
+        this.boxtop = document
+          .getElementById("box")
+          .getBoundingClientRect().top;
       }
     },
     handleTouchMove(e) {
@@ -77,17 +71,17 @@ export default {
         }
         this.timer = setTimeout(() => {
           // H5和小程序的取值不一样
-          const touchY = this.isMP? 
-            e.mp.changedTouches[0].clientY
+          const touchY = this.isMP
+            ? e.mp.changedTouches[0].clientY
             : e.touches[0].clientY;
           const index = Math.floor((touchY - this.boxtop) / this.leterheight);
           if (index >= 0 && index < this.haszimu.length) {
             this.timeletter(this.haszimu[index]);
             this.$emit("change", index, this.haszimu[index]);
-            console.log(this.haszimu[index]);
           }
-        }, 200);
+        }, 20);
       }
+      return;
     },
     handleTouchEnd(e) {
       this.touchStatus = false;
