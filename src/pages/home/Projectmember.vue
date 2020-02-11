@@ -20,7 +20,7 @@
         <p class="letter">{{item1}}</p>
         <!-- ProjectMemberList和item1为传给子组件的参数 -->
         <!-- 使用组件spellChild 列表组件-->
-        <spellChild :ProjectMemberList="ProjectMemberList" :spell="item1"></spellChild>
+        <spellChild :ProjectMemberList="ProjectMemberList" :spell="item1" :othername="ascllman"></spellChild>
       </div>
     </div>
   </div>
@@ -66,7 +66,7 @@ export default {
       postsort: true,
       ModelResponse: [], //获取各部门
       ProjectMemberList: [] ,//项目成员
-      oneletter:""
+      oneletter:"",
     };
   },
   methods: {
@@ -84,6 +84,7 @@ export default {
     });
     if (res.ret == 0) {
       this.ProjectMemberList = res.data;
+      console.log(this.ProjectMemberList)
     }
     // 获取部门
     var rep = await this.$UJAPI.Project_GetDepKeyword();
@@ -146,9 +147,13 @@ export default {
       let _ModelResponse = [];
       for (let index = 0; index < this.ModelResponse.length; index++) {
         const element = this.ModelResponse[index];
-        if (element.Depth == 1) {
+        for(let K = 0; K < this.ProjectMemberList.length; K++) {
+          // 五方职位，DepartmentId==KeywordId
+        if (element.Depth == 1&&element.KeywordId==this.ProjectMemberList[K].DepartmentId) {
           _ModelResponse.push(element);
+          break
         }
+        }       
       }
       return _ModelResponse;
     },
@@ -162,16 +167,30 @@ export default {
         // 循环项目成员
         for (let index = 0; index < this.ProjectMemberList.length; index++) {
           const member = this.ProjectMemberList[index];
+          const theASCLL=member.Spelling[0].charCodeAt()
           // 判断项目成员的 姓名拼音第一个字母是否在26个字母中出现
           if (member.Spelling[0] == element) {
             _Letters.push(element);
             // 只要符合这个条件的  就结束它
             break;
           }
+
         }
       }
-
+      if(this.ascllman.length>0) {
+        _Letters.push("#")
+      }
       return _Letters;
+    },
+    ascllman() {
+      var othermeb=[]
+      this.ProjectMemberList.forEach(( item, index ) => {
+        const fristnameAS=item.Spelling[0].charCodeAt()
+          if(fristnameAS<65||fristnameAS>90) {
+            othermeb.push(item)
+          }
+      })
+      return othermeb
     },
 
     //小数转为百分之比

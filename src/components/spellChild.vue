@@ -22,7 +22,8 @@
 export default {
   props: {
     ProjectMemberList: {},
-    spell: ""
+    spell: "",
+    othername:Array
   }, //接收父组件传过来的值
   data() {
     return {};
@@ -39,13 +40,17 @@ export default {
           //把符合的项插入新的数组
           _memberlist.push(element);
         }
+        else if(this.spell=="#") {
+          _memberlist=this.othername
+        }
       }
       // 最后返回给新的数组
       return _memberlist;
     }
   },
 
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 

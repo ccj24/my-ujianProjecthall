@@ -200,7 +200,7 @@ export default {
       });
     },
     // 删除项目记录 
-    async deleter(NoteId,index) {
+    async deleter(NoteId,item,index) {
         var that = this;
       var rep = await this.$UJAPI.ProjectNote_Delete(
         NoteId
@@ -290,7 +290,6 @@ export default {
   display: block;
 }
 .Img {
-  width: 10.8rem;
   height: 6.69rem;
   background-color: #00aef6;
   position: relative;

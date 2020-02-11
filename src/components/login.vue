@@ -92,7 +92,7 @@ export default {
       }
     },
     async login2() {
-      var req = await this.$ShoppingAPI.Account_Login({
+      var req = await this.$UJAPI.Account_Login({
         Account: this.userInfo.Account, //账号
         PassWord: this.userInfo.PassWord //密码
       });
