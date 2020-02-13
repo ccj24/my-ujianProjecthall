@@ -18,7 +18,7 @@
     <div class="personnelmub">
       <div class="munber">
          <div class="munber-one" style="float:left;color: #999999;">本次会议共：{{mannub}}人</div>
-         <div class="anniu">
+         <div class="anniu" v-if="NotStarted">
            <span class="zhuangtai" :class="{zhuangtai_one:ProjectMeeting_Get.PartakeState==2}" @click="goMat">出席</span>
            <span class="zhuangtai" :class="{zhuangtai_one:ProjectMeeting_Get.PartakeState==1}" @click="absent">缺席</span>
          </div>
@@ -47,7 +47,8 @@ export default {
             Partaker:[],
             clickhit:0,
             theindex:0,
-            tupian:[]
+            tupian:[],
+            NotStarted:true
         }
     },
     methods: {
@@ -95,6 +96,7 @@ export default {
     async mounted() {
         var that = this;
         var meetingid=this.$route.query.meetingid
+        this.NotStarted=this.$route.query.NotStarted
     var rep = await this.$UJAPI.ProjectMeeting_Get({
       Id:meetingid,
       ProjectId:this.ProjectId,

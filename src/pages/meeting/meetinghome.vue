@@ -262,7 +262,8 @@ export default {
       this.$router.push({
         path: "/pages/meeting/meetingParticulars",
         query: {
-          meetingid: MeetingId
+          meetingid: MeetingId,
+          NotStarted:this.NotStarted
         }
       });
     },
