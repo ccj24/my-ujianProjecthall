@@ -9,7 +9,7 @@
         <span class="top_two" @click="release">发布</span>
       </div>
       <!-- 时间 -->
-      <div class="day" v-if="LogId == null">
+      <div class="day" v-if="LogId == null&&isMP">
         <picker mode="date" :value="date" start="2015-09-01" end="date" @change="bindDateChange">
           <div class="picker time">时间: {{date}}</div>
           <img class="picker tubiao" src="/static/img/time_icon.png" alt />
@@ -210,6 +210,7 @@ export default {
     },
     // web
     AddImage(e) {
+      console.log(22)
       let that = this;
       // //e.target指本身 ,e.dataTransfer.files拖拽上传图片
       var files = e.target.files || e.dataTransfer.files;

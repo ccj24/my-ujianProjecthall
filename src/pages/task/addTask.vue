@@ -458,8 +458,7 @@ export default {
 .fabu {
   width: 100%;
   height: 2.16rem;
-  position: fixed;
-  bottom: 0.4rem;
+  margin-top: 1.5rem
 }
 .fabu button {
   width: 9.66rem;
