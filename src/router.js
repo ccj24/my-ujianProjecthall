@@ -385,6 +385,14 @@ var routes = [
       navigationBarTitleText: '答复',
       enablePullDownRefresh: false
     },
+  },  
+  {
+    path: 'pages/card/show',
+    name: 'cardshow',
+    config: {
+      navigationBarTitleText: '个人名片',
+      enablePullDownRefresh: false
+    },
   },
 ]
 module.exports = routes

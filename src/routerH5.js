@@ -40,6 +40,7 @@ import addTask from './pages/task/addTask'
 import staff from './pages/task/staff'
 import taskdetails from './pages/task/taskdetails'
 import answer from './pages/task/answer'
+import cardshow from './pages/card/show'
 
 import store from './store'
 Vue.use(Router)//使用/注册路由
@@ -483,6 +484,17 @@ var routes = [
     },
     alias: '/pages/task/answer',
     component: answer
+  },  
+  {
+    path: 'pages/card/show',
+    name: 'cardshow',
+    config: {
+      navigationBarTitleText: '个人名片',
+      enablePullDownRefresh: false
+    },
+    meta: { noAuth: true },
+    alias: '/pages/card/show',
+    component: cardshow
   },
 
 ]
