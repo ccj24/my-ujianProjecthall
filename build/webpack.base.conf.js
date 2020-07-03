@@ -100,12 +100,13 @@ module.exports = {
   plugins: [
     new MpvuePlugin(),
     new MpvueEntry(),
-    // new CopyWebpackPlugin([{
-    //   from: '**/*.json',
-    //   to: ''
-    // }], {
-    //   context: 'src/'
-    // }),
+    new CopyWebpackPlugin([{
+      from: '**/*.json',
+      to: '',
+      ignore: ['app.json']
+    }], {
+      context: 'src/'
+    }),
     new webpack.DefinePlugin({
       'mpvue_Mode': JSON.stringify('WX'),
     }),
