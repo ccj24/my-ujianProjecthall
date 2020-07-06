@@ -81,32 +81,34 @@ export default {
       this.$router.push({ path: "/pages/home/index" });
     },
     init(){
-            this.wx_login(async () => {
-              //自建项目请求
-              var rep = await this.$UJAPI.Project_ProjectGetList({
-                IsCreate: true,
-                PageSize: 4
-              });
-              if (rep.ret == 0) {
-                this.ProjectList = rep.data.slice(0,5);
-              }
+       if (this.SingleTicket) {
+          this.wx_login(async () => {
+                //自建项目请求
+                var rep = await this.$UJAPI.Project_ProjectGetList({
+                  IsCreate: true,
+                  PageSize: 4
+                });
+                if (rep.ret == 0) {
+                  this.ProjectList = rep.data.slice(0,5);
+                }
 
-              // 加入他建项目
-              var res = await this.$UJAPI.Project_ProjectGetList({
-                IsCreate: false,
-                PageIndex: 1,
-                PageSize: 4
-              });
-              if (res.ret == 0) {
-                this.othersProjectList = res.data.slice(0,5);
-              }
+                // 加入他建项目
+                var res = await this.$UJAPI.Project_ProjectGetList({
+                  IsCreate: false,
+                  PageIndex: 1,
+                  PageSize: 4
+                });
+                if (res.ret == 0) {
+                  this.othersProjectList = res.data.slice(0,5);
+                }
 
-              // 获取用户消息提醒总数
-              var res2 = await this.$UJAPI.User_GetUserRemind({});
-              if (res2.ret == 0) {
-                this.UserRemind = res2.data;
-              }
-            });
+                // 获取用户消息提醒总数
+                var res2 = await this.$UJAPI.User_GetUserRemind({});
+                if (res2.ret == 0) {
+                  this.UserRemind = res2.data;
+                }
+        });
+      }
     }
   },
   computed:{

@@ -1,5 +1,5 @@
 <template>
-    <div class="user">
+    <!-- <div class="user">
         <div class="baseinfo">
             <div class="portrait">
                 <img>
@@ -14,21 +14,28 @@
                 </div>
             </div>
         </div>
-        <!-- <web-view :src="webviewUrl" @message="getPostMessage" @load="load"></web-view> -->
-    </div>
+    </div> -->
+    <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
+
 </template>
 <script>
+import { mapState } from "vuex";
+
 export default {
     data(){
         return {
             shareId:"",
             backjson:"",
             // Url:"http://192.168.0.85:811/wxtest.html",
-            Url:"http://192.168.0.168:10021/%E5%90%8D%E7%89%87%E5%8A%9F%E8%83%BD%E7%A8%8B%E5%BA%8F/share.html"
-            // webviewUrl:"http://192.168.0.168:10021/%E5%90%8D%E7%89%87%E5%8A%9F%E8%83%BD%E7%A8%8B%E5%BA%8F/share.html?shareId="
+            Url:"http://knowmore.iok.la/%E5%90%8D%E7%89%87%E5%8A%9F%E8%83%BD%E7%A8%8B%E5%BA%8F/share.html"
         }
     },
     computed:{
+        ...mapState({
+            SingleTicket: state => state.User.SingleTicket,//获取当前用户的验证票据
+            UserInfo: state => state.User.UserInfo//获取当前用户的登录信息
+
+        }),
         webviewUrl(){
             var parmes =[];
             if(this.backjson)
@@ -39,10 +46,14 @@ export default {
             {
                 parmes.push(`shareId=${this.shareId}`)
             }
+            if(this.UserInfo)
+            {
+                parmes.push(`UserInfo=${escape(JSON.stringify(this.UserInfo))}`)
+            }
+
             if(parmes.length >0)
             {
                 return `${this.Url}?${parmes.join('&')}`
-
             }else
              return `${this.Url}`
         }
@@ -53,6 +64,10 @@ export default {
             this.backjson = JSON.stringify(e.mp.detail.data[0]) ;
         },
         load(e){
+            console.log(e)
+        },
+        error(e)
+        {
             console.log(e)
         }
         
@@ -70,6 +85,7 @@ export default {
             withShareTicket: true
         });
     },
+
     mounted(){
         if (this.$route.query && this.$route.query.shareId) {
             this.shareId = this.$route.query.shareId
