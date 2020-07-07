@@ -1,5 +1,5 @@
 <template>
-    <!-- <div class="user">
+    <div class="user">
         <div class="baseinfo">
             <div class="portrait">
                 <img>
@@ -14,20 +14,23 @@
                 </div>
             </div>
         </div>
-    </div> -->
-    <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
+        <div class="contact">
+
+        </div>
+    </div>
+    <!-- <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view> -->
 
 </template>
 <script>
 import { mapState } from "vuex";
-
+import utils from "@/utils/index.js";
 export default {
     data(){
         return {
             shareId:"",
             backjson:"",
             // Url:"http://192.168.0.85:811/wxtest.html",
-            Url:"http://knowmore.iok.la/%E5%90%8D%E7%89%87%E5%8A%9F%E8%83%BD%E7%A8%8B%E5%BA%8F/share.html"
+            Url:"https://test.ujianchina.net/%E5%90%8D%E7%89%87%E5%8A%9F%E8%83%BD%E7%A8%8B%E5%BA%8F/share.html"
         }
     },
     computed:{
@@ -46,9 +49,9 @@ export default {
             {
                 parmes.push(`shareId=${this.shareId}`)
             }
-            if(this.UserInfo)
+            if(this.UserInfo&&!utils.isEmpty(this.UserInfo))
             {
-                parmes.push(`UserInfo=${escape(JSON.stringify(this.UserInfo))}`)
+                parmes.push(`UserInfo=${JSON.stringify(this.UserInfo)}`)
             }
 
             if(parmes.length >0)
@@ -59,6 +62,7 @@ export default {
         }
     },
     methods:{
+        
         getPostMessage(e){
             console.log(e)
             this.backjson = JSON.stringify(e.mp.detail.data[0]) ;
@@ -98,7 +102,11 @@ export default {
 .user{
     .baseinfo{
         display: flex;
-        padding:0.49rem 0  0 0.79rem;
+        padding:0.49rem 0  0 0.34rem;
+        margin:0 0.45rem;
+        background-color: #fff;
+        padding-bottom: 0.71rem;
+        border-bottom: 0.02rem solid #ebebeb;
         .portrait{
                 width: 2.35rem;
                 height: 2.37rem;
@@ -166,8 +174,9 @@ export default {
                 }
             }
         }
- 
-
+    }
+    .contact{
+        background-color: #fff;
     }
 }
 </style>

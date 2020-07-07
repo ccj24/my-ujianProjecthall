@@ -50,11 +50,16 @@ function formatTime(date) {
   return `${t1} ${t2}`
 }
 
+function isEmpty(obj) {
+  return  !Object.getOwnPropertyNames(obj).length &&  !Object.getOwnPropertySymbols(obj).length
+}
+
 export default {
   formatNumber,
   formatTime,
   setCookie,
   getCookie,
   delCookie,
-  convertDateFromString
+  convertDateFromString,
+  isEmpty
 }
