@@ -1,5 +1,5 @@
 <template>
-    <div class="user">
+    <!-- <div class="user">
         <div class="baseinfo">
             <div class="portrait">
                 <img>
@@ -17,8 +17,8 @@
         <div class="contact">
 
         </div>
-    </div>
-    <!-- <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view> -->
+    </div> -->
+    <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
 
 </template>
 <script>
@@ -51,7 +51,7 @@ export default {
             }
             if(this.UserInfo&&!utils.isEmpty(this.UserInfo))
             {
-                parmes.push(`UserInfo=${JSON.stringify(this.UserInfo)}`)
+                parmes.push(`UserInfo=${encodeURIComponent(JSON.stringify(this.UserInfo))}`)
             }
 
             if(parmes.length >0)
