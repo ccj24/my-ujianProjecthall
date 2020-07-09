@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <!-- <div class="user">
     <div class="baseinfo">
       <div class="portrait">
         <img />
@@ -40,11 +40,7 @@
     </div>
     <div class="brief">
       <p class="title">个人简介</p>
-      <pre class="content">这里是个人简介的内容区域，这里可以让用户自由输入注意几点：
-\r\n
-1、内容能够换行
-2、能插入图片
-3、字数500以内就行了</pre>
+      <pre class="content">这里是个人简介的内容区域，这里可以让用户自由输入注意几点：1、内容能够换行2、能插入图片3、字数500以内就行了</pre>
       <ul class="images">
         <li>
           <img src="/static/img/homePage_redPacket.png" />
@@ -90,8 +86,8 @@
       </ul>
       </div>
     </div>
-  </div>
-  <!-- <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view> -->
+  </div> -->
+  <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -102,7 +98,7 @@ export default {
       shareId: "",
       backjson: "",
       // Url:"http://192.168.0.85:811/wxtest.html",
-      Url: "https://test.ujianchina.net/%E5%90%8D%E7%89%87%E5%8A%9F%E8%83%BD%E7%A8%8B%E5%BA%8F/share.html"
+      Url: "https://test.ujianchina.net/share.html"
     };
   },
   computed: {
