@@ -1,5 +1,5 @@
 <template>
-  <!-- <div class="user">
+  <div class="user">
     <div class="baseinfo">
       <div class="portrait">
         <img />
@@ -71,7 +71,7 @@
         </li>
       </ul>
     </div>
-    <div class="brief">
+    <div class="brief other">
       <p class="title">其他信息</p>
       <div class="contact">
       <ul>
@@ -86,8 +86,17 @@
       </ul>
       </div>
     </div>
-  </div> -->
-  <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
+    <div class="brief enterprise other">
+      <p class="title">我的企业</p>
+      <div class="name">
+        <img class="entLogo">
+        <p class="">这是我的企业名称</p>
+        <img class="auth">
+        <img class="vip">
+      </div>
+    </div>
+  </div>
+  <!-- <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view> -->
 </template>
 <script>
 import { mapState } from "vuex";
@@ -289,6 +298,13 @@ export default {
     }
     .contact{
         border: none;
+    }
+  }
+  .other{
+    .title{
+      padding-right: 0;
+      padding-left:0;
+      margin: 0 0.45rem;
     }
   }
 }
