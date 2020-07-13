@@ -88,11 +88,50 @@
     </div>
     <div class="brief enterprise other">
       <p class="title">我的企业</p>
-      <div class="name">
-        <img class="entLogo">
-        <p class="">这是我的企业名称</p>
-        <img class="auth">
-        <img class="vip">
+      <div class="ent_name">
+        <img class="ent_logo" src="/static/img/homePage_redPacket.png">
+        <p class="">广西越知网络股份有限公司</p>
+        <img class="auth" src="/static/images/auth.png">
+        <img class="vip" src="/static/images/vip.png">
+      </div>
+      <p class="ent_brief">
+              深圳粤知工程信息合伙企业(有限合伙)成立于2018年11月,注册资金一千万元，前身为广西越知网络股份有限公司，公司立足于深圳、放眼全国，致力于打造 全国建筑行业云工地+商业大生态平台，自主研发的互联网产品一"U建”，是一个以项目.....
+      </p>
+      <ul class="ent_images">
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li>
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li>  
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li> 
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li> 
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li> 
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li> 
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li> 
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li> 
+        <li>
+          <img src="/static/img/homePage_redPacket.png">
+        </li> 
+      </ul>
+      <div class="ent_video">
+        <video></video>
+      </div>
+      <div class="ent_local">
+          <i class="icon">&#xe65e;</i>
+          <p>广西大学罗文大道18号建设职业技术学院</p>
       </div>
     </div>
   </div>
@@ -305,6 +344,76 @@ export default {
       padding-right: 0;
       padding-left:0;
       margin: 0 0.45rem;
+    }
+  }
+  .enterprise{
+    .ent_name{
+      margin:  0.66rem 0.45rem 0.79rem 0.45rem;
+      display: flex;
+      .ent_logo{
+        width: 1.12rem;
+        height: 1.11rem;
+        margin-right: 0.21rem;
+        margin-left: 0.09rem;
+      }
+      p{
+        margin-top: 0.08rem;
+        margin-right: 0.32rem;
+        font-size: 0.42rem;
+        line-height: 0.38rem;
+        color: #050817;
+      }
+      .auth, .vip{
+        margin-right: 0.12rem;
+        margin-top: 0.08rem;
+        width: 0.36rem;
+        height: 0.44rem;
+      }
+    }
+    .ent_brief{
+      font-size: 0.36rem;
+      line-height: 0.48rem;
+      letter-spacing: 0rem;
+      color: #363636;
+      text-indent:2em;
+      margin:0 0.45rem;
+    }
+    .ent_images{
+      padding:0.56rem 0.45rem 0.58rem 0.45rem;
+      @include borderFine;
+      li{
+        display: inline-block;
+        padding: 0;
+        margin-left: 0.06rem;
+        img{
+        width: 2.3rem;
+        height: 2.3rem;
+        }
+      }
+    }
+    .ent_video{
+      padding:0.51rem 0.45rem 0.58rem 0.45rem;
+      @include borderFine;
+      video {
+        width: 100%;
+        height: 5.04rem;
+      }
+    }
+    .ent_local{
+      display: flex;
+      padding:0.51rem 0.45rem 0.58rem 0.45rem;
+      i{
+        font-size: 0.49rem;
+        line-height: 0.56rem;
+        color:#999999;
+        margin-right: 0.26rem;
+      }
+      p{
+        display: inline-block;
+        font-size: 0.44rem;
+        line-height: 0.56rem;
+        color: #363636;
+      }
     }
   }
 }
