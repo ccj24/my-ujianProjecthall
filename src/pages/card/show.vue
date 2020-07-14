@@ -40,7 +40,7 @@
     </div>
     <div class="brief">
       <p class="title">个人简介</p>
-      <pre class="content">这里是个人简介的内容区域，这里可以让用户自由输入注意几点：1、内容能够换行2、能插入图片3、字数500以内就行了</pre>
+      <p class="content">这里是个人简介的内容区域，这里可以让用户自由输入注意几点：1、内容能够换行2、能插入图片3、字数500以内就行了</p>
       <ul class="images">
         <li>
           <img src="/static/img/homePage_redPacket.png" />
@@ -94,9 +94,7 @@
         <img class="auth" src="/static/images/auth.png">
         <img class="vip" src="/static/images/vip.png">
       </div>
-      <p class="ent_brief">
-              深圳粤知工程信息合伙企业(有限合伙)成立于2018年11月,注册资金一千万元，前身为广西越知网络股份有限公司，公司立足于深圳、放眼全国，致力于打造 全国建筑行业云工地+商业大生态平台，自主研发的互联网产品一"U建”，是一个以项目.....
-      </p>
+      <p class="ent_brief">深圳粤知工程信息合伙企业(有限合伙)成立于2018年11月,注册资金一千万元，前身为广西越知网络股份有限公司，公司立足于深圳、放眼全国，致力于打造 全国建筑行业云工地+商业大生态平台，自主研发的互联网产品一"U建”，是一个以项目.....</p>
       <ul class="ent_images">
         <li>
           <img src="/static/img/homePage_redPacket.png">
@@ -132,6 +130,57 @@
       <div class="ent_local">
           <i class="icon">&#xe65e;</i>
           <p>广西大学罗文大道18号建设职业技术学院</p>
+      </div>
+      <div class="ent_news">
+        <div class="title"><h5>企业动态</h5><i class="icon">></i></div>
+        <ul class="list">
+          <li>
+            <p class="news_title">北海运营中心开业啦</p>
+            <span class="news_date">2月25日 18:40</span>
+          </li>
+          <li>
+            <p class="news_title">北海运营中心开业啦北海运营中心开业啦最多可以放两行字像这样子</p>
+            <span class="news_date">2月25日 18:40</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="shop">
+      <h5 class="title">推广店铺</h5>
+      <div class="shop_head">
+        <img class="shop_logo" src="/static/img/homePage_redPacket.png">
+        <div class="shop_info">
+          <div class="shop_name">筛网滤布专营店</div>
+          <div class="shop_score">店铺总综合评分：<span>5.0</span></div>
+          <div class="shop_other"><span class="shop_type">普通金属材料</span><span class="distance">11.2km</span></div>
+        </div>
+      </div>
+      <ul class="shop_goods">
+        <li class="shop_goods_item">
+          <div class="shop_goods_info">
+            <img src="/static/img/homePage_redPacket.png">
+            <div class="shop_goods_name">商品名称最多可以显示两行文字</div>
+          </div>
+          <p class="shop_goods_price">¥9999.99</p>
+        </li>
+        <li class="shop_goods_item">
+          <div class="shop_goods_info">
+            <img src="/static/img/homePage_redPacket.png">
+            <div class="shop_goods_name">商品名称最多可以显示两行文字</div>
+          </div>
+          <p class="shop_goods_price">¥9999.99</p>
+        </li>
+        <li class="shop_goods_item">
+          <div class="shop_goods_info">
+            <img src="/static/img/homePage_redPacket.png">
+            <div class="shop_goods_name">商品名称最多可以显示两行文字</div>
+          </div>
+          <p class="shop_goods_price">¥9999.99</p>
+        </li>
+      </ul>
+      <div class="shop_local">
+        <i class="icon">&#xe65e;</i>
+        <p>西乡塘区罗文大道33号广西建设职业技术学院实训大楼南楼14楼这行字可以显示很长的文...</p>
       </div>
     </div>
   </div>
@@ -322,13 +371,15 @@ export default {
     }
     .content {
       margin: 0.41rem 0.5rem 0 0.5rem;
+      text-indent: 2em;
       font-size: 0.36rem;
     }
     .images {
-      margin: 0.82rem 1.2rem 0 1.2rem;
+      margin: 0.82rem 1.2rem 0.9rem 1.13rem;
+      font-size: 0;
       li {
         display: inline-block;
-        margin-right: 0.07;
+        margin-right: 0.07rem;
         img {
           width: 2.75rem;
           height: 2.75rem;
@@ -380,6 +431,7 @@ export default {
     }
     .ent_images{
       padding:0.56rem 0.45rem 0.58rem 0.45rem;
+      font-size: 0;
       @include borderFine;
       li{
         display: inline-block;
@@ -410,6 +462,144 @@ export default {
       }
       p{
         display: inline-block;
+        font-size: 0.44rem;
+        line-height: 0.56rem;
+        color: #363636;
+      }
+    }
+    .ent_news{
+      .title{
+        display: flex;
+        justify-content: space-between;
+        background-color: #f5f5f5;
+        border: 0;
+        margin: 0;
+        padding: 0.21rem 0.51rem;
+        h5{
+          font-size: 0.4rem;
+          font-weight: bold;
+          color: #1a1a1a;
+          line-height: 0.76rem;
+        }
+        i{
+          color: #ababab;
+        }
+      }
+      .list{
+        li{
+          padding: 0.52rem 0.54rem;
+          display: flex;
+          justify-content: space-between;
+          .news_title{
+              font-size: 0.44rem;
+              line-height: 0.66rem;
+              color: #363636;
+              flex:1 1;
+          }
+          .news_date{
+            font-size: 0.32rem;
+            line-height: 0.66rem;
+            color: #808080;
+          }
+        }
+      }
+    }
+  }
+  .shop{
+    .title{
+      font-size: 0.52rem;
+      font-weight: bold;
+      color: #1a1a1a;
+      margin: 0.65rem 0 0 0.53rem;
+    }
+    .shop_head{
+      margin: 0.6rem 0 0 0.53rem;
+      display: flex;
+      .shop_logo{
+        width: 1.71rem;
+        height: 1.71rem;
+      }
+      .shop_info{
+        margin-left: 0.44rem;
+        .shop_name{
+          letter-spacing: 0.02rem;
+          font-size: 0.44rem;
+          color: #021218;
+        }
+        .shop_score{
+          // margin-top: 0.26rem;
+          color: #9b9b9b;
+          font-size: 0.4rem;
+          span{
+            color: #ff5252;
+          }
+        }
+        .shop_other{
+          // margin-top: 0.17rem;
+          height: auto;
+          display: flex;
+          .shop_type{
+            font-size: 0.28rem;
+            color: #021218;
+            padding: 0.12rem 0.13rem;
+            letter-spacing: 0.02rem;
+            background-color: #fccb5c;
+            display: inline-block;
+            margin-right: 0.53rem;
+          }
+          .distance{
+            display: inline-block;
+            font-size: 0.32rem;
+            line-height: 0.7rem;
+            color: #021218;
+          }
+        }
+      }
+    }
+    .shop_goods{
+      padding: 0.51rem 0 0.7rem 0.52rem;
+      @include borderFine;
+      font-size: 0;
+      .shop_goods_item{
+        display: inline-block;
+        margin-right: 0.34rem;
+        .shop_goods_info{
+          position: relative;
+          img{
+            width: 3.03rem;
+            height: 3.03rem;
+          }
+          .shop_goods_name{
+            position: absolute;
+            bottom: 0;
+            width: auto;
+            min-width: 2.88rem;
+            color: #ffffff;
+            font-size: 0.36rem;
+            padding: 0.2rem 0.09rem;
+            background-color: #000000;
+            opacity: 0.5;
+          }
+        }
+        .shop_goods_price{
+          margin-top: 0.23rem;
+          font-size: 0.3rem;
+          line-height: 0.7rem;
+          letter-spacing: 0.06rem;
+          color: #e00201;
+        }
+      }
+    }
+    .shop_local{
+      margin: 0.45rem 0 2rem 0.53rem;
+      display: flex;
+      .icon{
+        font-size: 0.44rem;
+        line-height: 0.56rem;
+        margin-right: 0.26rem;
+        color: #999999;
+      }
+      p{
         font-size: 0.44rem;
         line-height: 0.56rem;
         color: #363636;
