@@ -1,5 +1,5 @@
 <template>
-  <div class="user">
+  <!-- <div class="user">
     <div class="baseinfo">
       <div class="portrait">
         <img />
@@ -183,8 +183,8 @@
         <p>西乡塘区罗文大道33号广西建设职业技术学院实训大楼南楼14楼这行字可以显示很长的文...</p>
       </div>
     </div>
-  </div>
-  <!-- <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view> -->
+  </div> -->
+  <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
 </template>
 <script>
 import { mapState } from "vuex";
@@ -193,7 +193,7 @@ export default {
   data() {
     return {
       shareId: "",
-      backjson: "",
+      backjson:"",
       // Url:"http://192.168.0.85:811/wxtest.html",
       Url: "https://test.ujianchina.net/share.html"
     };
@@ -205,9 +205,10 @@ export default {
     }),
     webviewUrl() {
       var parmes = [];
-      if (this.backjson) {
-        parmes.push(`backjson=${this.backjson}`);
-      }
+      // if (this.backjson) {
+      //   parmes.push(`backjson=${this.backjson}`);
+      // }
+      console.log("webviewUrl")
       if (this.shareId) {
         parmes.push(`shareId=${this.shareId}`);
       }
@@ -221,9 +222,13 @@ export default {
     }
   },
   methods: {
-    getPostMessage(e) {
-      console.log(e);
-      this.backjson = JSON.stringify(e.mp.detail.data[0]);
+    async getPostMessage(e) {
+      this.backjson = e.mp.detail.data[0];
+      debugger;
+      if(this.backjson.hdThumbImage)
+      { 
+          this.backjson.imageUrl = await utils.base64src(`data:image/png;base64,${this.backjson.hdThumbImage}`)
+      }
     },
     load(e) {
       console.log(e);
@@ -232,15 +237,24 @@ export default {
       console.log(e);
     }
   },
-  onShareAppMessage() {
-    return {};
+  onShareAppMessage(res) {
+
+    var _result = {
+      title: this.backjson.title,
+      path: this.backjson.path,
+      imageUrl:this.backjson.imageUrl
+    }
+    console.log(_result)
+    console.log(_result.imageUrl)
+    return _result;
   },
   onLoad(query) {
     // scene 需要使用 decodeURIComponent 才能获取到生成二维码时传入的 scene
     if (query.scene) this.shareId = decodeURIComponent(query.scene);
 
     wx.showShareMenu({
-      withShareTicket: true
+      withShareTicket: true,
+      // menus: ['shareAppMessage', 'shareTimeline']
     });
   },
 
