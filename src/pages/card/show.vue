@@ -208,9 +208,13 @@ export default {
       // if (this.backjson) {
       //   parmes.push(`backjson=${this.backjson}`);
       // }
-      console.log("webviewUrl")
-      if (this.shareId) {
-        parmes.push(`shareId=${this.shareId}`);
+      // console.log("webviewUrl update")
+      // var {shareId,forward} =  this.$route.query;
+      for (const key in this.$route.query) {
+        if (this.$route.query.hasOwnProperty(key)) {
+          const element = this.$route.query[key];
+          parmes.push(`${key}=${element}`);
+        }
       }
       if (this.UserInfo && !utils.isEmpty(this.UserInfo)) {
         parmes.push(`UserInfo=${encodeURIComponent(JSON.stringify(this.UserInfo))}`);
@@ -223,12 +227,12 @@ export default {
   },
   methods: {
     async getPostMessage(e) {
+      console.log(e);
       this.backjson = e.mp.detail.data[0];
-      debugger;
-      if(this.backjson.hdThumbImage)
-      { 
-          this.backjson.imageUrl = await utils.base64src(`data:image/png;base64,${this.backjson.hdThumbImage}`)
-      }
+      // if(this.backjson.hdThumbImage)
+      // { 
+      //     this.backjson.imageUrl = await utils.base64src(`data:image/png;base64,${this.backjson.hdThumbImage}`)
+      // }
     },
     load(e) {
       console.log(e);
@@ -242,10 +246,10 @@ export default {
     var _result = {
       title: this.backjson.title,
       path: this.backjson.path,
-      imageUrl:this.backjson.imageUrl
+      imageUrl:this.backjson.hdThumbImage
     }
-    console.log(_result)
-    console.log(_result.imageUrl)
+    // console.log(_result)
+    // console.log(_result.imageUrl)
     return _result;
   },
   onLoad(query) {
@@ -257,12 +261,15 @@ export default {
       // menus: ['shareAppMessage', 'shareTimeline']
     });
   },
+  onShow(){
+    wx.hideHomeButton();
+  },
 
   mounted() {
     if (this.$route.query && this.$route.query.shareId) {
       this.shareId = this.$route.query.shareId;
     }
-    console.log(this.webviewUrl);
+    // console.log(this.webviewUrl);
   }
 };
 </script>
