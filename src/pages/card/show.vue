@@ -193,6 +193,7 @@ export default {
   data() {
     return {
       shareId: "",
+      forward:"",
       backjson:"",
       // Url:"http://192.168.0.85:811/wxtest.html",
       Url: "https://test.ujianchina.net/share.html"
@@ -210,12 +211,20 @@ export default {
       // }
       // console.log("webviewUrl update")
       // var {shareId,forward} =  this.$route.query;
-      for (const key in this.$route.query) {
-        if (this.$route.query.hasOwnProperty(key)) {
-          const element = this.$route.query[key];
-          parmes.push(`${key}=${element}`);
-        }
+
+      if (this.shareId) {
+        parmes.push(`shareId=${this.shareId}`);
       }
+      if (this.forward) {
+        parmes.push(`shareId=${this.forward}`);
+      }
+      
+      // for (const key in this.$route.query) {
+      //   if (this.$route.query.hasOwnProperty(key)) {
+      //     const element = this.$route.query[key];
+      //     parmes.push(`${key}=${element}`);
+      //   }
+      // }
       if (this.UserInfo && !utils.isEmpty(this.UserInfo)) {
         parmes.push(`UserInfo=${encodeURIComponent(JSON.stringify(this.UserInfo))}`);
       }
@@ -269,7 +278,10 @@ export default {
     if (this.$route.query && this.$route.query.shareId) {
       this.shareId = this.$route.query.shareId;
     }
-    // console.log(this.webviewUrl);
+    if (this.$route.query && this.$route.query.forward) {
+      this.forward = this.$route.query.forward;
+    }
+    console.log(this.webviewUrl);
   }
 };
 </script>
