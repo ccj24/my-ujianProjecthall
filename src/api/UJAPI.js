@@ -255,5 +255,30 @@ export default {
     task_Reply: param => {
         return http.post(BaseHost + "api/Task/Reply",param)
     },
+    // 获取分享名片的详情
+    BusinessCard_DetailOfShare: shareBusinessCardId => {
+        return http.get(BaseHost + `api/BusinessCard/DetailOfShare?shareBusinessCardId=${shareBusinessCardId}`)
+    },
+    // 获取分享名片的点赞统计
+    BusinessCard_GetLikeCount: businessCardId => {
+        return http.get(BaseHost + `api/BusinessCardData/GetLikeCount?businessCardId=${businessCardId}`)
+    },
+    // 获取分享类别
+    BusinessCard_GetListOfClass: () => {
+        return http.get(BaseHost + `api/BusinessCard/GetListOfClass`)
+    },
+    // 获取企业详细信息
+    Enterprise_GetDetailed: (eId) => {
+        return http.get(BaseHost + `api/Enterprise/GetDetailed?eId=${eId}`)
+    },
+    // 获取企业多媒体资源(图片/视频)
+    EnterpriseMultimedia_Get: (eId,type) => {
+        return http.get(BaseHost + `api/EnterpriseMultimedia/Get?eId=${eId}&type=${type}`)
+    },
+    // 获取企业动态
+    EnterpriseNews_GetListOfCommon: (params) => {
+        return http.get(BaseHost + `api/EnterpriseNews/GetListOfCommon`,params)
+    },
+
     
 }

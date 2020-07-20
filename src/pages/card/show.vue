@@ -1,23 +1,23 @@
 <template>
-  <!-- <div class="user">
+  <div class="user" v-if="CardInfo!=null">
     <div class="baseinfo">
       <div class="portrait">
-        <img />
+        <img :src="CardInfo.model.bcLogo" />
       </div>
       <div class="body">
-        <div class="name">用户姓名</div>
+        <div class="name">{{CardInfo.model.bcName}}</div>
         <div class="post">
-          <i class="icon">&#xe756;</i>职位
+          <i class="icon">&#xe756;</i>{{CardInfo.model.bcPosition}}
         </div>
         <div class="corp">
-          <i class="icon">&#xe636;</i>公司名
+          <i class="icon">&#xe636;</i>{{CardInfo.model.bcCompay}}
         </div>
         <div class="tool">
           <span class="share">
             <i class="icon">&#xe64e;</i>
           </span>
           <span class="praise">
-            <i class="icon">&#xe619;</i>131
+            <i class="icon">&#xe619;</i>{{CardLikeCount}}
           </span>
         </div>
       </div>
@@ -26,110 +26,58 @@
       <ul>
         <li>
           <i class="icon">&#xe60d;</i>
-          <span>1514450153</span>
+          <span>{{CardInfo.model.bcTelPhone}}</span>
         </li>
         <li>
           <i class="icon">&#xe60b;</i>
-          <span>1514450153@qq.com</span>
+          <span>{{CardInfo.model.bcEmaill}}</span>
         </li>
         <li>
           <i class="icon">&#xe65e;</i>
-          <span>广西大学罗文大道18号建设职业技术学院</span>
+          <span>{{CardInfo.model.bcAddress}}</span>
         </li>
       </ul>
     </div>
     <div class="brief">
       <p class="title">个人简介</p>
-      <p class="content">这里是个人简介的内容区域，这里可以让用户自由输入注意几点：1、内容能够换行2、能插入图片3、字数500以内就行了</p>
+      <p class="content">{{CardInfo.model.bcIntroducation}}</p>
       <ul class="images">
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
-        </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png" />
+        <li v-for="(item,index) in CardInfo.images" :key="index">
+          <img :src="item.bcbUrl"/>
         </li>
       </ul>
     </div>
-    <div class="brief other">
+    <div class="brief other" v-if="otherInfo.length>0">
       <p class="title">其他信息</p>
       <div class="contact">
       <ul>
-        <li>
-          <i class="icon">微信</i>
-          <span>1514450153</span>
-        </li>
-        <li>
-          <i class="icon">邮编</i>
-          <span>535300</span>
+        <li v-for="(item,index) in otherInfo" :key="index">
+          <i class="icon">{{item.bcevTitle}}</i>
+          <span>{{item.bcevValue}}</span>
         </li>
       </ul>
       </div>
     </div>
-    <div class="brief enterprise other">
+    <div class="brief enterprise other" v-if="entInfo">
       <p class="title">我的企业</p>
-      <div class="ent_name">
-        <img class="ent_logo" src="/static/img/homePage_redPacket.png">
-        <p class="">广西越知网络股份有限公司</p>
-        <img class="auth" src="/static/images/auth.png">
-        <img class="vip" src="/static/images/vip.png">
+      <div class="ent_name" >
+        <img class="ent_logo" :src="entInfo.eLogo">
+        <p class="">{{entInfo.eName}}</p>
+        <img v-if="entInfo.IsCertification" class="auth" src="/static/images/auth.png">
+        <img v-if="entInfo.vipState==1" class="vip" src="/static/images/vip.png">
       </div>
-      <p class="ent_brief">深圳粤知工程信息合伙企业(有限合伙)成立于2018年11月,注册资金一千万元，前身为广西越知网络股份有限公司，公司立足于深圳、放眼全国，致力于打造 全国建筑行业云工地+商业大生态平台，自主研发的互联网产品一"U建”，是一个以项目.....</p>
-      <ul class="ent_images">
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
+      <p class="ent_brief">{{entInfo.Brief}}</p>
+      <ul class="ent_images" v-if="entImages.length>0">
+        <li v-for="(item, index) in entImages" :key="index">
+          <img :src="item.Path">
         </li>
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li>  
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li> 
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li> 
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li> 
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li> 
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li> 
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li> 
-        <li>
-          <img src="/static/img/homePage_redPacket.png">
-        </li> 
       </ul>
-      <div class="ent_video">
-        <video></video>
+      <div class="ent_video" v-if="entVideos.length>0">
+        <video v-for="(item,index) in entVideos" :src="item.Path" :key="index"></video>
       </div>
       <div class="ent_local">
           <i class="icon">&#xe65e;</i>
-          <p>广西大学罗文大道18号建设职业技术学院</p>
+          <p>{{entInfo.Address}}</p>
       </div>
       <div class="ent_news">
         <div class="title"><h5>企业动态</h5><i class="icon">></i></div>
@@ -144,6 +92,10 @@
           </li>
         </ul>
       </div>
+    </div>
+    <div class="brief enterprise other not" v-else>
+      <p class="title">我的企业</p>
+      <p class="tip">该用户尚暂无展示企业</p>
     </div>
     <div class="shop">
       <h5 class="title">推广店铺</h5>
@@ -183,8 +135,8 @@
         <p>西乡塘区罗文大道33号广西建设职业技术学院实训大楼南楼14楼这行字可以显示很长的文...</p>
       </div>
     </div>
-  </div> -->
-  <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
+  </div>
+  <!-- <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view> -->
 </template>
 <script>
 import { mapState } from "vuex";
@@ -195,6 +147,13 @@ export default {
       shareId: "",
       forward:"",
       backjson:"",
+      CardInfo:null,
+      CardLikeCount:0,
+      otherOfClass:null,
+      entInfo:null,
+      entImages:[],
+      entVideos:[],
+      entNews:[],
       // Url:"http://192.168.0.85:811/wxtest.html",
       Url: "https://test.ujianchina.net/share.html"
     };
@@ -206,11 +165,6 @@ export default {
     }),
     webviewUrl() {
       var parmes = [];
-      // if (this.backjson) {
-      //   parmes.push(`backjson=${this.backjson}`);
-      // }
-      // console.log("webviewUrl update")
-      // var {shareId,forward} =  this.$route.query;
 
       if (this.shareId) {
         parmes.push(`shareId=${this.shareId}`);
@@ -218,13 +172,6 @@ export default {
       if (this.forward) {
         parmes.push(`shareId=${this.forward}`);
       }
-      
-      // for (const key in this.$route.query) {
-      //   if (this.$route.query.hasOwnProperty(key)) {
-      //     const element = this.$route.query[key];
-      //     parmes.push(`${key}=${element}`);
-      //   }
-      // }
       if (this.UserInfo && !utils.isEmpty(this.UserInfo)) {
         parmes.push(`UserInfo=${encodeURIComponent(JSON.stringify(this.UserInfo))}`);
       }
@@ -232,6 +179,34 @@ export default {
       if (parmes.length > 0) {
         return `${this.Url}?${parmes.join("&")}`;
       } else return `${this.Url}`;
+    },
+    //其他联系方式展示扩展
+    otherInfo(){
+      if(this.otherOfClass==null)
+        return [];
+      var _class = this.otherOfClass.find(item=>{
+        return item.bceName == '更多信息' && item.bceEnable;
+      });
+      if(this.CardInfo!=null &&_class!=null)
+        return this.CardInfo.extendValue.filter(item=>{
+          return item.businessCardExtendClassId == _class.businessCardExtendClassId;
+        });
+      else
+        return []
+    },
+    //企业展示扩展
+    entExtend(){
+      if(this.otherOfClass==null)
+        return null;
+      var _class = this.otherOfClass.find(item=>{
+        return item.bceName == '我的企业' && item.bceEnable;
+      });
+      if(this.CardInfo!=null &&_class!=null)
+        return this.CardInfo.extendValue.find(item=>{
+          return item.businessCardExtendClassId == _class.businessCardExtendClassId;
+        });
+      else
+        return {}
     }
   },
   methods: {
@@ -274,14 +249,59 @@ export default {
     wx.hideHomeButton();
   },
 
-  mounted() {
+  async mounted() {
     if (this.$route.query && this.$route.query.shareId) {
       this.shareId = this.$route.query.shareId;
     }
     if (this.$route.query && this.$route.query.forward) {
       this.forward = this.$route.query.forward;
     }
-    console.log(this.webviewUrl);
+    //获取名片
+    var res = await this.$UJAPI.BusinessCard_DetailOfShare(this.shareId);
+    if(res.ret==0)
+    {
+      this.CardInfo = res.data;
+      //获取名片点赞
+      var res2 = await this.$UJAPI.BusinessCard_GetLikeCount(this.CardInfo.model.businessCardId);
+      if (res2.ret==0)
+      {
+        this.CardLikeCount = res2.data;
+      }
+      //获取名片扩展信息分类
+      var res3 = await  this.$UJAPI.BusinessCard_GetListOfClass();
+      if(res3.ret==0)
+      {
+        this.otherOfClass = res3.data;
+      }
+      if(this.entExtend.bcevValue){
+        //获取名片展示的企业
+        var res4 = await this.$UJAPI.Enterprise_GetDetailed(this.entExtend.bcevValue)
+        if(res4.ret==0)
+        {
+          this.entInfo = res4.data;
+        }
+        //获取企业展示的图片
+        if(this.entInfo&&this.entInfo.eId)
+        {
+          var res5 = await this.$UJAPI.EnterpriseMultimedia_Get(this.entInfo.eId,1);
+          if(res5.ret==0)
+          {
+            this.entImages = res5.data;
+          }
+          var res6 = await this.$UJAPI.EnterpriseMultimedia_Get(this.entInfo.eId,2);
+          if(res6.ret==0)
+          {
+            this.entVideos = res6.data;
+          }
+          var res7 =  await this.$UJAPI.EnterpriseNews_GetListOfCommon({eId:this.entInfo.eId,pageIndex:1,pageSize:3})
+          if(res7.ret==0)
+          {
+            this.entNews = res7.data;
+          }
+
+        }
+      }
+    }
   }
 };
 </script>
@@ -536,6 +556,23 @@ export default {
           }
         }
       }
+    }
+    
+    .tip{
+        font-size: 0.38rem;
+        line-height: 0.38rem;
+        color: #808080;
+        text-align: center;
+        padding: 0;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.8rem;
+    }
+  }
+  .enterprise.not{
+    .title{
+      border: none;
+
     }
   }
   .shop{
