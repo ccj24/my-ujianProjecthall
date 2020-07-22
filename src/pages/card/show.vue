@@ -281,19 +281,34 @@ export default {
       var off = 17;
       ctx.setFillStyle("#0e0e0e");
       ctx.font = "22px PingFang-SC-Medium";
-      ctx.fillText(that.CardInfo.model.bcCompay, 32, 70 + off);
+      if(that.CardInfo.model.bcCompay.length>18)
+        ctx.fillText(that.CardInfo.model.bcCompay.substr(0,18)+'...', 32, 70 + off)
+      else
+        ctx.fillText(that.CardInfo.model.bcCompay, 32, 70 + off)
 
       ctx.font = "34px PingFang-SC-Bold";
+      if(that.CardInfo.model.bcName.length>12)
+      ctx.fillText(that.CardInfo.model.bcName.substr(0,12)+'...', 32, 135 + off);
+      else
       ctx.fillText(that.CardInfo.model.bcName, 32, 135 + off);
 
       ctx.font = "22px PingFang-SC-Medium";
+      if(that.CardInfo.model.bcPosition.length>14)
+      ctx.fillText(that.CardInfo.model.bcPosition.substr(0,14)+'...', 32, 184 + off);
+      else
       ctx.fillText(that.CardInfo.model.bcPosition, 32, 184 + off);
 
       ctx.font = "20px PingFang-SC-Medium";
       ctx.fillText(that.CardInfo.model.bcTelPhone, 60, 251 + off);
       ctx.fillText(that.CardInfo.model.bcEmaill, 60, 287 + off);
-      ctx.fillText(that.CardInfo.model.bcAddress, 60, 327 + off);
-         
+      if(that.CardInfo.model.bcAddress.length>21)
+      {
+        ctx.fillText(that.CardInfo.model.bcAddress.substring(0,19)+"...", 60, 327 + off);
+      }
+      else
+      {
+        ctx.fillText(that.CardInfo.model.bcAddress, 60, 327 + off);
+      }  
       wx.getImageInfo({
         src: that.CardInfo.model.bcLogo,
         success: function(res) {
