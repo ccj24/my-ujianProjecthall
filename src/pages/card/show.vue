@@ -274,7 +274,7 @@ export default {
     var res = await this.$UJAPI.BusinessCard_DetailOfShare(this.shareId);
     if (res.ret == 0) {
       this.CardInfo = res.data;
-
+      this.toast("正在生成名片")
       const ctx = wx.createCanvasContext("myCanvas");
       ctx.drawImage("/static/images/bg.png", 0, 0, 500, 400); //以iPhone 6尺寸大小为标准绘制图片
 
@@ -323,7 +323,7 @@ export default {
           ctx.closePath();
           ctx.clip(); //画好了圆 剪切 原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内 这也是我们要save上下文的原因
           ctx.drawImage(res.path, avatarurl_x, avatarurl_y, avatarurl_width, avatarurl_heigth); // 推进去图片，必须是https图片
-          ctx.restore(); //恢复之前保存的绘图上下文 恢复之前保存的绘图上下午即状态 还可以继续绘制
+          ctx.restore(); //恢复之前保存的绘图上下文 恢复之前保存的绘图上下文状态 还可以继续绘制
           ctx.draw();
           ctx.save();
           
@@ -338,12 +338,13 @@ export default {
                 success: function(res2) {
                   console.log(res2.tempFilePath);
                   that.tmpUrl = res2.tempFilePath;
+                  wx.hideToast()
                 },
                 fail: function(res2) {
                   console.log(res2.errMsg);
                 }
                 });
-          }, 1000);
+          }, 800);
         },
         fail: function(err) {
           console.log(err);
