@@ -188,7 +188,7 @@ export default {
         parmes.push(`shareId=${this.shareId}`);
       }
       if (this.forward) {
-        parmes.push(`shareId=${this.forward}`);
+        parmes.push(`forward=${this.forward}`);
       }
       if (this.UserInfo && !utils.isEmpty(this.UserInfo)) {
         parmes.push(`UserInfo=${encodeURIComponent(JSON.stringify(this.UserInfo))}`);
@@ -270,6 +270,7 @@ export default {
     if (this.$route.query && this.$route.query.forward) {
       this.forward = this.$route.query.forward;
     }
+    // console.log(this.webviewUrl)
     //获取名片
     var res = await this.$UJAPI.BusinessCard_DetailOfShare(this.shareId);
     if (res.ret == 0) {
