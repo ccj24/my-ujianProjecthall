@@ -44,9 +44,9 @@
       </div>
       <div class="brief">
         <p class="title">个人简介</p>
-        <span class="content">
+        <div class="content">
           <div v-html="CardInfo.model.bcIntroducation"></div>
-        </span>
+        </div>
         <ul class="images">
           <li v-for="(item,index) in CardInfo.images" :key="index">
             <img :src="item.bcbUrl" />
@@ -150,9 +150,9 @@
           <p>西乡塘区罗文大道33号广西建设职业技术学院实训大楼南楼14楼这行字可以显示很长的文...</p>
         </div>
       </div>
-    </div> -->
+    </div>-->
     <canvas canvas-id="myCanvas" id="myCanvas" class="canvas"></canvas>
-  <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
+    <web-view :src="webviewUrl" @message="getPostMessage" @load="load" @error="error" style="width: 414px; height: 672px;"></web-view>
   </div>
 </template>
 <script>
@@ -162,6 +162,8 @@ export default {
   data() {
     return {
       shareId: "",
+      unionid:"",
+      openid:"",
       forward: "",
       backjson: "",
       CardInfo: null,
@@ -190,6 +192,14 @@ export default {
       if (this.forward) {
         parmes.push(`forward=${this.forward}`);
       }
+      if(this.openid)
+      {
+        parmes.push(`openid=${this.openid}`);
+      }
+      if(this.unionid)
+      {
+        parmes.push(`unionid=${this.unionid}`);
+      }
       if (this.UserInfo && !utils.isEmpty(this.UserInfo)) {
         parmes.push(`UserInfo=${encodeURIComponent(JSON.stringify(this.UserInfo))}`);
       }
@@ -215,6 +225,18 @@ export default {
       if (this.otherOfClass == null) return null;
       var _class = this.otherOfClass.find(item => {
         return item.bceName == "我的企业" && item.bceEnable;
+      });
+      if (this.CardInfo != null && _class != null)
+        return this.CardInfo.extendValue.find(item => {
+          return item.businessCardExtendClassId == _class.businessCardExtendClassId;
+        });
+      else return {};
+    },
+    //店铺展示扩展
+    shopExtend() {
+      if (this.otherOfClass == null) return null;
+      var _class = this.otherOfClass.find(item => {
+        return item.bceName == "关联店铺" && item.bceEnable;
       });
       if (this.CardInfo != null && _class != null)
         return this.CardInfo.extendValue.find(item => {
@@ -264,203 +286,210 @@ export default {
 
   async mounted() {
     var that = this;
-    if (this.$route.query && this.$route.query.shareId) {
-      this.shareId = this.$route.query.shareId;
-    }
-    if (this.$route.query && this.$route.query.forward) {
-      this.forward = this.$route.query.forward;
-    }
-    // console.log(this.webviewUrl)
-    //获取名片
-    var res = await this.$UJAPI.BusinessCard_DetailOfShare(this.shareId);
-    if (res.ret == 0) {
-      this.CardInfo = res.data;
-      this.toast("正在生成名片")
-      const ctx = wx.createCanvasContext("myCanvas");
-      ctx.drawImage("/static/images/bg.png", 0, 0, 500, 400); //以iPhone 6尺寸大小为标准绘制图片
+    wx.login({
+      success: obj => {
+        if (obj.errMsg.indexOf("login:ok") > -1) {
+          this.$ShoppingAPI.Account_wxLogin(obj.code).then(async rep => {
+            if (rep.ret == 0) {
+              this.openid = rep.data.result.openid;
+              this.unionid = rep.data.result.unionid;
+              if (this.$route.query && this.$route.query.shareId) {
+                this.shareId = this.$route.query.shareId;
+              }
+              if (this.$route.query && this.$route.query.forward) {
+                this.forward = this.$route.query.forward;
+              }
+              //获取名片
+              var res = await this.$UJAPI.BusinessCard_DetailOfShare(this.shareId);
+              if (res.ret == 0) {
+                this.CardInfo = res.data;
+                this.toast("正在生成名片");
+                const ctx = wx.createCanvasContext("myCanvas");
+                ctx.drawImage("/static/images/bg.png", 0, 0, 500, 400); //以iPhone 6尺寸大小为标准绘制图片
 
-      var off = 17;
-      ctx.setFillStyle("#0e0e0e");
-      ctx.font = "22px PingFang-SC-Medium";
-      if(that.CardInfo.model.bcCompay.length>18)
-        ctx.fillText(that.CardInfo.model.bcCompay.substr(0,18)+'...', 32, 70 + off)
-      else
-        ctx.fillText(that.CardInfo.model.bcCompay, 32, 70 + off)
+                var off = 17;
+                ctx.setFillStyle("#0e0e0e");
+                ctx.font = "22px PingFang-SC-Medium";
+                if (that.CardInfo.model.bcCompay.length > 18) ctx.fillText(that.CardInfo.model.bcCompay.substr(0, 18) + "...", 32, 70 + off);
+                else ctx.fillText(that.CardInfo.model.bcCompay, 32, 70 + off);
 
-      ctx.font = "34px PingFang-SC-Bold";
-      if(that.CardInfo.model.bcName.length>12)
-      ctx.fillText(that.CardInfo.model.bcName.substr(0,12)+'...', 32, 135 + off);
-      else
-      ctx.fillText(that.CardInfo.model.bcName, 32, 135 + off);
+                ctx.font = "34px PingFang-SC-Bold";
+                if (that.CardInfo.model.bcName.length > 12) ctx.fillText(that.CardInfo.model.bcName.substr(0, 12) + "...", 32, 135 + off);
+                else ctx.fillText(that.CardInfo.model.bcName, 32, 135 + off);
 
-      ctx.font = "22px PingFang-SC-Medium";
-      if(that.CardInfo.model.bcPosition.length>14)
-      ctx.fillText(that.CardInfo.model.bcPosition.substr(0,14)+'...', 32, 184 + off);
-      else
-      ctx.fillText(that.CardInfo.model.bcPosition, 32, 184 + off);
+                ctx.font = "22px PingFang-SC-Medium";
+                if (that.CardInfo.model.bcPosition.length > 14) ctx.fillText(that.CardInfo.model.bcPosition.substr(0, 14) + "...", 32, 184 + off);
+                else ctx.fillText(that.CardInfo.model.bcPosition, 32, 184 + off);
 
-      ctx.font = "20px PingFang-SC-Medium";
-      ctx.fillText(that.CardInfo.model.bcTelPhone, 60, 251 + off);
-      ctx.fillText(that.CardInfo.model.bcEmaill, 60, 287 + off);
-      if(that.CardInfo.model.bcAddress.length>21)
-      {
-        ctx.fillText(that.CardInfo.model.bcAddress.substring(0,19)+"...", 60, 327 + off);
-      }
-      else
-      {
-        ctx.fillText(that.CardInfo.model.bcAddress, 60, 327 + off);
-      }  
-      wx.getImageInfo({
-        src: that.CardInfo.model.bcLogo,
-        success: function(res) {
-          var avatarurl_width = 105; //绘制的头像宽度
-          var avatarurl_heigth = 105; //绘制的头像高度
-          var avatarurl_x = 369; //绘制的头像在画布上的位置
-          var avatarurl_y = 122; //绘制的头像在画布上的位置
-          ctx.save();
-          ctx.beginPath(); //开始绘制
-          //先画个圆 前两个参数确定了圆心 （x,y） 坐标 第三个参数是圆的半径 四参数是绘图方向 默认是false，即顺时针
-          ctx.arc(avatarurl_width / 2 + avatarurl_x, avatarurl_heigth / 2 + avatarurl_y, avatarurl_width / 2, 0, Math.PI * 2, false);
-          ctx.closePath();
-          ctx.clip(); //画好了圆 剪切 原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内 这也是我们要save上下文的原因
-          ctx.drawImage(res.path, avatarurl_x, avatarurl_y, avatarurl_width, avatarurl_heigth); // 推进去图片，必须是https图片
-          ctx.restore(); //恢复之前保存的绘图上下文 恢复之前保存的绘图上下文状态 还可以继续绘制
-          ctx.draw();
-          ctx.save();
-          
-          //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时
-          setTimeout(() => {
-            wx.canvasToTempFilePath({
-                width: 500,
-                height: 400,
-                destWidth: 500,
-                destHeight: 400,
-                canvasId: "myCanvas",
-                success: function(res2) {
-                  console.log(res2.tempFilePath);
-                  that.tmpUrl = res2.tempFilePath;
-                  wx.hideToast()
-                },
-                fail: function(res2) {
-                  console.log(res2.errMsg);
+                ctx.font = "20px PingFang-SC-Medium";
+                ctx.fillText(that.CardInfo.model.bcTelPhone, 60, 251 + off);
+                ctx.fillText(that.CardInfo.model.bcEmaill, 60, 287 + off);
+                if (that.CardInfo.model.bcAddress.length > 21) {
+                  ctx.fillText(that.CardInfo.model.bcAddress.substring(0, 19) + "...", 60, 327 + off);
+                } else {
+                  ctx.fillText(that.CardInfo.model.bcAddress, 60, 327 + off);
                 }
+                wx.getImageInfo({
+                  src: that.CardInfo.model.bcLogo,
+                  success: function(res) {
+                    var avatarurl_width = 105; //绘制的头像宽度
+                    var avatarurl_heigth = 105; //绘制的头像高度
+                    var avatarurl_x = 369; //绘制的头像在画布上的位置
+                    var avatarurl_y = 122; //绘制的头像在画布上的位置
+                    ctx.save();
+                    ctx.beginPath(); //开始绘制
+                    //先画个圆 前两个参数确定了圆心 （x,y） 坐标 第三个参数是圆的半径 四参数是绘图方向 默认是false，即顺时针
+                    ctx.arc(avatarurl_width / 2 + avatarurl_x, avatarurl_heigth / 2 + avatarurl_y, avatarurl_width / 2, 0, Math.PI * 2, false);
+                    ctx.closePath();
+                    ctx.clip(); //画好了圆 剪切 原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内 这也是我们要save上下文的原因
+                    ctx.drawImage(res.path, avatarurl_x, avatarurl_y, avatarurl_width, avatarurl_heigth); // 推进去图片，必须是https图片
+                    ctx.restore(); //恢复之前保存的绘图上下文 恢复之前保存的绘图上下文状态 还可以继续绘制
+                    ctx.draw();
+                    ctx.save();
+
+                    //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时
+                    setTimeout(() => {
+                      wx.canvasToTempFilePath({
+                        width: 500,
+                        height: 400,
+                        destWidth: 500,
+                        destHeight: 400,
+                        canvasId: "myCanvas",
+                        success: function(res2) {
+                          console.log(res2.tempFilePath);
+                          that.tmpUrl = res2.tempFilePath;
+                          wx.hideToast();
+                        },
+                        fail: function(res2) {
+                          console.log(res2.errMsg);
+                        }
+                      });
+                    }, 800);
+                  },
+                  fail: function(err) {
+                    console.log(err);
+                    wx.showToast({
+                      title: "网络错误请重试",
+                      icon: "loading"
+                    });
+                  }
                 });
-          }, 800);
-        },
-        fail: function(err) {
-          console.log(err);
-          wx.showToast({
-            title: "网络错误请重试",
-            icon: "loading"
+              }
+            }
           });
         }
-      });
+      }
+    });
 
-      // const query = wx.createSelectorQuery()
-      // query.select('#myCanvas')
-      // .fields({ node: true, size: true })
-      //   .exec((res) => {
-      //     const _canvas = res[0].node
-      //     const ctx = _canvas.getContext('2d')
-      //     _canvas.width=500;
-      //     _canvas.height=400;
-      //     // console.log(dpr);
-      //     var img = _canvas.createImage()
-      //     img.src='/static/images/bg.png';
-      //     img.onload = (res) => {
-      //       //img.complete表示图片是否加载完成，结果返回true和false;
-      //       //背景底图
-      //       var off = 17;
-      //       ctx.drawImage(img, 0, 0,500,400);
-      //       // 公司名
-      //       ctx.font="22px PingFang-SC-Medium"
-      //       ctx.fillStyle = '#0e0e0e';
-      //       ctx.fillText(that.CardInfo.model.bcCompay, 32, 70+off)
-      //       //用户名
-      //       ctx.font="34px PingFang-SC-Bold"
-      //       ctx.fillStyle = '#0e0e0e';
-      //       ctx.fillText(that.CardInfo.model.bcName, 32, 135+off)
+    //获取名片
+    // var res = await this.$UJAPI.BusinessCard_DetailOfShare(this.shareId);
+    // if (res.ret == 0) {
+    //   this.CardInfo = res.data;
+    //   this.toast("正在生成名片");
+    //   const ctx = wx.createCanvasContext("myCanvas");
+    //   ctx.drawImage("/static/images/bg.png", 0, 0, 500, 400); //以iPhone 6尺寸大小为标准绘制图片
 
-      //       //职位
-      //       ctx.font="22px PingFang-SC-Medium"
-      //       ctx.fillStyle = '#0e0e0e';
-      //       ctx.fillText(that.CardInfo.model.bcPosition, 32, 184+off)
-      //       //联系方式、邮箱、地址
-      //       ctx.font="20px PingFang-SC-Medium"
-      //       ctx.fillStyle = '#0e0e0e';
-      //       ctx.fillText(that.CardInfo.model.bcTelPhone, 60, 251+off)
-      //       ctx.fillText(that.CardInfo.model.bcEmaill, 60, 287+off)
-      //       ctx.fillText(that.CardInfo.model.bcAddress, 60, 327+off)
+    //   var off = 17;
+    //   ctx.setFillStyle("#0e0e0e");
+    //   ctx.font = "22px PingFang-SC-Medium";
+    //   if (that.CardInfo.model.bcCompay.length > 18) ctx.fillText(that.CardInfo.model.bcCompay.substr(0, 18) + "...", 32, 70 + off);
+    //   else ctx.fillText(that.CardInfo.model.bcCompay, 32, 70 + off);
 
-      //       wx.canvasToTempFilePath({
-      //               width: 500,
-      //               height: 400,
-      //               destWidth: 500,
-      //               destHeight: 400,
-      //               canvasId:"myCanvas",
-      //               canvas:_canvas,
-      //               success(res) {
-      //                 // console.log(res.tempFilePath)
-      //                 that.tmpUrl=res.tempFilePath
-      //               }
-      //       })
+    //   ctx.font = "34px PingFang-SC-Bold";
+    //   if (that.CardInfo.model.bcName.length > 12) ctx.fillText(that.CardInfo.model.bcName.substr(0, 12) + "...", 32, 135 + off);
+    //   else ctx.fillText(that.CardInfo.model.bcName, 32, 135 + off);
 
-      //       //设置头像
-      //       // var portraitImg = _canvas.createImage()
-      //       // portraitImg.src = that.CardInfo.model.bcLogo;
+    //   ctx.font = "22px PingFang-SC-Medium";
+    //   if (that.CardInfo.model.bcPosition.length > 14) ctx.fillText(that.CardInfo.model.bcPosition.substr(0, 14) + "...", 32, 184 + off);
+    //   else ctx.fillText(that.CardInfo.model.bcPosition, 32, 184 + off);
 
-      //       // portraitImg.onload = (res) => {
-      //       // //   var avatarurl_width = 105; //绘制的头像宽度
-      //       // //   var avatarurl_heigth = 105; //绘制的头像高度
-      //       // //   var avatarurl_x = 369; //绘制的头像在画布上的位置
-      //       // //   var avatarurl_y = 122; //绘制的头像在画布上的位置
-      //       // //   ctx.save();
-      //       // //   ctx.beginPath(); //开始绘制
-      //       // //   //先画个圆 前两个参数确定了圆心 （x,y） 坐标 第三个参数是圆的半径 四参数是绘图方向 默认是false，即顺时针
-      //       // //   ctx.arc(avatarurl_width / 2 + avatarurl_x, avatarurl_heigth / 2 + avatarurl_y, avatarurl_width / 2, 0, Math.PI *2, false);
-      //       // //   ctx.closePath()
-      //       // //   ctx.clip(); //画好了圆 剪切 原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内 这也是我们要save上下文的原因
-      //       // //   ctx.drawImage(portraitImg, avatarurl_x, avatarurl_y, avatarurl_width, avatarurl_heigth); // 推进去图片，必须是https图片
-      //       // //   ctx.restore(); //恢复之前保存的绘图上下文 恢复之前保存的绘图上下午即状态 还可以继续绘制
-      //       // //   console.log(wx);
-      //       // }
+    //   ctx.font = "20px PingFang-SC-Medium";
+    //   ctx.fillText(that.CardInfo.model.bcTelPhone, 60, 251 + off);
+    //   ctx.fillText(that.CardInfo.model.bcEmaill, 60, 287 + off);
+    //   if (that.CardInfo.model.bcAddress.length > 21) {
+    //     ctx.fillText(that.CardInfo.model.bcAddress.substring(0, 19) + "...", 60, 327 + off);
+    //   } else {
+    //     ctx.fillText(that.CardInfo.model.bcAddress, 60, 327 + off);
+    //   }
+    //   wx.getImageInfo({
+    //     src: that.CardInfo.model.bcLogo,
+    //     success: function(res) {
+    //       var avatarurl_width = 105; //绘制的头像宽度
+    //       var avatarurl_heigth = 105; //绘制的头像高度
+    //       var avatarurl_x = 369; //绘制的头像在画布上的位置
+    //       var avatarurl_y = 122; //绘制的头像在画布上的位置
+    //       ctx.save();
+    //       ctx.beginPath(); //开始绘制
+    //       //先画个圆 前两个参数确定了圆心 （x,y） 坐标 第三个参数是圆的半径 四参数是绘图方向 默认是false，即顺时针
+    //       ctx.arc(avatarurl_width / 2 + avatarurl_x, avatarurl_heigth / 2 + avatarurl_y, avatarurl_width / 2, 0, Math.PI * 2, false);
+    //       ctx.closePath();
+    //       ctx.clip(); //画好了圆 剪切 原始画布中剪切任意形状和尺寸。一旦剪切了某个区域，则所有之后的绘图都会被限制在被剪切的区域内 这也是我们要save上下文的原因
+    //       ctx.drawImage(res.path, avatarurl_x, avatarurl_y, avatarurl_width, avatarurl_heigth); // 推进去图片，必须是https图片
+    //       ctx.restore(); //恢复之前保存的绘图上下文 恢复之前保存的绘图上下文状态 还可以继续绘制
+    //       ctx.draw();
+    //       ctx.save();
 
-      //   };
-      // })
+    //       //将生成好的图片保存到本地，需要延迟一会，绘制期间耗时
+    //       setTimeout(() => {
+    //         wx.canvasToTempFilePath({
+    //           width: 500,
+    //           height: 400,
+    //           destWidth: 500,
+    //           destHeight: 400,
+    //           canvasId: "myCanvas",
+    //           success: function(res2) {
+    //             console.log(res2.tempFilePath);
+    //             that.tmpUrl = res2.tempFilePath;
+    //             wx.hideToast();
+    //           },
+    //           fail: function(res2) {
+    //             console.log(res2.errMsg);
+    //           }
+    //         });
+    //       }, 800);
+    //     },
+    //     fail: function(err) {
+    //       console.log(err);
+    //       wx.showToast({
+    //         title: "网络错误请重试",
+    //         icon: "loading"
+    //       });
+    //     }
+    //   });
 
-      //获取名片点赞
-      // var res2 = await this.$UJAPI.BusinessCard_GetLikeCount(this.CardInfo.model.businessCardId);
-      // if (res2.ret == 0) {
-      //   this.CardLikeCount = res2.data;
-      // }
-      // //获取名片扩展信息分类
-      // var res3 = await this.$UJAPI.BusinessCard_GetListOfClass();
-      // if (res3.ret == 0) {
-      //   this.otherOfClass = res3.data;
-      // }
-      // if (this.entExtend.bcevValue) {
-      //   //获取名片展示的企业
-      //   var res4 = await this.$UJAPI.Enterprise_GetDetailed(this.entExtend.bcevValue);
-      //   if (res4.ret == 0) {
-      //     this.entInfo = res4.data;
-      //   }
-      //   //获取企业展示的图片
-      //   if (this.entInfo && this.entInfo.eId) {
-      //     var res5 = await this.$UJAPI.EnterpriseMultimedia_Get(this.entInfo.eId, 1);
-      //     if (res5.ret == 0) {
-      //       this.entImages = res5.data;
-      //     }
-      //     var res6 = await this.$UJAPI.EnterpriseMultimedia_Get(this.entInfo.eId, 2);
-      //     if (res6.ret == 0) {
-      //       this.entVideos = res6.data;
-      //     }
-      //     var res7 = await this.$UJAPI.EnterpriseNews_GetListOfCommon({ eId: this.entInfo.eId, pageIndex: 1, pageSize: 3 });
-      //     if (res7.ret == 0) {
-      //       this.entNews = res7.data;
-      //     }
-      //   }
-      // }
-    }
+    //   //获取名片点赞
+    //   var res2 = await this.$UJAPI.BusinessCard_GetLikeCount(this.CardInfo.model.businessCardId);
+    //   if (res2.ret == 0) {
+    //     this.CardLikeCount = res2.data;
+    //   }
+    //   //获取名片扩展信息分类
+    //   var res3 = await this.$UJAPI.BusinessCard_GetListOfClass();
+    //   if (res3.ret == 0) {
+    //     this.otherOfClass = res3.data;
+    //   }
+    //   if (this.entExtend.bcevValue) {
+    //     //获取名片展示的企业
+    //     var res4 = await this.$UJAPI.Enterprise_GetDetailed(this.entExtend.bcevValue);
+    //     if (res4.ret == 0) {
+    //       this.entInfo = res4.data;
+    //     }
+    //     //获取企业展示的图片
+    //     if (this.entInfo && this.entInfo.eId) {
+    //       var res5 = await this.$UJAPI.EnterpriseMultimedia_Get(this.entInfo.eId, 1);
+    //       if (res5.ret == 0) {
+    //         this.entImages = res5.data;
+    //       }
+    //       var res6 = await this.$UJAPI.EnterpriseMultimedia_Get(this.entInfo.eId, 2);
+    //       if (res6.ret == 0) {
+    //         this.entVideos = res6.data;
+    //       }
+    //       var res7 = await this.$UJAPI.EnterpriseNews_GetListOfCommon({ eId: this.entInfo.eId, pageIndex: 1, pageSize: 3 });
+    //       if (res7.ret == 0) {
+    //         this.entNews = res7.data;
+    //       }
+    //     }
+    //   }
+    // }
   }
 };
 </script>
@@ -583,7 +612,6 @@ export default {
     }
     .content {
       margin: 0.41rem 0.5rem 0 0.5rem;
-      margin-right: 0.5rem;
       text-indent: 2em;
       font-size: 0.36rem;
     }
@@ -843,7 +871,7 @@ export default {
   margin: 0 auto;
   width: 500px;
   height: 400px;
-  position:absolute;
-  top:-500rem;
+  position: absolute;
+  top: -500rem;
 }
 </style>
