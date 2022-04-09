@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "mpvue": "^1.0.11",
     "mpvue-router-patch": "^0.2.1",
     "mpvue-wxparse": "^0.6.5",
