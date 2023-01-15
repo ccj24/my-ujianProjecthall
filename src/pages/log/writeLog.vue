@@ -18,60 +18,22 @@
       <div class="content">
         <div class="rich">
           <!-- maxlength设计最大字数 auto-height="ture"是高度随字数增加而增加-->
-          <textarea
-            v-if="LogId==null||LogId==2"
-            v-model="ProjectInfo.LogContent"
-            placeholder="不能超过2000字"
-            maxlength="2000"
-            auto-height="ture"
-          ></textarea>
-          <textarea
-            v-if="LogId!=null&&LogId!=2"
-            v-model="ProjectLog.LogContent"
-            maxlength="2000"
-            auto-height="ture"
-          ></textarea>
+          <textarea v-if="LogId==null||LogId==2" v-model="ProjectInfo.LogContent" placeholder="不能超过2000字" maxlength="2000" auto-height="ture"></textarea>
+          <textarea v-if="LogId!=null&&LogId!=2" v-model="ProjectLog.LogContent" maxlength="2000" auto-height="ture"></textarea>
         </div>
       </div>
       <div class="rizhi">
         <div v-if="isMP">
-        <img
-          class="rizhi_img"
-          v-for="(items,index) in ProjectLog.Images"
-          :key="index"
-          :src="items"
-          @click="yulan2(items)"
-          @longpress="deleteImage2(items,index)"
-        />
-          <img
-          class="rizhi_img"
-          v-for="(items,index) in Images"
-          :key="index"
-          :src="items"
-          @click="yulan(items)"
-          @longpress="deleteImage(items,index)"
-        />
-        <img @click="chuantupian" src="/static/images/组30@3x.png" />
-      </div>
-      <!-- web -->
-      <div class="tupian" v-else>
-      <input
-        accept="image/*"
-        @change="AddImage($event)"
-        ref="ImageInput"
-        name="img"
-        id="upload_file"
-        type="file"
-        style="display:none;"
-      />
-      <img
-        class="rizhi_img"
-        v-for="(items,index) in Images"
-        :key="index"
-        :src="items"
-      />
-      <img src="/static/images/组30@3x.png" @click="$refs.ImageInput.click()" />
-    </div>
+          <img class="rizhi_img" v-for="(items,index) in ProjectLog.Images" :key="index" :src="items" @click="yulan2(items)" @longpress="deleteImage2(items,index)" />
+          <img class="rizhi_img" v-for="(items,index) in Images" :key="index" :src="items" @click="yulan(items)" @longpress="deleteImage(items,index)" />
+          <img @click="chuantupian" src="/static/images/组30@3x.png" />
+        </div>
+        <!-- web -->
+        <div class="tupian" v-else>
+          <input accept="image/*" @change="AddImage($event)" ref="ImageInput" name="img" id="upload_file" type="file" style="display:none;" />
+          <img class="rizhi_img" v-for="(items,index) in Images" :key="index" :src="items" />
+          <img src="/static/images/组30@3x.png" @click="$refs.ImageInput.click()" />
+        </div>
       </div>
     </div>
     <div class="frame" v-show="conceal">
@@ -105,7 +67,7 @@ export default {
       ProjectLog: "",
       LogId: "",
       RemoveImages: [],
-      AddImages: [],
+      AddImages: []
       // Photos:[]
     };
   },
@@ -130,13 +92,13 @@ export default {
     // 点击发布触发事件
     async release() {
       // 编辑
-      if (this.LogId != null&&this.LogId!=2) {
+      if (this.LogId != null && this.LogId != 2) {
         var that = this;
         var rep = await this.$UJAPI.ProjectLog_Update({
           LogId: that.LogId,
-          LogContent:that.ProjectLog.LogContent,
-          RemoveImages:that.RemoveImages,
-          AddImages:that.ProjectInfo.Images,
+          LogContent: that.ProjectLog.LogContent,
+          RemoveImages: that.RemoveImages,
+          AddImages: that.ProjectInfo.Images
         });
         // 当ret=0时，代表请求项目日志接口成功，然后把请求回来的数据赋值给ProjectLog。
         if (rep.ret == 0) {
@@ -144,11 +106,11 @@ export default {
           this.toast("编辑成功");
           this.$router.back();
         } else {
-          this.toast(rep.msg)
+          this.toast(rep.msg);
         }
       }
       // 发布
-      else if (this.LogId==null){
+      else if (this.LogId == null) {
         var that = this;
         var fileNames = [];
         for (var i = 0; i < this.Images.length; i++) {
@@ -165,23 +127,23 @@ export default {
           // 点击确定取消后返回上一级
           this.$router.back();
         } else {
-          this.toast(rep.msg)
+          this.toast(rep.msg);
         }
       }
       // 项目圈
-      else{
-         var that = this;
+      else {
+        var that = this;
         var rep = await this.$UJAPI.ProjectNote_Add({
-          ProjectId:this.ProjectId,
-          NoteContent:this.ProjectInfo.LogContent,
-          Photos:this.ProjectInfo.Images
+          ProjectId: this.ProjectId,
+          NoteContent: this.ProjectInfo.LogContent,
+          Photos: this.ProjectInfo.Images
         });
-         if (rep.ret == 0) {
-         this.toast("发布成功")
-         this.$router.back();
-      } else {
-        this.toast(rep.msg)
-      }
+        if (rep.ret == 0) {
+          this.toast("发布成功");
+          this.$router.back();
+        } else {
+          this.toast(rep.msg);
+        }
       }
     },
     // 获取本地照片上传
@@ -193,28 +155,25 @@ export default {
         sourceType: ["album", "camera"],
         //接口调用成功的回调函数
         success(res) {
-          // 每次向图片里增加一张图片用push    
+          // 每次向图片里增加一张图片用push
           that.Images.push(res.tempFilePaths[0]);
           let FileSystemManager = wx.getFileSystemManager();
-          var filebase64 = FileSystemManager.readFileSync(
-            res.tempFilePaths[0],
-            "base64"
-          );
-            that.ProjectInfo.Images.push({
-              FileName: `Images${that.ProjectInfo.Images.length ? that.ProjectInfo.Images.length : 0}`,
-              MediaType: "image/png",
-              Buffer: filebase64
-            });
+          var filebase64 = FileSystemManager.readFileSync(res.tempFilePaths[0], "base64");
+          that.ProjectInfo.Images.push({
+            FileName: `Images${that.ProjectInfo.Images.length ? that.ProjectInfo.Images.length : 0}`,
+            MediaType: "image/png",
+            Buffer: filebase64
+          });
         }
       });
     },
     // web
     AddImage(e) {
-      console.log(22)
+      console.log(22);
       let that = this;
       // //e.target指本身 ,e.dataTransfer.files拖拽上传图片
       var files = e.target.files || e.dataTransfer.files;
-      console.log(files)
+      console.log(files);
       if (!files.length) return; //if(!false) return 条件成立的时候返回
       // 使用HTML5的FileReader接口，即可完全在页面里读取文件了
       // FileReader专门用于读取文件 判断你的浏览器是否支持FileReader接口
@@ -227,14 +186,14 @@ export default {
         // FileReader接口中的readAsDataURL()方法可以获取API异步读取的文件数据，另存为数据URL;
         //将该URL绑定到img标签的src属性上，就可以实现图片的上传预览效果了
         reader.onload = function(e) {
-           that.Images.push (e.target.result);
-           var strarr = e.target.result.split(",");
-           var filebase64 = strarr[1];//切割Data URI scheme。获得的图片文件的base64字符串用于上传
-           that.ProjectInfo.Images.push({
-             FileName: `Images`,
-              MediaType: "image/png",
-              Buffer: filebase64
-           })
+          that.Images.push(e.target.result);
+          var strarr = e.target.result.split(",");
+          var filebase64 = strarr[1]; //切割Data URI scheme。获得的图片文件的base64字符串用于上传
+          that.ProjectInfo.Images.push({
+            FileName: `Images`,
+            MediaType: "image/png",
+            Buffer: filebase64
+          });
         };
         reader.readAsDataURL(files[i]);
       }
@@ -242,15 +201,15 @@ export default {
 
     // 预览图片
     yulan(items) {
-          wx.previewImage({
-          current: items,
-          urls: this.Images
+      wx.previewImage({
+        current: items,
+        urls: this.Images
       });
     },
     yulan2(items) {
-          wx.previewImage({
-          current: items,
-          urls: this.ProjectLog.Images
+      wx.previewImage({
+        current: items,
+        urls: this.ProjectLog.Images
       });
     },
     //长按删除事件
@@ -264,8 +223,8 @@ export default {
           if (res.confirm) {
             console.log("点击确定了");
             // 删除图片
-              Images.splice(index, 1);
-              that.ProjectInfo.Images.splice(index, 1);
+            Images.splice(index, 1);
+            that.ProjectInfo.Images.splice(index, 1);
           } else if (res.cancel) {
             console.log("点击取消了");
             return false;
@@ -282,8 +241,8 @@ export default {
           if (res.confirm) {
             console.log("点击确定了");
             // 删除图片
-          that.ProjectLog.Images.splice(index, 1); 
-          that.RemoveImages.push( that.ProjectLog.ImageIds[index])
+            that.ProjectLog.Images.splice(index, 1);
+            that.RemoveImages.push(that.ProjectLog.ImageIds[index]);
           } else if (res.cancel) {
             console.log("点击取消了");
             return false;
@@ -291,7 +250,6 @@ export default {
         }
       });
     }
-
   },
   async mounted() {
     // 获取日志ProjectId
@@ -305,7 +263,7 @@ export default {
     this.ProjectInfo.CreateTime = this.date;
     this.LogId = this.$route.query.LogId;
     // 编辑时候获取内容
-    if (this.LogId != null&&this.LogId!=2) {
+    if (this.LogId != null && this.LogId != 2) {
       var that = this;
       //rep代表请求获取项目日志详情接口数据
       var rep = await this.$UJAPI.Project_ProjectLog({
@@ -318,7 +276,7 @@ export default {
         //  this就是整个vue，比如下访问return下面定义的东西，不加this则访问不到
         this.ProjectLog = rep.data;
       } else {
-        this.toast(rep.msg)
+        this.toast(rep.msg);
       }
     }
   }
